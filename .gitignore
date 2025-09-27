@@ -1,0 +1,11 @@
+.cache
+.DS_Store
+compile_commands.json
+/objs/
+/.vscode/
+common.memgraph
+valgrind.log
+*.o
+*.d
+liblogging.a
+.$Logging.drawio.bkp
