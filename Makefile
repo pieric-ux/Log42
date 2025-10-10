@@ -4,6 +4,7 @@ OS = $(shell uname)
 
 # Program name
 NAME = liblogging.a
+# NAME = logging
 
 # Source and object directories
 SRCDIR = srcs
@@ -15,7 +16,7 @@ COMMONDIR = common
 # Compiler and flags
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -Wshadow -MMD -MP -std=c++98
-DEBUG_FLAGS = -g3 -fno-omit-frame-pointer -fstack-protector-all
+DEBUG_FLAGS = -g -fno-omit-frame-pointer -fstack-protector-all
 
 INCLUDES = -I includes -I $(COMMONDIR)/includes
 
@@ -26,7 +27,9 @@ vpath %.cpp \
 	$(SRCDIR) \
 
 # Sources and object files
-SRCES = LogRecord.cpp PercentStyle.cpp
+SRCES = BufferingFormatter.cpp FileHandler.cpp Filter.cpp Filterer.cpp Formatter.cpp Handler.cpp Logger.cpp Logging.cpp LogRecord.cpp Manager.cpp Node.cpp PercentStyle.cpp PlaceHolder.cpp RootLogger.cpp StreamHandler.cpp
+#		main.cpp
+
 
 OBJS_SRCES = $(addprefix $(OBJDIR)/, $(SRCES:.cpp=.o))
 
@@ -49,7 +52,7 @@ sanitize: debug
 # Rule to compile with Leaks check
 leaks:
 ifeq ($(OS), Darwin)
-	MallocStackLogging=YES leaks --outputGraph=common.memgraph --fullContent --fullStackHistory --atExit -- ./$(NAME)
+	MallocStackLogging=YES leaks --outputGraph=leaks.memgraph --fullContent --fullStackHistory --atExit -- ./$(NAME)
 else ifeq ($(OS), Linux)
 	valgrind --leak-check=full --track-origins=yes --log-file=valgrind.log --show-leak-kinds=all --trace-children=yes --track-fds=all ./$(NAME)
 endif
@@ -62,6 +65,7 @@ $(OBJDIR)/%.o: %.cpp
 # Rule to compile the final executable
 $(NAME): $(OBJS_SRCES) $(COMMONDIR)/libcommon.a
 	ar -rcs $(NAME) $(OBJS_SRCES)
+	# $(CXX) $(CXXFLAGS) $(OBJS_SRCES) $(LIBS) -o $(NAME)
 
 # Rule to clean up object files
 clean:
