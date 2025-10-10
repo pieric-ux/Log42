@@ -3,39 +3,30 @@
 OS = $(shell uname)
 
 # Program name
-NAME = liblogging.a
+NAME = libcommon.a
 
 # Source and object directories
 SRCDIR = srcs
 OBJDIR = objs
-
-# Libraries directories
-COMMONDIR = common
 
 # Compiler and flags
 CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -Wshadow -MMD -MP -std=c++98
 DEBUG_FLAGS = -g3 -fno-omit-frame-pointer -fstack-protector-all
 
-INCLUDES = -I includes -I $(COMMONDIR)/includes
-
-LIBS = -L $(COMMONDIR) -lcommon
+INCLUDES = -I includes
 
 # vpath to specify where to find the .cpp files
 vpath %.cpp \
 	$(SRCDIR) \
 
 # Sources and object files
-SRCES = LogRecord.cpp PercentStyle.cpp
+SRCES = dirUtils.cpp fileUtils.cpp Loader.cpp stringUtils.cpp timeUtils.cpp
 
 OBJS_SRCES = $(addprefix $(OBJDIR)/, $(SRCES:.cpp=.o))
 
 # Default rule: make all and compile the program
 all: $(NAME)
-
-# Build each library
-$(COMMONDIR)/libcommon.a:
-	$(MAKE) -C $(COMMONDIR)
 
 debug: CXXFLAGS = $(DEBUG_FLAGS)
 
@@ -60,17 +51,15 @@ $(OBJDIR)/%.o: %.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
 # Rule to compile the final executable
-$(NAME): $(OBJS_SRCES) $(COMMONDIR)/libcommon.a
+$(NAME): $(OBJS_SRCES)
 	ar -rcs $(NAME) $(OBJS_SRCES)
 
 # Rule to clean up object files
 clean:
-	@$(MAKE) clean -C $(COMMONDIR)
 	@rm -rf $(OBJDIR)
 
 # Rule to clean up object files and executable
 fclean: clean
-	@$(MAKE) fclean -C $(COMMONDIR)
 	@rm -f $(NAME)
 
 # Rule to recompile everything
