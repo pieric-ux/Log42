@@ -1,8 +1,18 @@
-// TODO: Don't forget to add 42 header !
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Manager.cpp                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pdemont <pdemont@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: blucken <blucken@student.42lausanne.ch>  +#+#+#+#+#+   +#+           */
+/*                                                     #+#    #+#             */
+/*   Created: 2025/10/11                              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 /**
  * @file Manager.cpp
- * @brief
+ * @brief Implements the Manager class for managing loggers and their hierarchy.
  */ 
 
 #include "Logger.hpp"
@@ -17,10 +27,10 @@ namespace manager
 {
 
 /**
- * @brief 
+ * @brief Retrieves the singleton instance of Manager.
  *
- * @param root 
- * @return 
+ * @param root Optional root logger pointer.
+ * @return Reference to the Manager instance.
  */
 Manager &Manager::getInstance(logger::Logger *root) 
 {
@@ -30,9 +40,9 @@ Manager &Manager::getInstance(logger::Logger *root)
 }
 
 /**
- * @brief 
+ * @brief Constructs a Manager with an optional root logger.
  *
- * @param root 
+ * @param root Pointer to the root logger.
  */
 Manager::Manager(logger::Logger *root) 
 	: _root(root),
@@ -45,7 +55,7 @@ Manager::Manager(logger::Logger *root)
 }
 
 /**
- * @brief 
+ * @brief Destructor for Manager. Calls shutdown on destruction.
  */
 Manager::~Manager() 
 {
@@ -53,9 +63,9 @@ Manager::~Manager()
 }
 
 /**
- * @brief 
+ * @brief Gets the root logger, creating it if necessary.
  *
- * @return 
+ * @return Pointer to the root logger.
  */
 logger::Logger	*Manager::getRoot()
 {
@@ -68,7 +78,7 @@ logger::Logger	*Manager::getRoot()
 }
 
 /**
- * @brief 
+ * @brief Resets the root logger to NULL.
  */
 void	Manager::resetRoot()
 {
@@ -76,9 +86,9 @@ void	Manager::resetRoot()
 }
 
 /**
- * @brief 
+ * @brief Gets the current disabled log level.
  *
- * @return 
+ * @return The disabled log level.
  */
 logRecord::e_LogLevel	Manager::getDisable() const
 {
@@ -86,9 +96,9 @@ logRecord::e_LogLevel	Manager::getDisable() const
 }
 
 /**
- * @brief 
+ * @brief Sets the disabled log level.
  *
- * @param value 
+ * @param value The log level to disable.
  */
 void	Manager::setDisable(const logRecord::e_LogLevel value)
 {
@@ -96,9 +106,9 @@ void	Manager::setDisable(const logRecord::e_LogLevel value)
 }
 
 /**
- * @brief 
+ * @brief Checks if a "no handler" warning has been emitted.
  *
- * @return 
+ * @return True if warning has been emitted, false otherwise.
  */
 bool	Manager::getEmittedNoHandlerWarning() const
 {
@@ -106,9 +116,9 @@ bool	Manager::getEmittedNoHandlerWarning() const
 }
 
 /**
- * @brief 
+ * @brief Sets the "no handler" warning emitted flag.
  *
- * @param value 
+ * @param value True if warning has been emitted, false otherwise.
  */
 void	Manager::setEmittedNoHandlerWarning(bool value)
 {
@@ -116,9 +126,9 @@ void	Manager::setEmittedNoHandlerWarning(bool value)
 }
 
 /**
- * @brief 
+ * @brief Gets the map of logger names to their nodes.
  *
- * @return 
+ * @return Reference to the logger map.
  */
 std::map<std::string, Node *>	&Manager::getLoggerMap()
 {
@@ -126,10 +136,11 @@ std::map<std::string, Node *>	&Manager::getLoggerMap()
 }
 
 /**
- * @brief 
+ * @brief Retrieves a logger by name, creating it if necessary.
  *
- * @param name 
- * @return 
+ * @param name The name of the logger.
+ * @return Pointer to the logger.
+ * @throws std::invalid_argument if the logger name is empty.
  */
 logger::Logger *Manager::getLogger(const std::string &name)
 {
@@ -167,7 +178,7 @@ logger::Logger *Manager::getLogger(const std::string &name)
 }
 
 /**
- * @brief 
+ * @brief Clears the cache for all loggers and the root logger.
  */
 void	Manager::clearCache()
 {
@@ -182,9 +193,9 @@ void	Manager::clearCache()
 }
 
 /**
- * @brief 
+ * @brief Fixes parent relationships for a logger, updating the logger hierarchy.
  *
- * @param alogger 
+ * @param alogger Pointer to the logger.
  */
 void Manager::_fixupParents(logger::Logger *alogger)
 {
@@ -221,10 +232,10 @@ void Manager::_fixupParents(logger::Logger *alogger)
 }
 
 /**
- * @brief 
+ * @brief Fixes child relationships for a placeholder and logger.
  *
- * @param ph 
- * @param alogger 
+ * @param ph Pointer to the placeholder.
+ * @param alogger Pointer to the logger.
  */
 void Manager::_fixupChildren(placeholder::PlaceHolder *ph, logger::Logger *alogger)
 {
@@ -247,3 +258,34 @@ void Manager::_fixupChildren(placeholder::PlaceHolder *ph, logger::Logger *alogg
 
 } // !manager
 } // !logging
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                MIT License                                 */
+/*                                                                            */
+/*   Copyright (c) 2025 Demont Pieric, Lucken Bénédict                        */
+/*                                                                            */
+/*   Inspired by the Python 'logging' module by Vinay Sajip.                  */
+/*   This implementation was rewritten in C++98 and contains no original      */
+/*   Python source code.                                                      */
+/*                                                                            */
+/*   Permission is hereby granted, free of charge, to any person obtaining    */
+/*   a copy of this software and associated documentation files (the          */
+/*   "Software"), to deal in the Software without restriction, including      */
+/*   without limitation the rights to use, copy, modify, merge, publish,      */
+/*   distribute, sublicense, and/or sell copies of the Software, and to       */
+/*   permit persons to whom the Software is furnished to do so, subject to    */
+/*   the following conditions:                                                */
+/*                                                                            */
+/*   The above copyright notice and this permission notice shall be included  */
+/*   in all copies or substantial portions of the Software.                   */
+/*                                                                            */
+/*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS  */
+/*   OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF               */
+/*   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.   */
+/*   IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY     */
+/*   CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,     */
+/*   TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE        */
+/*   SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                   */
+/*                                                                            */
+/* ************************************************************************** */

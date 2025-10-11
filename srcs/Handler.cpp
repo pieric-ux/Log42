@@ -1,8 +1,18 @@
-// TODO: Don't forget to add 42 header !
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Handler.cpp                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pdemont <pdemont@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: blucken <blucken@student.42lausanne.ch>  +#+#+#+#+#+   +#+           */
+/*                                                     #+#    #+#             */
+/*   Created: 2025/10/11                              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 /**
  * @file Handler.cpp
- * @brief
+ * @brief Implements the Handler class for processing and emitting log records.
  */ 
 
 #include "Filterer.hpp"
@@ -16,9 +26,9 @@ namespace handler
 {
 
 /**
- * @brief 
+ * @brief Constructs a Handler with the specified log level.
  *
- * @param level 
+ * @param level The minimum log level for this handler.
  */
 Handler::Handler(const logRecord::e_LogLevel level) 
 	: filterer::Filterer(), 
@@ -29,22 +39,22 @@ Handler::Handler(const logRecord::e_LogLevel level)
 {}
 
 /**
- * @brief 
+ * @brief Destructor for Handler.
  */
 Handler::~Handler() {};
 
 /**
- * @brief 
+ * @brief Copy constructor for Handler.
  *
- * @param rhs 
+ * @param rhs The Handler to copy.
  */
 Handler::Handler(const Handler &rhs) : filterer::Filterer(rhs), _name(rhs._name), _level(rhs._level), _formatter(rhs._formatter), _closed(rhs._closed) {}
 
 /**
- * @brief 
+ * @brief Assignment operator for Handler.
  *
- * @param rhs 
- * @return 
+ * @param rhs The Handler to assign from.
+ * @return Reference to this Handler.
  */
 Handler	&Handler::operator=(const Handler &rhs)
 {
@@ -60,9 +70,9 @@ Handler	&Handler::operator=(const Handler &rhs)
 }
 
 /**
- * @brief 
+ * @brief Gets the name of the handler.
  *
- * @return 
+ * @return Reference to the handler's name.
  */
 const std::string	&Handler::getName() const
 {
@@ -70,9 +80,9 @@ const std::string	&Handler::getName() const
 }
 
 /**
- * @brief 
+ * @brief Sets the name of the handler.
  *
- * @param name 
+ * @param name The new name for the handler.
  */
 void	Handler::setName(const std::string &name)
 {
@@ -80,9 +90,9 @@ void	Handler::setName(const std::string &name)
 }
 
 /**
- * @brief 
+ * @brief Gets the log level of the handler.
  *
- * @return 
+ * @return The log level.
  */
 logRecord::e_LogLevel	Handler::getLevel() const
 {
@@ -90,9 +100,9 @@ logRecord::e_LogLevel	Handler::getLevel() const
 }
 
 /**
- * @brief 
+ * @brief Sets the log level of the handler.
  *
- * @param level 
+ * @param level The new log level.
  */
 void	Handler::setLevel(const logRecord::e_LogLevel level)
 {
@@ -100,9 +110,10 @@ void	Handler::setLevel(const logRecord::e_LogLevel level)
 }
 
 /**
- * @brief 
+ * @brief Formats a log record using the handler's formatter.
  *
- * @param record 
+ * @param record The log record to format.
+ * @return The formatted log message.
  */
 std::string	Handler::format(logRecord::LogRecord &record) const
 {
@@ -110,10 +121,10 @@ std::string	Handler::format(logRecord::LogRecord &record) const
 }
 
 /**
- * @brief 
+ * @brief Handles a log record: filters, checks level, emits, and handles errors.
  *
- * @param record 
- * @return 
+ * @param record The log record to handle.
+ * @return True if the record was handled, false otherwise.
  */
 bool	Handler::handle(logRecord::LogRecord &record)
 {
@@ -136,9 +147,9 @@ bool	Handler::handle(logRecord::LogRecord &record)
 }
 
 /**
- * @brief 
+ * @brief Gets the formatter used by this handler.
  *
- * @return 
+ * @return Reference to the formatter.
  */
 const formatter::Formatter	&Handler::getFormatter() const
 {
@@ -146,9 +157,9 @@ const formatter::Formatter	&Handler::getFormatter() const
 }
 
 /**
- * @brief 
+ * @brief Sets the formatter for this handler.
  *
- * @param fmt 
+ * @param fmt The formatter to use.
  */
 void	Handler::setFormatter(const formatter::Formatter &fmt)
 {
@@ -156,7 +167,7 @@ void	Handler::setFormatter(const formatter::Formatter &fmt)
 }
 
 /**
- * @brief 
+ * @brief Closes the handler, preventing further handling of log records.
  */
 void	Handler::close()
 {
@@ -164,9 +175,9 @@ void	Handler::close()
 }
 
 /**
- * @brief 
+ * @brief Handles errors that occur during record emission.
  *
- * @param record 
+ * @param record The log record that caused the error.
  */
 void	Handler::handlerError(const logRecord::LogRecord &record) const
 {
@@ -179,7 +190,9 @@ void	Handler::handlerError(const logRecord::LogRecord &record) const
 }
 
 /**
- * @brief 
+ * @brief Returns a string representation of the handler.
+ *
+ * @return String representation.
  */
 std::string	Handler::toString() const
 {
@@ -188,3 +201,34 @@ std::string	Handler::toString() const
 
 } // !handler
 } // !logging
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                MIT License                                 */
+/*                                                                            */
+/*   Copyright (c) 2025 Demont Pieric, Lucken Bénédict                        */
+/*                                                                            */
+/*   Inspired by the Python 'logging' module by Vinay Sajip.                  */
+/*   This implementation was rewritten in C++98 and contains no original      */
+/*   Python source code.                                                      */
+/*                                                                            */
+/*   Permission is hereby granted, free of charge, to any person obtaining    */
+/*   a copy of this software and associated documentation files (the          */
+/*   "Software"), to deal in the Software without restriction, including      */
+/*   without limitation the rights to use, copy, modify, merge, publish,      */
+/*   distribute, sublicense, and/or sell copies of the Software, and to       */
+/*   permit persons to whom the Software is furnished to do so, subject to    */
+/*   the following conditions:                                                */
+/*                                                                            */
+/*   The above copyright notice and this permission notice shall be included  */
+/*   in all copies or substantial portions of the Software.                   */
+/*                                                                            */
+/*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS  */
+/*   OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF               */
+/*   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.   */
+/*   IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY     */
+/*   CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,     */
+/*   TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE        */
+/*   SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                   */
+/*                                                                            */
+/* ************************************************************************** */

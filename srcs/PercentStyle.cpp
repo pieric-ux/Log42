@@ -1,8 +1,18 @@
-// TODO: Don't forget to add 42 header !
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   PercentStyle.cpp                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pdemont <pdemont@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: blucken <blucken@student.42lausanne.ch>  +#+#+#+#+#+   +#+           */
+/*                                                     #+#    #+#             */
+/*   Created: 2025/10/11                              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 /**
  * @file PercentStyle.cpp
- * @brief
+ * @brief Implements the PercentStyle class for percent-style log formatting.
  */ 
 
 #include "PercentStyle.hpp"
@@ -13,37 +23,46 @@ namespace logging
 namespace style
 {
 
+/**
+ * @brief Default format string for percent-style formatting.
+ */
 const std::string PercentStyle::defaultFormat = "%(message)";
+/**
+ * @brief Format string for asctime field.
+ */
 const std::string PercentStyle::asctimeFormat = "%(asctime)";
+/**
+ * @brief Search string for asctime field.
+ */
 const std::string PercentStyle::asctimeSearch = "%(asctime)";
 
 /**
- * @brief 
+ * @brief Constructs a PercentStyle object.
  *
- * @param fmt 
- * @param defaults 
+ * @param fmt The format string to use.
+ * @param defaults Default values for format fields.
  */
 PercentStyle::PercentStyle(const std::string &fmt, const std::map<std::string, std::string> defaults) 
 	: _fmt(fmt), _defaults(defaults) 
 {}
 
 /**
- * @brief 
+ * @brief Destructor for PercentStyle.
  */
 PercentStyle::~PercentStyle() {}
 
 /**
- * @brief 
+ * @brief Copy constructor for PercentStyle.
  *
- * @param rhs 
+ * @param rhs The PercentStyle to copy.
  */
 PercentStyle::PercentStyle(const PercentStyle &rhs) : _fmt(rhs._fmt), _defaults(rhs._defaults) {}
 
 /**
- * @brief 
+ * @brief Assignment operator for PercentStyle.
  *
- * @param rhs 
- * @return 
+ * @param rhs The PercentStyle to assign from.
+ * @return Reference to this PercentStyle.
  */
 PercentStyle &PercentStyle::operator=(const PercentStyle &rhs)
 {
@@ -56,7 +75,9 @@ PercentStyle &PercentStyle::operator=(const PercentStyle &rhs)
 }
 
 /**
- * @brief 
+ * @brief Gets the format string.
+ *
+ * @return The format string.
  */
 std::string PercentStyle::getFmt() const
 {
@@ -64,9 +85,9 @@ std::string PercentStyle::getFmt() const
 }
 
 /**
- * @brief 
+ * @brief Checks if time formatting is used in the format string.
  *
- * @return 
+ * @return True if asctime is used, false otherwise.
  */
 bool PercentStyle::useTime() const
 {
@@ -74,7 +95,9 @@ bool PercentStyle::useTime() const
 }
 
 /**
- * @brief 
+ * @brief Validates the format string to ensure it contains %(message).
+ *
+ * @throws std::invalid_argument if %(message) is missing.
  */
 void PercentStyle::validate() const
 {
@@ -83,9 +106,10 @@ void PercentStyle::validate() const
 }
 
 /**
- * @brief 
+ * @brief Formats a log record according to the format string.
  *
- * @param record 
+ * @param record The log record to format.
+ * @return The formatted log message.
  */
 std::string	PercentStyle::format(const logRecord::LogRecord &record) const
 {
@@ -93,9 +117,10 @@ std::string	PercentStyle::format(const logRecord::LogRecord &record) const
 }
 
 /**
- * @brief 
+ * @brief Internal formatting implementation for percent-style formatting.
  *
- * @param record 
+ * @param record The log record to format.
+ * @return The formatted log message.
  */
 std::string	PercentStyle::_format(const logRecord::LogRecord &record) const
 {
@@ -132,3 +157,34 @@ std::string	PercentStyle::_format(const logRecord::LogRecord &record) const
 
 } // !style
 } // !logging
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                MIT License                                 */
+/*                                                                            */
+/*   Copyright (c) 2025 Demont Pieric, Lucken Bénédict                        */
+/*                                                                            */
+/*   Inspired by the Python 'logging' module by Vinay Sajip.                  */
+/*   This implementation was rewritten in C++98 and contains no original      */
+/*   Python source code.                                                      */
+/*                                                                            */
+/*   Permission is hereby granted, free of charge, to any person obtaining    */
+/*   a copy of this software and associated documentation files (the          */
+/*   "Software"), to deal in the Software without restriction, including      */
+/*   without limitation the rights to use, copy, modify, merge, publish,      */
+/*   distribute, sublicense, and/or sell copies of the Software, and to       */
+/*   permit persons to whom the Software is furnished to do so, subject to    */
+/*   the following conditions:                                                */
+/*                                                                            */
+/*   The above copyright notice and this permission notice shall be included  */
+/*   in all copies or substantial portions of the Software.                   */
+/*                                                                            */
+/*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS  */
+/*   OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF               */
+/*   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.   */
+/*   IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY     */
+/*   CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,     */
+/*   TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE        */
+/*   SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                   */
+/*                                                                            */
+/* ************************************************************************** */

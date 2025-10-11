@@ -1,8 +1,18 @@
-// TODO: Don't forget to add 42 header !
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Logger.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pdemont <pdemont@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: blucken <blucken@student.42lausanne.ch>  +#+#+#+#+#+   +#+           */
+/*                                                     #+#    #+#             */
+/*   Created: 2025/10/11                              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 /**
  * @file Logger.cpp
- * @brief
+ * @brief Implements the Logger class for hierarchical logging.
  */ 
 
 #include "Filterer.hpp"
@@ -19,34 +29,34 @@ namespace logger
 {
 
 /**
- * @brief 
+ * @brief Constructs a Logger with the given name and log level.
  *
- * @param name 
- * @param level 
+ * @param name The name of the logger.
+ * @param level The log level for this logger.
  */
 Logger::Logger(const std::string &name, const logRecord::e_LogLevel level) 
 	: Node(name), filterer::Filterer(), _level(level), _propagate(true),
 	_handlers(), _disabled(false), _cache(), _manager(manager::Manager::getInstance()) {}
 
 /**
- * @brief 
+ * @brief Destructor for Logger.
  */
 Logger::~Logger() {}
 
 /**
- * @brief 
+ * @brief Copy constructor for Logger.
  *
- * @param rhs 
+ * @param rhs The Logger to copy.
  */
 Logger::Logger(const Logger &rhs)
 	: Node(rhs), filterer::Filterer(), _level(rhs._level), _propagate(rhs._propagate), 
 	_handlers(rhs._handlers), _disabled(rhs._disabled), _cache(rhs._cache), _manager(rhs._manager) {}
 
 /**
- * @brief 
+ * @brief Assignment operator for Logger.
  *
- * @param rhs 
- * @return 
+ * @param rhs The Logger to assign from.
+ * @return Reference to this Logger.
  */
 Logger &Logger::operator=(const Logger &rhs)
 {
@@ -64,9 +74,9 @@ Logger &Logger::operator=(const Logger &rhs)
 }
 
 /**
- * @brief 
+ * @brief Sets the log level for this logger and clears the cache.
  *
- * @param level 
+ * @param level The new log level.
  */
 void	Logger::setLevel(const logRecord::e_LogLevel level)
 {
@@ -75,23 +85,23 @@ void	Logger::setLevel(const logRecord::e_LogLevel level)
 }
 
 /**
- * @brief 
+ * @brief Sets whether this logger propagates records to parent loggers.
  *
- * @param propagate 
+ * @param propagate True to propagate, false otherwise.
  */
 void	Logger::setPropagate(bool propagate)
 {
 	this->_propagate = propagate;
 }
 
-/**
- * @brief 
+ /**
+ * @brief Logs a message with DEBUG level.
  *
- * @param msg 
- * @param filename 
- * @param lineNo 
- * @param funcName 
- * @param args 
+ * @param msg The message to log.
+ * @param filename Source file name.
+ * @param lineNo Source line number.
+ * @param funcName Function name.
+ * @param args Optional arguments.
  */
 void	Logger::debug(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const std::vector<std::string> *args)
 {
@@ -100,13 +110,13 @@ void	Logger::debug(const std::string &msg, const std::string filename, int lineN
 }
 
 /**
- * @brief 
+ * @brief Logs a message with INFO level.
  *
- * @param msg 
- * @param filename 
- * @param lineNo 
- * @param funcName 
- * @param args 
+ * @param msg The message to log.
+ * @param filename Source file name.
+ * @param lineNo Source line number.
+ * @param funcName Function name.
+ * @param args Optional arguments.
  */
 void	Logger::info(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const std::vector<std::string> *args)
 {
@@ -115,13 +125,13 @@ void	Logger::info(const std::string &msg, const std::string filename, int lineNo
 }
 
 /**
- * @brief 
+ * @brief Logs a message with WARNING level.
  *
- * @param msg 
- * @param filename 
- * @param lineNo 
- * @param funcName 
- * @param args 
+ * @param msg The message to log.
+ * @param filename Source file name.
+ * @param lineNo Source line number.
+ * @param funcName Function name.
+ * @param args Optional arguments.
  */
 void	Logger::warning(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const std::vector<std::string> *args)
 {
@@ -130,13 +140,13 @@ void	Logger::warning(const std::string &msg, const std::string filename, int lin
 }
 
 /**
- * @brief 
+ * @brief Logs a message with ERROR level.
  *
- * @param msg 
- * @param filename 
- * @param lineNo 
- * @param funcName 
- * @param args 
+ * @param msg The message to log.
+ * @param filename Source file name.
+ * @param lineNo Source line number.
+ * @param funcName Function name.
+ * @param args Optional arguments.
  */
 void	Logger::error(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const std::vector<std::string> *args)
 {
@@ -145,13 +155,13 @@ void	Logger::error(const std::string &msg, const std::string filename, int lineN
 }
 
 /**
- * @brief 
+ * @brief Logs an exception with ERROR level.
  *
- * @param msg 
- * @param filename 
- * @param lineNo 
- * @param funcName 
- * @param args 
+ * @param msg The message to log.
+ * @param filename Source file name.
+ * @param lineNo Source line number.
+ * @param funcName Function name.
+ * @param args Optional arguments.
  */
 void	Logger::exception(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const std::vector<std::string> *args)
 {
@@ -160,13 +170,13 @@ void	Logger::exception(const std::string &msg, const std::string filename, int l
 }
 
 /**
- * @brief 
+ * @brief Logs a message with CRITICAL level.
  *
- * @param msg 
- * @param filename 
- * @param lineNo 
- * @param funcName 
- * @param args 
+ * @param msg The message to log.
+ * @param filename Source file name.
+ * @param lineNo Source line number.
+ * @param funcName Function name.
+ * @param args Optional arguments.
  */
 void	Logger::critical(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const std::vector<std::string> *args)
 {
@@ -175,14 +185,14 @@ void	Logger::critical(const std::string &msg, const std::string filename, int li
 }
 
 /**
- * @brief 
+ * @brief Logs a message with a specified log level.
  *
- * @param level 
- * @param msg 
- * @param filename 
- * @param lineNo 
- * @param funcName 
- * @param args 
+ * @param level The log level.
+ * @param msg The message to log.
+ * @param filename Source file name.
+ * @param lineNo Source line number.
+ * @param funcName Function name.
+ * @param args Optional arguments.
  */
 void	Logger::log(const logRecord::e_LogLevel level, const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const std::vector<std::string> *args)
 {
@@ -191,9 +201,9 @@ void	Logger::log(const logRecord::e_LogLevel level, const std::string &msg, cons
 }
 
 /**
- * @brief 
+ * @brief Handles a log record: applies filters and calls handlers.
  *
- * @param record 
+ * @param record The log record to handle.
  */
 void	Logger::handle(logRecord::LogRecord &record)
 {
@@ -205,9 +215,9 @@ void	Logger::handle(logRecord::LogRecord &record)
 }
 
 /**
- * @brief 
+ * @brief Adds a handler to this logger.
  *
- * @param handler 
+ * @param handler Pointer to the handler to add.
  */
 void	Logger::addHandler(handler::Handler *handler)
 {
@@ -217,9 +227,9 @@ void	Logger::addHandler(handler::Handler *handler)
 }
 
 /**
- * @brief 
+ * @brief Removes a handler from this logger.
  *
- * @param handler 
+ * @param handler Pointer to the handler to remove.
  */
 void	Logger::removeHandler(handler::Handler *handler)
 {
@@ -229,9 +239,9 @@ void	Logger::removeHandler(handler::Handler *handler)
 }
 
 /**
- * @brief 
+ * @brief Checks if this logger or its ancestors have any handlers.
  *
- * @return 
+ * @return True if any handler is present, false otherwise.
  */
 bool	Logger::hasHandler() const
 {
@@ -249,9 +259,9 @@ bool	Logger::hasHandler() const
 }
 
 /**
- * @brief 
+ * @brief Calls all handlers for this logger and its ancestors.
  *
- * @param record 
+ * @param record The log record to process.
  */
 void	Logger::callHandlers(logRecord::LogRecord &record)
 {
@@ -284,9 +294,9 @@ void	Logger::callHandlers(logRecord::LogRecord &record)
 }
 
 /**
- * @brief 
+ * @brief Gets the set of handlers attached to this logger.
  *
- * @return 
+ * @return Reference to the set of handler pointers.
  */
 const std::set<handler::Handler *>	&Logger::getHandlers() const
 {
@@ -294,9 +304,9 @@ const std::set<handler::Handler *>	&Logger::getHandlers() const
 }
 
 /**
- * @brief 
+ * @brief Gets the effective log level for this logger, considering ancestors.
  *
- * @return 
+ * @return The effective log level.
  */
 logRecord::e_LogLevel	Logger::getEffectiveLevel() const
 {
@@ -312,10 +322,10 @@ logRecord::e_LogLevel	Logger::getEffectiveLevel() const
 }
 
 /**
- * @brief 
+ * @brief Checks if this logger is enabled for the specified log level.
  *
- * @param level 
- * @return 
+ * @param level The log level to check.
+ * @return True if enabled, false otherwise.
  */
 bool	Logger::isEnabledFor(const logRecord::e_LogLevel level)
 {
@@ -338,10 +348,10 @@ bool	Logger::isEnabledFor(const logRecord::e_LogLevel level)
 }
 
 /**
- * @brief 
+ * @brief Gets a child logger with the given suffix.
  *
- * @param suffix 
- * @return 
+ * @param suffix The suffix for the child logger's name.
+ * @return Pointer to the child logger.
  */
 Logger	*Logger::getChild(const std::string &suffix) const
 { 
@@ -352,9 +362,9 @@ Logger	*Logger::getChild(const std::string &suffix) const
 }
 
 /**
- * @brief 
+ * @brief Gets the set of direct child loggers.
  *
- * @return 
+ * @return Set of pointers to child loggers.
  */
 std::set<Logger *>	Logger::getChildren() const
 {
@@ -394,9 +404,9 @@ std::set<Logger *>	Logger::getChildren() const
 }
 
 /**
- * @brief 
+ * @brief Returns a string representation of the logger.
  *
- * @return 
+ * @return String representation.
  */
 std::string Logger::toString() const
 {
@@ -404,14 +414,14 @@ std::string Logger::toString() const
 }
 
 /**
- * @brief 
+ * @brief Internal method to log a message at a given level.
  *
- * @param level 
- * @param msg 
- * @param args 
- * @param filename 
- * @param lineNo 
- * @param funcName 
+ * @param level The log level.
+ * @param msg The message to log.
+ * @param args Optional arguments.
+ * @param filename Source file name.
+ * @param lineNo Source line number.
+ * @param funcName Function name.
  */
 void	Logger::_log(const logRecord::e_LogLevel level, const std::string &msg, const std::vector<std::string> *args,
 					const std::string filename, int lineNo, const std::string funcName)
@@ -430,7 +440,7 @@ void	Logger::_log(const logRecord::e_LogLevel level, const std::string &msg, con
 
 
 /**
- * @brief 
+ * @brief Clears the cache for this logger and all its children.
  */
 void Logger::cacheClear()
 {
@@ -442,7 +452,7 @@ void Logger::cacheClear()
 }
 
 /**
- * @brief 
+ * @brief Clears the cache for this logger.
  */
 void Logger::clearCache()
 {
@@ -451,3 +461,34 @@ void Logger::clearCache()
 
 } // !logger
 } // !logging
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                MIT License                                 */
+/*                                                                            */
+/*   Copyright (c) 2025 Demont Pieric, Lucken Bénédict                        */
+/*                                                                            */
+/*   Inspired by the Python 'logging' module by Vinay Sajip.                  */
+/*   This implementation was rewritten in C++98 and contains no original      */
+/*   Python source code.                                                      */
+/*                                                                            */
+/*   Permission is hereby granted, free of charge, to any person obtaining    */
+/*   a copy of this software and associated documentation files (the          */
+/*   "Software"), to deal in the Software without restriction, including      */
+/*   without limitation the rights to use, copy, modify, merge, publish,      */
+/*   distribute, sublicense, and/or sell copies of the Software, and to       */
+/*   permit persons to whom the Software is furnished to do so, subject to    */
+/*   the following conditions:                                                */
+/*                                                                            */
+/*   The above copyright notice and this permission notice shall be included  */
+/*   in all copies or substantial portions of the Software.                   */
+/*                                                                            */
+/*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS  */
+/*   OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF               */
+/*   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.   */
+/*   IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY     */
+/*   CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,     */
+/*   TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE        */
+/*   SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                   */
+/*                                                                            */
+/* ************************************************************************** */

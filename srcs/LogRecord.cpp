@@ -1,8 +1,18 @@
-// TODO: Don't forget to add 42 header !
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   LogRecord.cpp                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pdemont <pdemont@student.42lausanne.ch>    +#+  +:+       +#+        */
+/*   By: blucken <blucken@student.42lausanne.ch>  +#+#+#+#+#+   +#+           */
+/*                                                     #+#    #+#             */
+/*   Created: 2025/10/11                              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 /**
  * @file LogRecord.cpp
- * @brief
+ * @brief Implements the LogRecord class and related logging utilities.
  */ 
 
 #include "fileUtils.hpp"
@@ -18,9 +28,10 @@ namespace logRecord
 {
 
 /**
- * @brief 
+ * @brief Converts a log level enum to its string representation.
  *
- * @param level 
+ * @param level The log level.
+ * @return The string representation of the log level.
  */
 std::string	levelToString(e_LogLevel level)
 {
@@ -36,14 +47,14 @@ std::string	levelToString(e_LogLevel level)
 }
 
 /**
- * @brief 
+ * @brief Static variable to store the start time for relative timing.
  */
 clock_t	LogRecord::_startTime = std::clock();
 
 /**
- * @class timeval
- * @brief 
+ * @brief Gets the static start time for relative timing.
  *
+ * @return Reference to the static start time.
  */
 clock_t	&LogRecord::getStartTime()
 {
@@ -51,15 +62,15 @@ clock_t	&LogRecord::getStartTime()
 }
 
 /**
- * @brief 
+ * @brief Constructs a LogRecord object with all metadata.
  *
- * @param name 
- * @param level 
- * @param pathname 
- * @param lineno 
- * @param msg 
- * @param args 
- * @param func 
+ * @param name Logger name.
+ * @param level Log level.
+ * @param pathname Source file path.
+ * @param lineNo Line number in source file.
+ * @param msg Log message.
+ * @param args Optional arguments for the message.
+ * @param func Function name (optional).
  */
 LogRecord::LogRecord(const std::string &name,
 					 const e_LogLevel level,
@@ -84,14 +95,14 @@ LogRecord::LogRecord(const std::string &name,
 					 _asctime("") {}
 
 /**
- * @brief 
+ * @brief Destructor for LogRecord.
  */
 LogRecord::~LogRecord() {}
 
 /**
- * @brief 
+ * @brief Copy constructor for LogRecord.
  *
- * @param rhs 
+ * @param rhs The LogRecord to copy.
  */
 LogRecord::LogRecord(const LogRecord &rhs) 
 	: _name(rhs._name), _msg(rhs._msg), _args(rhs._args), _levelNo(rhs._levelNo), 
@@ -101,10 +112,10 @@ LogRecord::LogRecord(const LogRecord &rhs)
 	_asctime(rhs._asctime) {}
 
 /**
- * @brief 
+ * @brief Assignment operator for LogRecord.
  *
- * @param rhs 
- * @return 
+ * @param rhs The LogRecord to assign from.
+ * @return Reference to this LogRecord.
  */
 LogRecord	&LogRecord::operator=(const LogRecord &rhs)
 {
@@ -129,9 +140,9 @@ LogRecord	&LogRecord::operator=(const LogRecord &rhs)
 }
 
 /**
- * @brief 
+ * @brief Returns a string representation of the log record.
  *
- * @return 
+ * @return String representation.
  */
 std::string	LogRecord::toString() const
 {
@@ -147,9 +158,9 @@ std::string	LogRecord::toString() const
 }
 
 /**
- * @brief 
+ * @brief Gets the logger name.
  *
- * @return 
+ * @return Logger name.
  */
 std::string	LogRecord::getName() const
 {
@@ -157,9 +168,9 @@ std::string	LogRecord::getName() const
 }
 
 /**
- * @brief 
+ * @brief Gets the log message, substituting arguments if present.
  *
- * @return 
+ * @return The formatted log message.
  */
 std::string	LogRecord::getMessage() const
 {
@@ -179,9 +190,9 @@ std::string	LogRecord::getMessage() const
 }
 
 /**
- * @brief 
+ * @brief Gets the log level enum.
  *
- * @return 
+ * @return Log level.
  */
 e_LogLevel	LogRecord::getLevelNo() const
 {
@@ -189,9 +200,9 @@ e_LogLevel	LogRecord::getLevelNo() const
 }
 
 /**
- * @brief 
+ * @brief Gets the log level as a string.
  *
- * @return 
+ * @return Log level name.
  */
 std::string	LogRecord::getLevelName() const
 {
@@ -199,9 +210,9 @@ std::string	LogRecord::getLevelName() const
 }
 
 /**
- * @brief 
+ * @brief Gets the source file path.
  *
- * @return 
+ * @return Pathname.
  */
 std::string	LogRecord::getPathname() const
 {
@@ -209,9 +220,9 @@ std::string	LogRecord::getPathname() const
 }
 
 /**
- * @brief 
+ * @brief Gets the source file name.
  *
- * @return 
+ * @return Filename.
  */
 std::string	LogRecord::getFilename() const
 {
@@ -219,9 +230,9 @@ std::string	LogRecord::getFilename() const
 }
 
 /**
- * @brief 
+ * @brief Gets the module name.
  *
- * @return 
+ * @return Module name.
  */
 std::string	LogRecord::getModule() const
 {
@@ -229,9 +240,9 @@ std::string	LogRecord::getModule() const
 }
 
 /**
- * @brief 
+ * @brief Gets the line number in the source file.
  *
- * @return 
+ * @return Line number.
  */
 int	LogRecord::getLineNo() const
 {
@@ -239,9 +250,9 @@ int	LogRecord::getLineNo() const
 }
 
 /**
- * @brief 
+ * @brief Gets the function name.
  *
- * @return 
+ * @return Function name.
  */
 std::string	LogRecord::getFuncName() const
 {
@@ -249,9 +260,9 @@ std::string	LogRecord::getFuncName() const
 }
 
 /**
- * @brief 
+ * @brief Gets the creation time (seconds since epoch).
  *
- * @return 
+ * @return Creation time.
  */
 std::time_t	LogRecord::getCreated() const
 {
@@ -259,9 +270,9 @@ std::time_t	LogRecord::getCreated() const
 }
 
 /**
- * @brief 
+ * @brief Gets the milliseconds since epoch.
  *
- * @return 
+ * @return Milliseconds.
  */
 long	LogRecord::getMsecs() const
 {
@@ -269,9 +280,9 @@ long	LogRecord::getMsecs() const
 }
 
 /**
- * @brief 
+ * @brief Gets the time since start (relative creation time).
  *
- * @return 
+ * @return Relative creation time.
  */
 double	LogRecord::getRelativeCreated() const
 {
@@ -279,9 +290,9 @@ double	LogRecord::getRelativeCreated() const
 }
 
 /**
- * @brief 
+ * @brief Gets the formatted time string.
  *
- * @return 
+ * @return Asctime string.
  */
 std::string	LogRecord::getAsctime() const
 {
@@ -289,9 +300,9 @@ std::string	LogRecord::getAsctime() const
 }
 
 /**
- * @brief 
+ * @brief Sets the formatted time string.
  *
- * @param asctime 
+ * @param asctime The formatted time string.
  */
 void	LogRecord::setAsctime(const std::string &asctime)
 {
@@ -300,3 +311,34 @@ void	LogRecord::setAsctime(const std::string &asctime)
 
 } //!logRecord
 } //!logging
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                MIT License                                 */
+/*                                                                            */
+/*   Copyright (c) 2025 Demont Pieric, Lucken Bénédict                        */
+/*                                                                            */
+/*   Inspired by the Python 'logging' module by Vinay Sajip.                  */
+/*   This implementation was rewritten in C++98 and contains no original      */
+/*   Python source code.                                                      */
+/*                                                                            */
+/*   Permission is hereby granted, free of charge, to any person obtaining    */
+/*   a copy of this software and associated documentation files (the          */
+/*   "Software"), to deal in the Software without restriction, including      */
+/*   without limitation the rights to use, copy, modify, merge, publish,      */
+/*   distribute, sublicense, and/or sell copies of the Software, and to       */
+/*   permit persons to whom the Software is furnished to do so, subject to    */
+/*   the following conditions:                                                */
+/*                                                                            */
+/*   The above copyright notice and this permission notice shall be included  */
+/*   in all copies or substantial portions of the Software.                   */
+/*                                                                            */
+/*   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS  */
+/*   OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF               */
+/*   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.   */
+/*   IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY     */
+/*   CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,     */
+/*   TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE        */
+/*   SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                   */
+/*                                                                            */
+/* ************************************************************************** */
