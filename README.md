@@ -58,12 +58,15 @@ g++ main.cpp -I/path/to/Log42/include -L/path/to/Log42/lib -llog42 -o my_app
 
 ### Key Concepts
 
-| Element   | Description                                                              |
-| --------- | ------------------------------------------------------------------------ |
-| Logger    | Emits log messages at different levels.                                  |
-| Handler   | Determines where and how messages are sent (console, file, etc.).        |
-| Formatter | Defines the message formatting.                                          |
-| LogRecord | Contains information about a log message (level, text, timestamp, etc.). |
+The **Manager** is the central piece of the logging system. It handles the creation and retrieval of loggers, maintains their hierarchy, and manages global settings.
+
+| Element   | Description                                                                 |
+| --------- | --------------------------------------------------------------------------- |
+| Manager   | Central component managing logger creation, hierarchy, and global settings. |
+| Logger    | Emits log messages at different levels.                                     |
+| Handler   | Determines where and how messages are sent (console, file, etc.).           |
+| Formatter | Defines the message formatting.                                             |
+| LogRecord | Contains information about a log message (level, text, timestamp, etc.).	  |
 
 Diagrams are available in the repo:
 
