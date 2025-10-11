@@ -132,7 +132,7 @@ logger->addHandler(consoleHandler);
 ## Typical Usage
 
 ```cpp
-#include "log42.hpp"
+#include "Log42.hpp"
 
 int main() {
     try {
