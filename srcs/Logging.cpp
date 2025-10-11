@@ -17,7 +17,7 @@
  */ 
 
 #include "FileHandler.hpp"
-#include "Logging.hpp"
+#include "Log42.hpp"
 #include "Manager.hpp"
 #include "StreamHandler.hpp"
 #include <ostream>
@@ -25,7 +25,7 @@
 #include <stdexcept>
 #include <string>
 
-namespace logging
+namespace log42
 {
 
 /**
@@ -294,7 +294,7 @@ void shutdown()
 	manager.resetRoot();
 }
 
-} // !logging
+} // !log42
 
 /* ************************************************************************** */
 /*                                                                            */

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Logging.hpp                                        :+:      :+:    :+:   */
+/*   Log42.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdemont <pdemont@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*   By: blucken <blucken@student.42lausanne.ch>  +#+#+#+#+#+   +#+           */
@@ -14,18 +14,25 @@
 #define LOGGING_HPP
 
 /**
- * @file Logging.hpp
+ * @file Log42.hpp
  * @brief Main logging interface, macros, and utility functions for the 
  * logging system.
  */ 
 
+#include "BufferingFormatter.hpp"
+#include "FileHandler.hpp"
+#include "Filter.hpp"
+#include "Filterer.hpp"
+#include "Formatter.hpp"
 #include "Handler.hpp"
 #include "Logger.hpp"
+#include "Manager.hpp"
+#include "StreamHandler.hpp"
 #include <fstream>
 #include <set>
 #include <string>
 
-namespace logging
+namespace log42
 {
 /**
  * @def ROOT_DEBUG(msg, ...)
@@ -90,9 +97,9 @@ void disable(logRecord::e_LogLevel level = logRecord::CRITICAL);
 
 void shutdown();
 
-} // !logging
+} // !log42
 
-#endif // !LOGGING_HPP
+#endif // !LOG42
 
 /* ************************************************************************** */
 /*                                                                            */

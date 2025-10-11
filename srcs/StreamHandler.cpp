@@ -18,7 +18,7 @@
 #include "StreamHandler.hpp"
 #include <iostream>
 
-namespace logging
+namespace log42
 {
 namespace handler
 {
@@ -111,7 +111,7 @@ std::string	StreamHandler::toString() const
 }
 
 } //!handler
-} //!logging
+} //!log42
 
 /* ************************************************************************** */
 /*                                                                            */

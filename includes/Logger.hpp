@@ -25,7 +25,7 @@
 #include "Node.hpp"
 #include <set>
 
-namespace logging
+namespace log42
 {
 namespace manager
 {
@@ -126,7 +126,7 @@ class Logger : public Node, public  filterer::Filterer
 };
 
 } // !logger
-} // !logging
+} // !log42
 
 #endif // !LOGGER_HPP
 

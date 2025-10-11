@@ -23,7 +23,7 @@
 #include <map>
 #include <string>
 
-namespace logging
+namespace log42
 {
 namespace style
 {
@@ -64,7 +64,7 @@ class PercentStyle
 };
 
 } // !style
-} // !logging
+} // !log42
 
 #endif // !PERCENTSTYLE_HPP
 

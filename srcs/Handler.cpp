@@ -20,7 +20,7 @@
 #include "LogRecord.hpp"
 #include <iostream>
 
-namespace logging
+namespace log42
 {
 namespace handler 
 {
@@ -200,7 +200,7 @@ std::string	Handler::toString() const
 }
 
 } // !handler
-} // !logging
+} // !log42
 
 /* ************************************************************************** */
 /*                                                                            */

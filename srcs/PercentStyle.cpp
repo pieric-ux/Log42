@@ -18,7 +18,7 @@
 #include "PercentStyle.hpp"
 #include "stringUtils.hpp"
 
-namespace logging
+namespace log42
 {
 namespace style
 {
@@ -156,7 +156,7 @@ std::string	PercentStyle::_format(const logRecord::LogRecord &record) const
 }
 
 } // !style
-} // !logging
+} // !log42
 
 /* ************************************************************************** */
 /*                                                                            */

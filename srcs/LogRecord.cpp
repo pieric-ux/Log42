@@ -22,7 +22,7 @@
 #include <string>
 #include <sstream>
 
-namespace logging
+namespace log42
 {
 namespace logRecord 
 {
@@ -310,7 +310,7 @@ void	LogRecord::setAsctime(const std::string &asctime)
 }
 
 } //!logRecord
-} //!logging
+} //!log42
 
 /* ************************************************************************** */
 /*                                                                            */

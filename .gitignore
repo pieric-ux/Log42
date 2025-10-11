@@ -3,12 +3,12 @@
 compile_commands.json
 /objs/
 /.vscode/
-leaks.memgraph
+log42.memgraph
 valgrind.log
 *.o
 *.d
-liblogging.a
-logging
-.$Logging.drawio.bkp
+liblog42.a
+log42
+.$Log42.drawio.bkp
 forced.log
 manual.log

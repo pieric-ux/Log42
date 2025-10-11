@@ -22,7 +22,7 @@
 #include <string>
 #include <vector>
 
-namespace logging
+namespace log42
 {
 namespace logRecord
 {
@@ -94,7 +94,8 @@ class LogRecord
 };
 
 } // !logRecord
-} // !logging
+} // !log42
+
 #endif // !LOGRECORD_HPP
 
 /* ************************************************************************** */

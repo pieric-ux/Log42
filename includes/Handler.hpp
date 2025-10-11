@@ -22,7 +22,7 @@
 #include "Formatter.hpp"
 #include "LogRecord.hpp"
 
-namespace logging
+namespace log42
 {
 namespace handler
 {
@@ -63,7 +63,8 @@ class Handler : public filterer::Filterer
 };
 
 } // !handler
-} // !logging
+} // !log42
+
 #endif // !HANDLER_HPP
 
 /* ************************************************************************** */

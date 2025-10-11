@@ -22,7 +22,7 @@
 #include "Filter.hpp"
 #include <set>
 
-namespace logging
+namespace log42
 {
 namespace filterer
 {
@@ -51,7 +51,7 @@ class Filterer
 };
 
 } // !filterer
-} // !logging
+} // !log42
 #endif // !FILTERER_HPP
 
 /* ************************************************************************** */

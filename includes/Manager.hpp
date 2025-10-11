@@ -23,7 +23,7 @@
 #include "PlaceHolder.hpp"
 #include <map>
 
-namespace logging
+namespace log42
 {
 namespace manager
 {
@@ -67,7 +67,7 @@ class Manager
 };
 
 } // !manager
-} // !logging
+} // !log42
 
 #endif // !MANAGER_HPP
 

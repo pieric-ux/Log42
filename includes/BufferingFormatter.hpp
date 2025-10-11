@@ -22,7 +22,7 @@
 #include "Formatter.hpp"
 #include <vector>
 
-namespace logging
+namespace log42
 {
 namespace formatter
 {
@@ -51,7 +51,7 @@ class BufferingFormatter
 };
 
 } // !formatter
-} // !logging
+} // !log42
 
 #endif // !BUFFERINGFORMATTER
 

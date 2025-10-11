@@ -16,12 +16,12 @@
  */ 
 
 #include "Logger.hpp"
-#include "Logging.hpp"
+#include "Log42.hpp"
 #include "RootLogger.hpp"
 #include "Manager.hpp"
 #include <stdexcept>
 
-namespace logging
+namespace log42
 {
 namespace manager
 {
@@ -257,7 +257,7 @@ void Manager::_fixupChildren(placeholder::PlaceHolder *ph, logger::Logger *alogg
 }
 
 } // !manager
-} // !logging
+} // !log42
 
 /* ************************************************************************** */
 /*                                                                            */

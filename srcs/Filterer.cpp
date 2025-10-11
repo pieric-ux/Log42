@@ -17,7 +17,7 @@
 
 #include "Filterer.hpp"
 
-namespace logging
+namespace log42
 {
 namespace filterer
 {
@@ -99,7 +99,7 @@ bool	Filterer::filter(const logRecord::LogRecord &record) const
 }
 
 } // !filterer
-} // !logging
+} // !log42
 
 /* ************************************************************************** */
 /*                                                                            */

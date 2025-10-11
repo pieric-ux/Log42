@@ -19,7 +19,7 @@
 #include <fstream>
 #include <string>
 
-namespace logging 
+namespace log42
 {
 namespace handler
 {
@@ -109,7 +109,7 @@ std::string	FileHandler::toString() const
 }
 
 } // !handler
-} // !logging
+} // !log42
 
 /* ************************************************************************** */
 /*                                                                            */

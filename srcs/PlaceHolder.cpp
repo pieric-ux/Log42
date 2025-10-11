@@ -18,7 +18,7 @@
 #include "Node.hpp"
 #include "PlaceHolder.hpp"
 
-namespace logging
+namespace log42
 {
 namespace placeholder
 {
@@ -95,7 +95,7 @@ std::string PlaceHolder::toString() const
 }
 
 } // !placeholder
-} // !logging
+} // !log42
 
 /* ************************************************************************** */
 /*                                                                            */

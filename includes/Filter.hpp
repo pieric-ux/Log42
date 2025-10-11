@@ -22,7 +22,7 @@
 #include "LogRecord.hpp"
 #include <string>
 
-namespace logging
+namespace log42
 {
 namespace filter
 {
@@ -51,7 +51,7 @@ class Filter
 };
 
 } // !filter
-} // !logging
+} // !log42
 
 #endif // !FILTER_HPP
 

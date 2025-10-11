@@ -1,10 +1,9 @@
-#TODO: Don't forget to add 42 header !
 
 OS = $(shell uname)
 
 # Program name
-NAME = liblogging.a
-# NAME = logging
+NAME = liblog42.a
+# NAME = log42
 
 # Source and object directories
 SRCDIR = srcs
@@ -52,9 +51,9 @@ sanitize: debug
 # Rule to compile with Leaks check
 leaks:
 ifeq ($(OS), Darwin)
-	MallocStackLogging=YES leaks --outputGraph=leaks.memgraph --fullContent --fullStackHistory --atExit -- ./$(NAME)
+	MallocStackLogging=YES leaks --outputGraph=log42.memgraph --fullContent --fullStackHistory --atExit -- ./$(NAME)
 else ifeq ($(OS), Linux)
-	valgrind --leak-check=full --track-origins=yes --log-file=valgrind.log --show-leak-kinds=all --trace-children=yes --track-fds=all ./$(NAME)
+	valgrind --leak-check=full --track-origins=yes --log-file=log42.log --show-leak-kinds=all --trace-children=yes --track-fds=all ./$(NAME)
 endif
 
 # Compile each .cpp file to .o

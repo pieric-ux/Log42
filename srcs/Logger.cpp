@@ -23,7 +23,7 @@
 #include <iostream>
 #include <map>
 
-namespace logging
+namespace log42
 {
 namespace logger
 {
@@ -460,7 +460,7 @@ void Logger::clearCache()
 }
 
 } // !logger
-} // !logging
+} // !log42
 
 /* ************************************************************************** */
 /*                                                                            */

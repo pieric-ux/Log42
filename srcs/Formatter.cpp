@@ -21,7 +21,7 @@
 #include <iomanip>
 #include <sstream>
 
-namespace logging
+namespace log42
 {
 namespace formatter
 {
@@ -140,13 +140,13 @@ std::string	Formatter::formatTime(const logRecord::LogRecord &record, const std:
 	long milli = record.getMsecs() % 1000;
 
 	std::ostringstream oss;
-	oss << "[" << buffer << "," << std::setfill('0') << std::setw(3) << milli << "]";
+	oss << buffer << "," << std::setfill('0') << std::setw(3) << milli;
 
 	return (oss.str());
 }
 
 } // !formatter
-} // !logging
+} // !log42
 
 /* ************************************************************************** */
 /*                                                                            */

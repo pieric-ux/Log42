@@ -22,7 +22,7 @@
 #include "Logger.hpp"
 #include "LogRecord.hpp"
 
-namespace logging
+namespace log42
 {
 namespace logger
 {
@@ -49,7 +49,7 @@ class RootLogger : public Logger
 };
 
 } // !logger
-} // !logging
+} // !log42
 
 #endif // !ROOTLOGGER_HPP
 

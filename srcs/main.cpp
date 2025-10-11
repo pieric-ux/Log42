@@ -10,20 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "FileHandler.hpp"
-#include "Logging.hpp"
-#include "Manager.hpp"
-#include "Logger.hpp"
-#include "StreamHandler.hpp"
-#include "Formatter.hpp"
+#include "Log42.hpp"
 #include <iostream>
 
-using namespace logging;
-using namespace logging::logger;
-using namespace logging::logRecord;
-using namespace logging::handler;
-using namespace logging::formatter;
-using namespace logging::manager;
+using namespace log42;
+using namespace log42::logger;
+using namespace log42::logRecord;
+using namespace log42::handler;
+using namespace log42::formatter;
+using namespace log42::manager;
 
 static void testManualConfig();
 static void testBasicConfigImplicit();
@@ -55,7 +50,7 @@ static void testManualConfig()
 		StreamHandler *consoleHandler = new StreamHandler(std::cout);
 		FileHandler *fileHandler = new FileHandler("manual.log");
 
-		Formatter fmt("%(asctime) - %(name) - %(levelname) - %(message) - file: %(filename) - function: %(funcName)() at line: %(lineno)", "%Y-%m-%d %H:%M:%S");
+		Formatter fmt("[%(asctime)] - %(name) - %(levelname) - %(message) - file: %(filename) - function: %(funcName)() at line: %(lineno)", "%Y-%m-%d %H:%M:%S");
 		consoleHandler->setFormatter(fmt);
 		fileHandler->setFormatter(fmt);
 

@@ -18,7 +18,7 @@
 #include "Node.hpp"
 #include <string>
 
-namespace logging
+namespace log42
 {
 
 /**
@@ -86,7 +86,7 @@ void	Node::setParent(Node *parent)
 	this->_parent = parent;
 }
 
-} // !logging
+} // !log42
 
 /* ************************************************************************** */
 /*                                                                            */

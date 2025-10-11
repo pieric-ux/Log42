@@ -18,7 +18,7 @@
 #include "BufferingFormatter.hpp"
 #include <sstream>
 
-namespace logging
+namespace log42
 {
 namespace formatter
 {
@@ -103,7 +103,7 @@ std::string	BufferingFormatter::format(std::vector<logRecord::LogRecord> &record
 }
 
 } //!formatter
-} // !logging
+} // !log42
 
 /* ************************************************************************** */
 /*                                                                            */

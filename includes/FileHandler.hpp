@@ -22,7 +22,7 @@
 #include "StreamHandler.hpp"
 #include <fstream>
 
-namespace logging
+namespace log42
 {
 namespace handler
 {
@@ -57,7 +57,7 @@ class FileHandler : public StreamHandler
 };
 
 } // !handler
-} // !logging
+} // !log42
 
 #endif // !FILEHANDLER_HPP
 

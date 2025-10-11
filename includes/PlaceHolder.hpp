@@ -21,7 +21,7 @@
 #include "Node.hpp"
 #include <set>
 
-namespace logging
+namespace log42
 {
 namespace placeholder
 {
@@ -52,7 +52,7 @@ class PlaceHolder : public Node
 };
 
 } // !placeholder
-} // !logging
+} // !log42
 
 #endif // !PLACEHOLDER_HPP
 

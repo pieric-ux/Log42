@@ -21,7 +21,7 @@
 #include "Handler.hpp"
 #include <iostream>
 
-namespace logging
+namespace log42
 {
 namespace handler
 {
@@ -53,7 +53,7 @@ class StreamHandler : public Handler
 };
 
 } // !handler
-} // !logging
+} // !log42
 
 #endif // !STREAMHANDLER_HPP
 

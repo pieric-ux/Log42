@@ -20,7 +20,7 @@
 #include "LogRecord.hpp"
 #include "RootLogger.hpp"
 
-namespace logging
+namespace log42
 {
 namespace logger
 {
@@ -49,7 +49,7 @@ std::string RootLogger::toString() const
 }
 
 } // !logger
-} // !logging
+} // !log42
 
 /* ************************************************************************** */
 /*                                                                            */

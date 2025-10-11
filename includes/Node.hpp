@@ -20,7 +20,7 @@
 
 #include <string>
 
-namespace logging
+namespace log42
 {
 
 /**
@@ -48,7 +48,7 @@ class Node
 		
 };
 
-} //!logging
+} //!log42
 
 #endif // !NODE_HPP
 

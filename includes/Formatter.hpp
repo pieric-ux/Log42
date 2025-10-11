@@ -22,7 +22,7 @@
 #include "PercentStyle.hpp"
 #include <ctime>
 
-namespace logging
+namespace log42
 {
 namespace formatter
 {
@@ -61,7 +61,7 @@ class Formatter
 };
 
 } // !formatter
-} // !logging
+} // !log42
 
 #endif // !FORMATTER_HPP
 
