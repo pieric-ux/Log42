@@ -21,7 +21,7 @@ vpath %.cpp \
 	$(SRCDIR) \
 
 # Sources and object files
-SRCES = dirUtils.cpp fileUtils.cpp Loader.cpp stringUtils.cpp timeUtils.cpp
+SRCES = fileUtils.cpp stringUtils.cpp timeUtils.cpp
 
 OBJS_SRCES = $(addprefix $(OBJDIR)/, $(SRCES:.cpp=.o))
 
