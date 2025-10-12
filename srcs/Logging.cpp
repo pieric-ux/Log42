@@ -289,6 +289,12 @@ void shutdown()
 			handlers.clear();
 			delete logger;
 		}
+		else
+		{
+			placeholder::PlaceHolder	*ph = dynamic_cast<placeholder::PlaceHolder *>(lIt->second);
+			if (ph)
+				delete ph;
+		}
 	}
     loggers.clear();
 	manager.resetRoot();
