@@ -26,6 +26,7 @@ static void testLogLevels();
 static void testForceReset();
 static void testBasicConfigErrors();
 static void testChildLogger();
+static void testPlaceHolder();
 static void testDisableLogs();
 
 int main() {
@@ -35,6 +36,7 @@ int main() {
 	testForceReset();
 	testBasicConfigErrors();
 	testChildLogger();
+	testPlaceHolder();
 	testDisableLogs();
 	return 0;
 }
@@ -181,14 +183,38 @@ static void testChildLogger()
 	}
 }
 
+static void testPlaceHolder()
+{
+	std::cout << "\n===== TEST 7: PlaceHolder propagation =====" << std::endl;
+	try {
+		Logger *parent = Manager::getInstance().getLogger("parent");
+		Logger *child = Manager::getInstance().getLogger("parent.placeholder.child");
+
+		StreamHandler *ch = new StreamHandler(std::cout);
+		Formatter fmt("[%(name)] %(levelname): %(message)");
+		ch->setFormatter(fmt);
+		parent->addHandler(ch);
+
+		parent->setLevel(DEBUG);
+		child->setLevel(DEBUG);
+
+		INFO(child, "Message from child (should propagate to parent handler)");
+
+		shutdown();
+	} 
+	catch (const std::exception &e) 
+	{
+		std::cerr << "Test 6 failed: " << e.what() << std::endl;
+	}
+}
+
 static void testDisableLogs()
 {
-	std::cout << "\n===== TEST 7: Disable logs =====" << std::endl;
+	std::cout << "\n===== TEST 8: Disable logs =====" << std::endl;
 	try {
 		Logger *logger = Manager::getInstance().getLogger("disabletest");
 		StreamHandler *ch = new StreamHandler(std::cout);
 		logger->addHandler(ch);
-		logger->setPropagate(false);
 
 		disable(ERROR);
 
