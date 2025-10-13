@@ -1,14 +1,66 @@
+# Exec
+log42
+
+# Prerequisites
+*.d
+
+# Compiled Object files
+/objs/
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Linker files
+*.ilk
+
+# Debugger Files
+*.pdb
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# debug information files
+*.dwo
+
+# hidden file
 .cache
 .DS_Store
-compile_commands.json
-/objs/
+
+# vscode
 /.vscode/
-log42.memgraph
-valgrind.log
-*.o
-*.d
-liblog42.a
-log42
-.$Log42.drawio.bkp
+
+# Compilation database for tooling
+compile_commands.json
+
+#Log files
 forced.log
 manual.log
+
+# Drawio bkp
+.$Log42.drawio.bkp
+
+# Leaks
+log42.memgraph
+valgrind.log
