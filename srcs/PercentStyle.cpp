@@ -17,6 +17,7 @@
 
 #include "PercentStyle.hpp"
 #include "stringUtils.hpp"
+#include <iomanip>
 
 namespace log42
 {
@@ -135,7 +136,9 @@ std::string	PercentStyle::_format(const logRecord::LogRecord &record) const
 	defaults["lineno"] = utils::toString(record.getLineNo());
 	defaults["message"] = record.getMessage();
 	defaults["module"] = record.getModule();
-	defaults["msecs"] = utils::toString(record.getMsecs());
+	std::ostringstream oss;
+	oss << std::setfill('0') << std::setw(3) << utils::toString(record.getMsecs());
+	defaults["msecs"] = oss.str();
 	defaults["name"] = record.getName();
 	defaults["pathname"] = record.getPathname();
 	defaults["relativeCreated"] = utils::toString(record.getRelativeCreated());

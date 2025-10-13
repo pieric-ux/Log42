@@ -18,8 +18,6 @@
 #include "Formatter.hpp"
 #include "PercentStyle.hpp"
 #include <cstring>
-#include <iomanip>
-#include <sstream>
 
 namespace log42
 {
@@ -34,7 +32,7 @@ const std::string Formatter::defaultPercentFormat = "%(levelname):%(name):%(mess
 /**
  * @brief Default time format string for log messages.
  */
-const std::string Formatter::defaultTimeFormat = "%Y-%m-%d %H:%M:%S";
+const std::string Formatter::defaultTimeFormat = "%Y-%m-%d %H:%M:%S,%(msecs) %Z";
 
 /**
  * @brief Pointer to the time converter function (default: localtime).
@@ -137,12 +135,7 @@ std::string	Formatter::formatTime(const logRecord::LogRecord &record, const std:
 	std::strftime(&buffer[0], buffer.size(), fmt.c_str(), tm);
 	buffer.resize(std::strlen(&buffer[0]));
 
-	long milli = record.getMsecs() % 1000;
-
-	std::ostringstream oss;
-	oss << buffer << "," << std::setfill('0') << std::setw(3) << milli;
-
-	return (oss.str());
+	return (buffer);
 }
 
 } // !formatter

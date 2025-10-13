@@ -52,7 +52,7 @@ static void testManualConfig()
 		StreamHandler *consoleHandler = new StreamHandler(std::cout);
 		FileHandler *fileHandler = new FileHandler("manual.log");
 
-		Formatter fmt("[%(asctime)] - %(name) - %(levelname) - %(message) - file: %(filename) - function: %(funcName)() at line: %(lineno)", "%Y-%m-%d %H:%M:%S");
+		Formatter fmt("[%(asctime)] - %(name) - %(levelname) - %(message) - file: %(filename) - function: %(funcName)() at line: %(lineno)", "%Y-%m-%d %H:%M:%S,%(msecs) %Z");
 		consoleHandler->setFormatter(fmt);
 		fileHandler->setFormatter(fmt);
 
