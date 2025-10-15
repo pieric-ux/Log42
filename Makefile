@@ -35,10 +35,6 @@ OBJS_SRCES = $(addprefix $(OBJDIR)/, $(SRCES:.cpp=.o))
 # Default rule: make all and compile the program
 all: $(NAME)
 
-# Build each library
-$(COMMONDIR)/libcommon.a:
-	$(MAKE) -C $(COMMONDIR)
-
 debug: CXXFLAGS = $(DEBUG_FLAGS)
 
 # Rebuild with debug flags
@@ -68,12 +64,10 @@ $(NAME): $(OBJS_SRCES) $(COMMONDIR)/libcommon.a
 
 # Rule to clean up object files
 clean:
-	@$(MAKE) clean -C $(COMMONDIR)
 	@rm -rf $(OBJDIR)
 
 # Rule to clean up object files and executable
 fclean: clean
-	@$(MAKE) fclean -C $(COMMONDIR)
 	@rm -f $(NAME)
 
 # Rule to recompile everything

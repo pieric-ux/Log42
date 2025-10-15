@@ -15,12 +15,13 @@
  * @brief Implements the LogRecord class and related logging utilities.
  */ 
 
-#include "fileUtils.hpp"
-#include "timeUtils.hpp"
+#include "common.hpp"
 #include "LogRecord.hpp"
 #include <ctime>
 #include <string>
 #include <sstream>
+
+using namespace common::core;
 
 namespace log42
 {
