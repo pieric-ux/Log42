@@ -32,8 +32,8 @@ namespace logger { class Logger; }
 class Node;
 
 typedef std::vector<logRecord::LogRecord> t_records;
-// typedef std::vector<raii::UniquePtr<handler::Handler> > t_handlers;
-typedef std::set<handler::Handler *> t_handlers;
+typedef std::set<raii::SharedPtr<handler::Handler> > t_handlers;
+// typedef std::set<handler::Handler *> t_handlers;
 typedef std::vector<std::string> t_args;
 typedef std::map<std::string, std::string> t_defaults;
 typedef std::map<std::string, Node *> t_loggerMap;
