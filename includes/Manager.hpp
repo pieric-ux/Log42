@@ -21,7 +21,7 @@
 #include "Logger.hpp"
 #include "LogRecord.hpp"
 #include "PlaceHolder.hpp"
-#include <map>
+#include "types.hpp"
 
 namespace log42
 {
@@ -38,23 +38,23 @@ class Manager
 	public:
 		static	Manager &getInstance(logger::Logger *root = NULL);
 
-		logger::Logger	 				*getRoot();
-		void							resetRoot();
-		logRecord::e_LogLevel			getDisable() const;
-		void							setDisable(const logRecord::e_LogLevel value);
-		bool							getEmittedNoHandlerWarning() const;
-		void							setEmittedNoHandlerWarning(bool value);
-		std::map<std::string, Node *>	&getLoggerMap();
+		logger::Logger	 		*getRoot();
+		void					resetRoot();
+		logRecord::e_LogLevel	getDisable() const;
+		void					setDisable(const logRecord::e_LogLevel value);
+		bool					getEmittedNoHandlerWarning() const;
+		void					setEmittedNoHandlerWarning(bool value);
+		t_loggerMap				&getLoggerMap();
 
-		logger::Logger					*getLogger(const std::string &name);
+		logger::Logger			*getLogger(const std::string &name);
 
-		void	clearCache();
+		void					clearCache();
 
 	private:
-		logger::Logger 					*_root;
-		logRecord::e_LogLevel			_disable;
-		bool							_emittedNoHandlerWarning;
-		std::map<std::string, Node *>	_loggerMap;	
+		logger::Logger 			*_root;
+		logRecord::e_LogLevel	_disable;
+		bool					_emittedNoHandlerWarning;
+		t_loggerMap				_loggerMap;	
 
 		explicit Manager(logger::Logger *root);
 		~Manager();

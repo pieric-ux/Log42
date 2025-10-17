@@ -23,7 +23,8 @@
 #include "Handler.hpp"
 #include "LogRecord.hpp"
 #include "Node.hpp"
-#include <set>
+#include "types.hpp"
+#include <vector>
 
 namespace log42
 {
@@ -86,27 +87,27 @@ class Logger : public Node, public  filterer::Filterer
 		void setLevel(const logRecord::e_LogLevel level);
 		void setPropagate(bool propagate);
 
-		void debug(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const std::vector<std::string> *args = NULL);
-		void info(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const std::vector<std::string> *args = NULL);
-		void warning(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const std::vector<std::string> *args = NULL);
-		void error(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const std::vector<std::string> *args = NULL);
-		void exception(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const std::vector<std::string> *args = NULL);
-		void critical(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const std::vector<std::string> *args = NULL);
+		void debug(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const t_args *args = NULL);
+		void info(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const t_args *args = NULL);
+		void warning(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const t_args *args = NULL);
+		void error(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const t_args *args = NULL);
+		void exception(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const t_args *args = NULL);
+		void critical(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const t_args *args = NULL);
 
-		void log(const logRecord::e_LogLevel level, const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const std::vector<std::string> *args = NULL);
+		void log(const logRecord::e_LogLevel level, const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const t_args *args = NULL);
 
 		void handle(logRecord::LogRecord &record);
 		void addHandler(handler::Handler *handler);
 		void removeHandler(handler::Handler *handler);
 		bool hasHandler() const;
 		void callHandlers(logRecord::LogRecord &record);
-		const std::set<handler::Handler *> &getHandlers() const;
+		const t_handlers &getHandlers() const;
 
 		logRecord::e_LogLevel getEffectiveLevel() const;
 		bool isEnabledFor(const logRecord::e_LogLevel level);
 		
-		Logger *getChild(const std::string &suffix) const;
-		std::set<Logger *> getChildren() const;
+		Logger		*getChild(const std::string &suffix) const;
+		t_loggers	getChildren() const;
 
 		virtual std::string	toString() const;
 	
@@ -116,12 +117,12 @@ class Logger : public Node, public  filterer::Filterer
 	private:
 		logRecord::e_LogLevel					_level;
 		bool									_propagate;
-		std::set<handler::Handler *>			_handlers;
+		t_handlers								_handlers;
 		bool									_disabled;
 		std::map<logRecord::e_LogLevel, bool>	_cache;
 		manager::Manager						&_manager;
 
-		void _log(const logRecord::e_LogLevel level, const std::string &msg, const std::vector<std::string> *args,
+		void _log(const logRecord::e_LogLevel level, const std::string &msg, const t_args *args,
 					const std::string filename, int lineNo, const std::string funcName);
 };
 

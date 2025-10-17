@@ -17,6 +17,7 @@
 
 #include "Formatter.hpp"
 #include "PercentStyle.hpp"
+#include "types.hpp"
 #include <cstring>
 
 namespace log42
@@ -47,8 +48,8 @@ struct std::tm *(*Formatter::_converter)(const time_t *) = localtime;
  * @param validate If true, validates the format string.
  * @param defaults Default values for format fields.
  */
-Formatter::Formatter(const std::string &fmt, const std::string &datefmt, bool validate,
-					 const std::map<std::string, std::string> defaults)
+Formatter::Formatter(const std::string &fmt, const std::string &datefmt, 
+					 bool validate, const t_defaults defaults)
 	: _style(fmt.empty() ? defaultPercentFormat : fmt, defaults), 
 	_fmt(this->_style.getFmt()), _datefmt(datefmt)
 {

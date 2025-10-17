@@ -21,6 +21,7 @@
 #include "Filterer.hpp"
 #include "Formatter.hpp"
 #include "LogRecord.hpp"
+#include "types.hpp"
 
 namespace log42
 {

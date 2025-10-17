@@ -45,7 +45,7 @@ const std::string PercentStyle::asctimeSearch = "%(asctime)";
  * @param fmt The format string to use.
  * @param defaults Default values for format fields.
  */
-PercentStyle::PercentStyle(const std::string &fmt, const std::map<std::string, std::string> defaults) 
+PercentStyle::PercentStyle(const std::string &fmt, const t_defaults defaults) 
 	: _fmt(fmt), _defaults(defaults) 
 {}
 
@@ -128,7 +128,7 @@ std::string	PercentStyle::format(const logRecord::LogRecord &record) const
 std::string	PercentStyle::_format(const logRecord::LogRecord &record) const
 {
 	std::string result = this->_fmt;
-	std::map<std::string, std::string> defaults(this->_defaults);
+	t_defaults defaults(this->_defaults);
 
 	defaults["created"] = utils::toString(record.getCreated());
 	defaults["filename"] = record.getFilename();
@@ -146,7 +146,7 @@ std::string	PercentStyle::_format(const logRecord::LogRecord &record) const
 	defaults["relativeCreated"] = utils::toString(record.getRelativeCreated());
 	defaults["asctime"] = record.getAsctime();
 
-	std::map<std::string, std::string>::iterator it;
+	t_defaults::iterator it;
 	for (it = defaults.begin(); it != defaults.end(); ++it)
 	{
 		std::string placeholder = "%(" + it->first + ")";

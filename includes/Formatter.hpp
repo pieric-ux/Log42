@@ -20,6 +20,7 @@
  */ 
 
 #include "PercentStyle.hpp"
+#include "types.hpp"
 #include <ctime>
 
 namespace log42
@@ -41,7 +42,7 @@ class Formatter
 		explicit Formatter(const std::string &fmt = defaultPercentFormat, 
 			const std::string &datefmt = defaultTimeFormat, 
 			bool validate = true,
-			const std::map<std::string, std::string> defaults = std::map<std::string, std::string>());
+			const t_defaults defaults = std::map<std::string, std::string>());
 		~Formatter();
 
 		Formatter(const Formatter &rhs);

@@ -18,21 +18,15 @@
  * @brief Defines the LogRecord class and related logging utilities.
  */ 
 
+#include "logLevel.hpp"
+#include "types.hpp"
 #include <ctime>
 #include <string>
-#include <vector>
 
 namespace log42
 {
 namespace logRecord
 {
-
-/**
- * @enum e_LogLevel
- * @brief Enumeration of log levels.
- */
-enum e_LogLevel { NOTSET, DEBUG, INFO, WARNING, ERROR, CRITICAL };
-std::string levelToString(e_LogLevel level);
 
 /**
  * @class LogRecord
@@ -46,7 +40,7 @@ class LogRecord
 					 const std::string &pathname, 
 					 const int lineno, 
 					 const std::string &msg, 
-					 const std::vector<std::string> *args, 
+					 const t_args *args, 
 					 const std::string &func = "");
 		~LogRecord();
 
@@ -57,39 +51,39 @@ class LogRecord
 
 		std::string	toString() const;
 
-		std::string	getName() const;
-		std::string	getMessage() const;
-		e_LogLevel	getLevelNo() const;
-		std::string	getLevelName() const;
-		std::string	getPathname() const;
-		std::string	getFilename() const;
-		std::string	getModule() const;
-		int			getLineNo() const;
-		std::string	getFuncName() const;
-		std::time_t	getCreated() const;
-		long		getMsecs() const;
-		double		getRelativeCreated() const;
-		std::string	getAsctime() const;
+		const std::string	&getName() const;
+		std::string			getMessage() const;
+		const e_LogLevel	&getLevelNo() const;
+		const std::string	&getLevelName() const;
+		const std::string	&getPathname() const;
+		const std::string	&getFilename() const;
+		const std::string	&getModule() const;
+		const int			&getLineNo() const;
+		const std::string	&getFuncName() const;
+		const std::time_t	&getCreated() const;
+		const long			&getMsecs() const;
+		const double		&getRelativeCreated() const;
+		const std::string	&getAsctime() const;
 
 		void		setAsctime(const std::string &asctime);
 
 	private:
-		static clock_t				_startTime;
+		static clock_t	_startTime;
 
-		std::string					_name;
-		std::string					_msg;
-		std::vector<std::string>	_args;
-		e_LogLevel					_levelNo;
-		std::string					_levelName;
-		std::string					_pathname;
-		std::string					_filename;
-		std::string					_module;
-		int							_lineNo;
-		std::string					_funcName;
-		std::time_t					_created; 
-		long						_msecs;
-		double						_relativeCreated;
-		std::string					_asctime;
+		std::string		_name;
+		std::string		_msg;
+		t_args			_args;
+		e_LogLevel		_levelNo;
+		std::string		_levelName;
+		std::string		_pathname;
+		std::string		_filename;
+		std::string		_module;
+		int				_lineNo;
+		std::string		_funcName;
+		std::time_t		_created; 
+		long			_msecs;
+		double			_relativeCreated;
+		std::string		_asctime;
 
 };
 

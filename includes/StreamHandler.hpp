@@ -19,6 +19,7 @@
  */ 
 
 #include "Handler.hpp"
+#include "types.hpp"
 #include <iostream>
 
 namespace log42

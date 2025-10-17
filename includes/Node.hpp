@@ -37,7 +37,7 @@ class Node
 		Node &operator=(const Node &rhs);
 
 		const std::string	&getName() const;
-		Node			*getParent() const;
+		Node				*getParent() const;
 		void				setParent(Node *Parent);
 
 		virtual std::string toString() const = 0;

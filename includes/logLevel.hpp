@@ -1,106 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Filterer.cpp                                       :+:      :+:    :+:   */
+/*   logLevel.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdemont <pdemont@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*   By: blucken <blucken@student.42lausanne.ch>  +#+#+#+#+#+   +#+           */
 /*                                                     #+#    #+#             */
-/*   Created: 2025/10/11                              ###   ########.fr       */
+/*   Created: 2025/10/17                              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef LOGLEVEL_HPP
+#define LOGLEVEL_HPP
+
 /**
- * @file Filterer.cpp
- * @brief Implements the Filterer class for managing and applying log filters.
+ * @file logLevel.hpp
+ * @brief Defines log levels and utilities for converting log levels to strings.
  */ 
 
-#include "Filterer.hpp"
-#include "types.hpp"
+#include <string>
 
 namespace log42
 {
-namespace filterer
+namespace logRecord
 {
 
 /**
- * @brief Constructs a Filterer object with an empty set of filters.
- */
-Filterer::Filterer() : _filters() {}
-
-/**
- * @brief Destructor for Filterer.
- */
-Filterer::~Filterer() {}
-
-/**
- * @brief Copy constructor for Filterer.
+ * @enum e_LogLevel
+ * @brief Enumeration of log levels used for categorizing log messages.
  *
- * @param rhs The Filterer to copy.
+ * NOTSET   - No log level set.
+ * DEBUG    - Detailed information, typically of interest only when diagnosing problems.
+ * INFO     - Confirmation that things are working as expected.
+ * WARNING  - An indication that something unexpected happened, or indicative of some problem.
+ * ERROR    - Due to a more serious problem, the software has not been able to perform some function.
+ * CRITICAL - A very serious error, indicating that the program itself may be unable to continue running.
  */
-Filterer::Filterer(const Filterer &rhs) : _filters(rhs._filters) {}
+enum e_LogLevel { NOTSET, DEBUG, INFO, WARNING, ERROR, CRITICAL };
 
 /**
- * @brief Assignment operator for Filterer.
+ * @brief Converts a log level enum value to its corresponding string representation.
  *
- * @param rhs The Filterer to assign from.
- * @return Reference to this Filterer.
+ * @param level The log level to convert.
+ * @return std::string The string representation of the log level.
  */
-Filterer	&Filterer::operator=(const Filterer &rhs)
-{
-	if (this != &rhs)
-		this->_filters = rhs._filters;
+std::string levelToString(e_LogLevel level);
 
-	return (*this);
-}
-
-/**
- * @brief Adds a filter to the Filterer.
- *
- * @param filter The filter to add.
- */
-void	Filterer::addFilter(const filter::Filter &filter)
-{
-	this->_filters.insert(filter);
-}
-
-/**
- * @brief Removes a filter from the Filterer.
- *
- * @param filter The filter to remove.
- */
-void	Filterer::removeFilter(const filter::Filter &filter)
-{
-	this->_filters.erase(filter);
-}
-
-/**
- * @brief Clears all filters from the Filterer.
- */
-void	Filterer::clearFilters()
-{
-	this->_filters.clear();
-}
-
-/**
- * @brief Applies all filters to a log record.
- *
- * @param record The log record to filter.
- * @return True if the record passes all filters, false otherwise.
- */
-bool	Filterer::filter(const logRecord::LogRecord &record) const
-{
-	t_filters::const_iterator it;
-	for (it = this->_filters.begin(); it != this->_filters.end(); ++it)
-	{
-		if (!it->filter(record))
-			return (false);
-	}
-	return (true);
-}
-
-} // !filterer
+} // !logRecord
 } // !log42
+
+#endif // !LOGLEVEL_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

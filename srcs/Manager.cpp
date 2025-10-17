@@ -150,7 +150,7 @@ logger::Logger *Manager::getLogger(const std::string &name)
 		throw std::invalid_argument("Logger name must be a non-empty string");
 
 	logger::Logger *alogger = NULL;
-	std::map<std::string, Node*>::iterator it;
+	t_loggerMap::iterator it;
 	it = this->_loggerMap.find(name);
 
 	if (it != this->_loggerMap.end())
@@ -182,7 +182,7 @@ logger::Logger *Manager::getLogger(const std::string &name)
  */
 void	Manager::clearCache()
 {
-	std::map<std::string, Node *>::iterator it;
+	t_loggerMap::iterator it;
 	for (it = this->_loggerMap.begin(); it != this->_loggerMap.end(); ++it)
 	{
 		logger::Logger *alogger = dynamic_cast<logger::Logger *>(it->second);
@@ -206,7 +206,7 @@ void Manager::_fixupParents(logger::Logger *alogger)
     while (pos != std::string::npos && !foundParent) 
     {
         std::string substr = name.substr(0, pos);
-        std::map<std::string, Node*>::iterator it;
+        t_loggerMap::iterator it;
         it = this->_loggerMap.find(substr);
 
         if (it == this->_loggerMap.end()) 
@@ -242,8 +242,8 @@ void Manager::_fixupChildren(placeholder::PlaceHolder *ph, logger::Logger *alogg
     const std::string &name = alogger->getName();
     std::size_t namelen = name.length();
 
-    const std::set<Node*> &children = ph->getLoggerSet();
-	std::set<Node*>::const_iterator it;
+    const t_nodes &children = ph->getLoggerSet();
+	t_nodes::const_iterator it;
     for (it = children.begin(); it != children.end(); ++it) 
 	{
         Node *c = *it;

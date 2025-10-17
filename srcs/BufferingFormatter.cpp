@@ -61,7 +61,7 @@ BufferingFormatter	&BufferingFormatter::operator=(const BufferingFormatter &rhs)
  * @param records The vector of log records.
  * @return The formatted header string (default: empty).
  */
-std::string	BufferingFormatter::formatHeader(const std::vector<logRecord::LogRecord> &records) const
+std::string	BufferingFormatter::formatHeader(const t_records &records) const
 {
 	(void)records;
 	return "";
@@ -73,7 +73,7 @@ std::string	BufferingFormatter::formatHeader(const std::vector<logRecord::LogRec
  * @param records The vector of log records.
  * @return The formatted footer string (default: empty).
  */
-std::string	BufferingFormatter::formatFooter(const std::vector<logRecord::LogRecord> &records) const
+std::string	BufferingFormatter::formatFooter(const t_records &records) const
 {
 	(void)records;
 	return "";
@@ -85,7 +85,7 @@ std::string	BufferingFormatter::formatFooter(const std::vector<logRecord::LogRec
  * @param records The vector of log records to format.
  * @return The formatted string for the batch.
  */
-std::string	BufferingFormatter::format(std::vector<logRecord::LogRecord> &records) const
+std::string	BufferingFormatter::format(t_records &records) const
 {
 	std::ostringstream	oss;
 	oss << "";
@@ -93,7 +93,7 @@ std::string	BufferingFormatter::format(std::vector<logRecord::LogRecord> &record
 	{
 		oss << this->formatHeader(records);
 		
-		std::vector<logRecord::LogRecord>::iterator it;
+		t_records::iterator it;
 		for (it = records.begin(); it != records.end(); ++it)
 			oss << this->_linefmt.format(*it) << "\n";
 		oss << this->formatFooter(records);

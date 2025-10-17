@@ -20,7 +20,8 @@
  */ 
 
 #include "Filter.hpp"
-#include <set>
+#include "LogRecord.hpp"
+#include "types.hpp"
 
 namespace log42
 {
@@ -47,7 +48,7 @@ class Filterer
 		virtual bool	filter(const logRecord::LogRecord &record) const;
 
 	private:
-		std::set<filter::Filter>	_filters;
+		t_filters	_filters;
 };
 
 } // !filterer

@@ -20,6 +20,7 @@
 #include "LogRecord.hpp"
 #include "Manager.hpp"
 #include "Node.hpp"
+#include "types.hpp"
 #include <iostream>
 #include <map>
 
@@ -103,7 +104,7 @@ void	Logger::setPropagate(bool propagate)
  * @param funcName Function name.
  * @param args Optional arguments.
  */
-void	Logger::debug(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const std::vector<std::string> *args)
+void	Logger::debug(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const t_args *args)
 {
 	if (this->isEnabledFor(logRecord::DEBUG))
 		this->_log(logRecord::DEBUG, msg, args, filename, lineNo, funcName);
@@ -118,7 +119,7 @@ void	Logger::debug(const std::string &msg, const std::string filename, int lineN
  * @param funcName Function name.
  * @param args Optional arguments.
  */
-void	Logger::info(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const std::vector<std::string> *args)
+void	Logger::info(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const t_args *args)
 {
    if (this->isEnabledFor(logRecord::INFO))
 	   this->_log(logRecord::INFO, msg, args, filename, lineNo, funcName);
@@ -133,7 +134,7 @@ void	Logger::info(const std::string &msg, const std::string filename, int lineNo
  * @param funcName Function name.
  * @param args Optional arguments.
  */
-void	Logger::warning(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const std::vector<std::string> *args)
+void	Logger::warning(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const t_args *args)
 {
    if (this->isEnabledFor(logRecord::WARNING))
 	   this->_log(logRecord::WARNING, msg, args, filename, lineNo, funcName);
@@ -148,7 +149,7 @@ void	Logger::warning(const std::string &msg, const std::string filename, int lin
  * @param funcName Function name.
  * @param args Optional arguments.
  */
-void	Logger::error(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const std::vector<std::string> *args)
+void	Logger::error(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const t_args *args)
 {
    if (this->isEnabledFor(logRecord::ERROR))
 	   this->_log(logRecord::ERROR, msg, args, filename, lineNo, funcName);
@@ -163,7 +164,7 @@ void	Logger::error(const std::string &msg, const std::string filename, int lineN
  * @param funcName Function name.
  * @param args Optional arguments.
  */
-void	Logger::exception(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const std::vector<std::string> *args)
+void	Logger::exception(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const t_args *args)
 {
    if (this->isEnabledFor(logRecord::ERROR))
 	   this->_log(logRecord::ERROR, msg, args, filename, lineNo, funcName);
@@ -178,7 +179,7 @@ void	Logger::exception(const std::string &msg, const std::string filename, int l
  * @param funcName Function name.
  * @param args Optional arguments.
  */
-void	Logger::critical(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const std::vector<std::string> *args)
+void	Logger::critical(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const t_args *args)
 {
    if (this->isEnabledFor(logRecord::CRITICAL))
 	   this->_log(logRecord::CRITICAL, msg, args, filename, lineNo, funcName);
@@ -194,7 +195,7 @@ void	Logger::critical(const std::string &msg, const std::string filename, int li
  * @param funcName Function name.
  * @param args Optional arguments.
  */
-void	Logger::log(const logRecord::e_LogLevel level, const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const std::vector<std::string> *args)
+void	Logger::log(const logRecord::e_LogLevel level, const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const t_args *args)
 {
 	if (this->isEnabledFor(level))
 		this->_log(level, msg, args, filename, lineNo, funcName);
@@ -270,7 +271,7 @@ void	Logger::callHandlers(logRecord::LogRecord &record)
 
 	while (c)
 	{
-		std::set<handler::Handler *>::iterator it;
+		t_handlers::iterator it;
 		for (it = c->_handlers.begin(); it != c->_handlers.end(); ++it)
 		{
 			handler::Handler *hdlr = *it;		
@@ -298,7 +299,7 @@ void	Logger::callHandlers(logRecord::LogRecord &record)
  *
  * @return Reference to the set of handler pointers.
  */
-const std::set<handler::Handler *>	&Logger::getHandlers() const
+const t_handlers	&Logger::getHandlers() const
 {
 	return (this->_handlers);
 }
@@ -332,7 +333,7 @@ bool	Logger::isEnabledFor(const logRecord::e_LogLevel level)
 	if (this->_disabled)
 		return (false);
 	
-	std::map<logRecord::e_LogLevel, bool>::const_iterator it = this->_cache.find(level);
+	t_cache::const_iterator it = this->_cache.find(level);
 	if (it != this->_cache.end())
 		return (it->second);
 
@@ -366,12 +367,12 @@ Logger	*Logger::getChild(const std::string &suffix) const
  *
  * @return Set of pointers to child loggers.
  */
-std::set<Logger *>	Logger::getChildren() const
+t_loggers	Logger::getChildren() const
 {
-	std::set<Logger *> children;
+	t_loggers children;
 
-	std::map<std::string, Node *> loggerMap = this->_manager.getLoggerMap();
-	std::map<std::string, Node *>::const_iterator it;
+	t_loggerMap loggerMap = this->_manager.getLoggerMap();
+	t_loggerMap::const_iterator it;
 
 	for (it = loggerMap.begin(); it != loggerMap.end(); ++it)
 	{
@@ -423,7 +424,7 @@ std::string Logger::toString() const
  * @param lineNo Source line number.
  * @param funcName Function name.
  */
-void	Logger::_log(const logRecord::e_LogLevel level, const std::string &msg, const std::vector<std::string> *args,
+void	Logger::_log(const logRecord::e_LogLevel level, const std::string &msg, const t_args *args,
 					const std::string filename, int lineNo, const std::string funcName)
 {
 	logRecord::LogRecord record(
@@ -438,7 +439,6 @@ void	Logger::_log(const logRecord::e_LogLevel level, const std::string &msg, con
 	this->handle(record);
 }
 
-
 /**
  * @brief Clears the cache for this logger and all its children.
  */
@@ -446,8 +446,8 @@ void Logger::cacheClear()
 {
 	this->clearCache();
 
-	std::set<Logger *> children = this->getChildren();
-	for (std::set<Logger *>::iterator it = children.begin(); it != children.end(); ++it)
+	t_loggers children = this->getChildren();
+	for (t_loggers::iterator it = children.begin(); it != children.end(); ++it)
 		(*it)->cacheClear();
 }
 

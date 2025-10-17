@@ -20,7 +20,7 @@
  */ 
 
 #include "Formatter.hpp"
-#include <vector>
+#include "types.hpp"
 
 namespace log42
 {
@@ -41,10 +41,10 @@ class BufferingFormatter
 		BufferingFormatter(const BufferingFormatter &rhs);
 		BufferingFormatter &operator=(const BufferingFormatter &rhs);
 
-		std::string	formatHeader(const std::vector<logRecord::LogRecord> &records) const;
-		std::string	formatFooter(const std::vector<logRecord::LogRecord> &records) const;
+		std::string	formatHeader(const t_records &records) const;
+		std::string	formatFooter(const t_records &records) const;
 
-		std::string format(std::vector<logRecord::LogRecord> &records) const;
+		std::string format(t_records &records) const;
 
 	private:
 		Formatter _linefmt;

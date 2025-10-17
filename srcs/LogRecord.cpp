@@ -78,7 +78,7 @@ LogRecord::LogRecord(const std::string &name,
 					 const std::string &pathname, 
 					 const int lineNo, 
 					 const std::string &msg, 
-					 const std::vector<std::string> *args, 
+					 const t_args *args, 
 					 const std::string &func)
 					 : _name(name), 
 					 _msg(msg),
@@ -163,7 +163,7 @@ std::string	LogRecord::toString() const
  *
  * @return Logger name.
  */
-std::string	LogRecord::getName() const
+const std::string	&LogRecord::getName() const
 {
 	return (this->_name);
 }
@@ -181,7 +181,7 @@ std::string	LogRecord::getMessage() const
 	std::string result = this->_msg;
 
 	std::size_t pos = 0;
-	std::vector<std::string>::const_iterator it;
+	t_args::const_iterator it;
 	for (it = this->_args.begin(); it != this->_args.end() && (pos = result.find("%s", pos)) != std::string::npos; ++it)
 	{
 		result.replace(pos, 2, *it);
@@ -195,7 +195,7 @@ std::string	LogRecord::getMessage() const
  *
  * @return Log level.
  */
-e_LogLevel	LogRecord::getLevelNo() const
+const e_LogLevel	&LogRecord::getLevelNo() const
 {
 	return (this->_levelNo);
 }
@@ -205,7 +205,7 @@ e_LogLevel	LogRecord::getLevelNo() const
  *
  * @return Log level name.
  */
-std::string	LogRecord::getLevelName() const
+const std::string	&LogRecord::getLevelName() const
 {
 	return (this->_levelName);
 }
@@ -215,7 +215,7 @@ std::string	LogRecord::getLevelName() const
  *
  * @return Pathname.
  */
-std::string	LogRecord::getPathname() const
+const std::string	&LogRecord::getPathname() const
 {
 	return (this->_pathname);
 }
@@ -225,7 +225,7 @@ std::string	LogRecord::getPathname() const
  *
  * @return Filename.
  */
-std::string	LogRecord::getFilename() const
+const std::string	&LogRecord::getFilename() const
 {
 	return (this->_filename);
 }
@@ -235,7 +235,7 @@ std::string	LogRecord::getFilename() const
  *
  * @return Module name.
  */
-std::string	LogRecord::getModule() const
+const std::string	&LogRecord::getModule() const
 {
 	return (this->_module);
 }
@@ -245,7 +245,7 @@ std::string	LogRecord::getModule() const
  *
  * @return Line number.
  */
-int	LogRecord::getLineNo() const
+const int	&LogRecord::getLineNo() const
 {
 	return (this->_lineNo);
 }
@@ -255,7 +255,7 @@ int	LogRecord::getLineNo() const
  *
  * @return Function name.
  */
-std::string	LogRecord::getFuncName() const
+const std::string	&LogRecord::getFuncName() const
 {
 	return (this->_funcName);
 }
@@ -265,7 +265,7 @@ std::string	LogRecord::getFuncName() const
  *
  * @return Creation time.
  */
-std::time_t	LogRecord::getCreated() const
+const std::time_t	&LogRecord::getCreated() const
 {
 	return (this->_created);
 }
@@ -275,7 +275,7 @@ std::time_t	LogRecord::getCreated() const
  *
  * @return Milliseconds.
  */
-long	LogRecord::getMsecs() const
+const long	&LogRecord::getMsecs() const
 {
 	return (this->_msecs);
 }
@@ -285,7 +285,7 @@ long	LogRecord::getMsecs() const
  *
  * @return Relative creation time.
  */
-double	LogRecord::getRelativeCreated() const
+const double	&LogRecord::getRelativeCreated() const
 {
 	return (this->_relativeCreated);
 }
@@ -295,7 +295,7 @@ double	LogRecord::getRelativeCreated() const
  *
  * @return Asctime string.
  */
-std::string	LogRecord::getAsctime() const
+const std::string	&LogRecord::getAsctime() const
 {
 	return (this->_asctime);
 }

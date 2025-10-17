@@ -73,7 +73,7 @@ namespace log42
 void	basicConfig(
 	const std::string &filename = "", 
 	const std::ios_base::openmode &fileMode = std::ios_base::app, 
-	std::set<handler::Handler *> handlers = std::set<handler::Handler *>(),
+	t_handlers handlers = std::set<handler::Handler *>(),
 	std::ostream *stream = NULL,
 	const std::string &datefmt = "",
 	const std::string &fmt = "",
@@ -84,14 +84,14 @@ void	basicConfig(
 logger::Logger *getLogger(const std::string &name = "");
 logger::Logger *ensureRootReady();
 
-void debug(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const std::vector<std::string> *args = NULL);
-void info(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const std::vector<std::string> *args = NULL);
-void warning(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const std::vector<std::string> *args = NULL);
-void error(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const std::vector<std::string> *args = NULL);
-void exception(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const std::vector<std::string> *args = NULL);
-void critical(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const std::vector<std::string> *args = NULL);
+void debug(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const t_args *args = NULL);
+void info(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const t_args *args = NULL);
+void warning(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const t_args *args = NULL);
+void error(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const t_args *args = NULL);
+void exception(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const t_args *args = NULL);
+void critical(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const t_args *args = NULL);
 
-void log(const logRecord::e_LogLevel level, const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const std::vector<std::string> *args = NULL);
+void log(const logRecord::e_LogLevel level, const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const t_args *args = NULL);
 
 void disable(logRecord::e_LogLevel level = logRecord::CRITICAL);
 

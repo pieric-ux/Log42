@@ -46,7 +46,7 @@ namespace log42
 void	basicConfig(
 	const std::string &filename, 
 	const std::ios_base::openmode &fileMode, 
-	std::set<handler::Handler *> handlers,
+	t_handlers handlers,
 	std::ostream *stream,
 	const std::string &datefmt,
 	const std::string &fmt,
@@ -57,8 +57,8 @@ void	basicConfig(
 
 	if (force)
 	{
-		std::set<handler::Handler *> rootHandlers = root.getHandlers();
-		std::set<handler::Handler *>::iterator it;
+		t_handlers rootHandlers = root.getHandlers();
+		t_handlers::iterator it;
 		for (it = rootHandlers.begin(); it != rootHandlers.end(); ++it)
 		{
 			handler::FileHandler *fileHandler = dynamic_cast<handler::FileHandler *>(*it);
@@ -96,7 +96,7 @@ void	basicConfig(
 
 	formatter::Formatter formatter (fmt, datefmt);
 
-	std::set<handler::Handler *>::iterator it;
+	t_handlers::iterator it;
 	for (it = handlers.begin(); it != handlers.end(); ++it)
 	{
 		handler::Handler *h = *it;
@@ -149,7 +149,7 @@ logger::Logger *ensureRootReady()
  * @param funcName Function name.
  * @param args Optional arguments.
  */
-void	debug(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const std::vector<std::string> *args)
+void	debug(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const t_args *args)
 {
     ensureRootReady()->debug(msg, filename, lineNo, funcName, args);
 }
@@ -163,7 +163,7 @@ void	debug(const std::string &msg, const std::string filename, int lineNo, const
  * @param funcName Function name.
  * @param args Optional arguments.
  */
-void	info(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const std::vector<std::string> *args)
+void	info(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const t_args *args)
 {
     ensureRootReady()->info(msg, filename, lineNo, funcName, args);
 }
@@ -177,7 +177,7 @@ void	info(const std::string &msg, const std::string filename, int lineNo, const 
  * @param funcName Function name.
  * @param args Optional arguments.
  */
-void	warning(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const std::vector<std::string> *args)
+void	warning(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const t_args *args)
 {
     ensureRootReady()->warning(msg, filename, lineNo, funcName, args);
 }
@@ -191,7 +191,7 @@ void	warning(const std::string &msg, const std::string filename, int lineNo, con
  * @param funcName Function name.
  * @param args Optional arguments.
  */
-void	error(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const std::vector<std::string> *args)
+void	error(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const t_args *args)
 {
     ensureRootReady()->error(msg, filename, lineNo, funcName, args);
 }
@@ -205,7 +205,7 @@ void	error(const std::string &msg, const std::string filename, int lineNo, const
  * @param funcName Function name.
  * @param args Optional arguments.
  */
-void	exception(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const std::vector<std::string> *args)
+void	exception(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const t_args *args)
 {
     ensureRootReady()->error(msg, filename, lineNo, funcName, args);
 }
@@ -219,7 +219,7 @@ void	exception(const std::string &msg, const std::string filename, int lineNo, c
  * @param funcName Function name.
  * @param args Optional arguments.
  */
-void	critical(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const std::vector<std::string> *args)
+void	critical(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const t_args *args)
 {
     ensureRootReady()->critical(msg, filename, lineNo, funcName, args);
 }
@@ -234,7 +234,7 @@ void	critical(const std::string &msg, const std::string filename, int lineNo, co
  * @param funcName Function name.
  * @param args Optional arguments.
  */
-void	log(const logRecord::e_LogLevel level, const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const std::vector<std::string> *args)
+void	log(const logRecord::e_LogLevel level, const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const t_args *args)
 {
     ensureRootReady()->log(level, msg, filename, lineNo, funcName, args);
 }
@@ -260,17 +260,17 @@ void shutdown()
 {
 	manager::Manager &manager = manager::Manager::getInstance();
 
-	std::map<std::string, Node *> &loggers = manager.getLoggerMap();
+	t_loggerMap &loggers = manager.getLoggerMap();
 	
-	std::map<std::string, Node *>::iterator lIt;
+	t_loggerMap::iterator lIt;
 	for (lIt = loggers.begin(); lIt != loggers.end(); ++lIt)
 	{
 		logger::Logger *logger = dynamic_cast<logger::Logger *>(lIt->second);
 		if (logger)
 		{
-			std::set<handler::Handler *> handlers = logger->getHandlers();
+			t_handlers handlers = logger->getHandlers();
 
-			std::set<handler::Handler *>::iterator hIt;
+			t_handlers::iterator hIt;
 			for (hIt = handlers.begin(); hIt != handlers.end(); ++hIt)
 			{
 				handler::Handler *handler = *hIt;
