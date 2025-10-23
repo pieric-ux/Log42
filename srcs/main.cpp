@@ -49,15 +49,15 @@ static void testManualConfig()
 		Logger *logger = manager.getLogger("manual");
 		logger->setLevel(DEBUG);
 
-		StreamHandler *consoleHandler = new StreamHandler(std::cout);
-		FileHandler *fileHandler = new FileHandler("manual.log");
+		raii::SharedPtr<StreamHandler> consoleHandler = MAKE_SHARED(StreamHandler, std::cout);
+		raii::SharedPtr<FileHandler> fileHandler = MAKE_SHARED(FileHandler, "manual.log");
 
 		Formatter fmt("[%(asctime)] - %(name) - %(levelname) - %(message) - file: %(filename) - function: %(funcName)() at line: %(lineno)", "%Y-%m-%d %H:%M:%S,%(msecs) %Z");
 		consoleHandler->setFormatter(fmt);
 		fileHandler->setFormatter(fmt);
 
-		logger->addHandler(consoleHandler);
-		logger->addHandler(fileHandler);
+		logger->addHandler(raii::staticPointerCast<handler::Handler>(consoleHandler));
+		logger->addHandler(raii::staticPointerCast<handler::Handler>(fileHandler));
 
 		DEBUG(logger, "Debug message");
 		INFO(logger, "Info message");
@@ -98,10 +98,10 @@ static void testLogLevels()
 		Logger *logger = Manager::getInstance().getLogger("leveltest");
 		logger->setLevel(INFO);
 
-		StreamHandler *ch = new StreamHandler(std::cout);
+		raii::SharedPtr<StreamHandler> ch = MAKE_SHARED(StreamHandler, std::cout);
 		Formatter fmt("%(levelname): %(message)");
 		ch->setFormatter(fmt);
-		logger->addHandler(ch);
+		logger->addHandler(raii::staticPointerCast<handler::Handler>(ch));
 
 		DEBUG(logger, "This should NOT appear");
 		INFO(logger, "This should appear");
@@ -119,7 +119,7 @@ static void testForceReset()
 {
 	std::cout << "\n===== TEST 4: basicConfig with force reset =====" << std::endl;
 	try {
-		basicConfig("forced.log", std::ios::out, std::set<Handler*>(), NULL, "", "%(message)", DEBUG, true);
+		basicConfig("forced.log", std::ios::out, std::set<raii::SharedPtr<handler::Handler> >(), NULL, "", "%(message)", DEBUG, true);
 		ROOT_INFO("This should go ONLY into forced.log");
 
 		shutdown();
@@ -134,8 +134,8 @@ static void testBasicConfigErrors()
 {
 	std::cout << "\n===== TEST 5: basicConfig errors =====" << std::endl;
 	try {
-		std::set<Handler *> handlers;
-		handlers.insert(new StreamHandler(std::cout));
+		t_handlers handlers;
+		handlers.insert(raii::staticPointerCast<handler::Handler>(MAKE_SHARED(StreamHandler, std::cout)));
 
 		try 
 		{
@@ -144,10 +144,6 @@ static void testBasicConfigErrors()
 		catch (const std::exception &e) 
 		{
 			std::cout << "Expected exception: " << e.what() << std::endl;
-
-			std::set<Handler *>::iterator it;
-			for (it = handlers.begin(); it != handlers.end(); ++it)
-				delete *it;
 		}
 
 		shutdown();
@@ -165,10 +161,10 @@ static void testChildLogger()
 		Logger *parent = Manager::getInstance().getLogger("parent");
 		Logger *child = Manager::getInstance().getLogger("parent.child");
 
-		StreamHandler *ch = new StreamHandler(std::cout);
+		raii::SharedPtr<StreamHandler> ch = MAKE_SHARED(StreamHandler, std::cout);
 		Formatter fmt("[%(name)] %(levelname): %(message)");
 		ch->setFormatter(fmt);
-		parent->addHandler(ch);
+		parent->addHandler(raii::staticPointerCast<handler::Handler>(ch));
 
 		parent->setLevel(DEBUG);
 		child->setLevel(DEBUG);
@@ -190,10 +186,10 @@ static void testPlaceHolder()
 		Logger *parent = Manager::getInstance().getLogger("parent");
 		Logger *child = Manager::getInstance().getLogger("parent.placeholder.child");
 
-		StreamHandler *ch = new StreamHandler(std::cout);
+		raii::SharedPtr<StreamHandler> ch = MAKE_SHARED(StreamHandler, std::cout);
 		Formatter fmt("[%(name)] %(levelname): %(message)");
 		ch->setFormatter(fmt);
-		parent->addHandler(ch);
+		parent->addHandler(raii::staticPointerCast<handler::Handler>(ch));
 
 		parent->setLevel(DEBUG);
 		child->setLevel(DEBUG);
@@ -213,8 +209,8 @@ static void testDisableLogs()
 	std::cout << "\n===== TEST 8: Disable logs =====" << std::endl;
 	try {
 		Logger *logger = Manager::getInstance().getLogger("disabletest");
-		StreamHandler *ch = new StreamHandler(std::cout);
-		logger->addHandler(ch);
+		raii::SharedPtr<StreamHandler> ch = MAKE_SHARED(StreamHandler, std::cout);
+		logger->addHandler(raii::staticPointerCast<handler::Handler>(ch));
 
 		disable(ERROR);
 

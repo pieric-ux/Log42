@@ -24,7 +24,6 @@
 #include "LogRecord.hpp"
 #include "Node.hpp"
 #include "types.hpp"
-#include <vector>
 
 namespace log42
 {
@@ -97,8 +96,8 @@ class Logger : public Node, public  filterer::Filterer
 		void log(const logRecord::e_LogLevel level, const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const t_args *args = NULL);
 
 		void handle(logRecord::LogRecord &record);
-		void addHandler(handler::Handler *handler);
-		void removeHandler(handler::Handler *handler);
+		void addHandler(const raii::SharedPtr<handler::Handler> &handler);
+		void removeHandler(const raii::SharedPtr<handler::Handler> &handler);
 		bool hasHandler() const;
 		void callHandlers(logRecord::LogRecord &record);
 		const t_handlers &getHandlers() const;

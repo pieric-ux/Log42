@@ -220,9 +220,9 @@ void	Logger::handle(logRecord::LogRecord &record)
  *
  * @param handler Pointer to the handler to add.
  */
-void	Logger::addHandler(handler::Handler *handler)
+void	Logger::addHandler(const raii::SharedPtr<handler::Handler> &handler)
 {
-	if (!handler)
+	if (!handler.get())
 		return ;
 	this->_handlers.insert(handler);
 }
@@ -232,9 +232,9 @@ void	Logger::addHandler(handler::Handler *handler)
  *
  * @param handler Pointer to the handler to remove.
  */
-void	Logger::removeHandler(handler::Handler *handler)
+void	Logger::removeHandler(const raii::SharedPtr<handler::Handler> &handler)
 {
-	if (!handler)
+	if (!handler.get())
 		return ;
 	this->_handlers.erase(handler);
 }
@@ -274,10 +274,9 @@ void	Logger::callHandlers(logRecord::LogRecord &record)
 		t_handlers::iterator it;
 		for (it = c->_handlers.begin(); it != c->_handlers.end(); ++it)
 		{
-			handler::Handler *hdlr = *it;		
 			found = true;
-			if (record.getLevelNo() >= hdlr->getLevel())
-				hdlr->handle(record);
+			if (record.getLevelNo() >= (*it)->getLevel())
+				(*it)->handle(record);
 		}
 		if (!c->_propagate)
 			break ;

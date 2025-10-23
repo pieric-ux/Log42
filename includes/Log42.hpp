@@ -28,6 +28,7 @@
 #include "Logger.hpp"
 #include "Manager.hpp"
 #include "StreamHandler.hpp"
+#include "types.hpp"
 #include <fstream>
 #include <set>
 #include <string>
@@ -73,7 +74,7 @@ namespace log42
 void	basicConfig(
 	const std::string &filename = "", 
 	const std::ios_base::openmode &fileMode = std::ios_base::app, 
-	t_handlers handlers = std::set<handler::Handler *>(),
+	t_handlers handlers = t_handlers(),
 	std::ostream *stream = NULL,
 	const std::string &datefmt = "",
 	const std::string &fmt = "",

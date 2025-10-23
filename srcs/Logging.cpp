@@ -16,6 +16,7 @@
  * emission.
  */ 
 
+#include "common.hpp"
 #include "FileHandler.hpp"
 #include "Log42.hpp"
 #include "Manager.hpp"
@@ -61,11 +62,10 @@ void	basicConfig(
 		t_handlers::iterator it;
 		for (it = rootHandlers.begin(); it != rootHandlers.end(); ++it)
 		{
-			handler::FileHandler *fileHandler = dynamic_cast<handler::FileHandler *>(*it);
+			raii::SharedPtr<handler::FileHandler> fileHandler = raii::dynamicPointerCast<handler::FileHandler>(*it);
 			if (fileHandler)
 				fileHandler->close();
 			root.removeHandler(*it);
-			delete *it;
 		}
 		rootHandlers.clear();
 	}
@@ -83,13 +83,13 @@ void	basicConfig(
 				throw std::invalid_argument("'stream' and 'filename' sould not be specified together");
 
 			if (!filename.empty())
-				handlers.insert(new handler::FileHandler(filename, fileMode));
+				handlers.insert(raii::staticPointerCast<handler::Handler>(MAKE_SHARED(handler::FileHandler, filename, fileMode)));
 			else
 			{
 				if (stream)
-					handlers.insert(new handler::StreamHandler(*stream));
+					handlers.insert(raii::staticPointerCast<handler::Handler>(MAKE_SHARED(handler::StreamHandler, *stream)));
 				else
-					handlers.insert(new handler::StreamHandler());
+					handlers.insert(raii::staticPointerCast<handler::Handler>(MAKE_SHARED(handler::StreamHandler)));
 			}
 		}
 	}
@@ -99,7 +99,7 @@ void	basicConfig(
 	t_handlers::iterator it;
 	for (it = handlers.begin(); it != handlers.end(); ++it)
 	{
-		handler::Handler *h = *it;
+		raii::SharedPtr<handler::Handler> h = *it;
 		h->setFormatter(formatter);
 		root.addHandler(h);
 	}
@@ -273,7 +273,7 @@ void shutdown()
 			t_handlers::iterator hIt;
 			for (hIt = handlers.begin(); hIt != handlers.end(); ++hIt)
 			{
-				handler::Handler *handler = *hIt;
+				raii::SharedPtr<handler::Handler> handler = *hIt;
 				if (handler)
 				{
 					try
@@ -282,8 +282,6 @@ void shutdown()
 						handler->close();
 					}
 					catch (...) {}
-
-					delete handler;
 				}
 			}
 			handlers.clear();

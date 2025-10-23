@@ -18,34 +18,60 @@
  * @brief Default deleter functors for use with smart pointers.
  */
 
-/**
-* @struct DefaultDelete
-* @brief Default deleter for single objects.
-*
-* Provides a function call operator to delete a pointer to a single object.
-*
-* @tparam T Type of the object to delete.
-*/
-template<typename T>
-struct DefaultDelete
+namespace common
 {
-	void	operator()(T *ptr) const throw() { delete ptr; }
+namespace core
+{
+namespace raii
+{
+
+/**
+ * @brief Interface for custom deleter functors.
+ *
+ * Provides a virtual destructor and a pure virtual destroy method
+ * for deleting objects via a void pointer. Intended for use with
+ * smart pointer implementations that require custom deletion logic.
+ */
+struct IDeleter
+{
+	virtual ~IDeleter() {}
+
+	virtual void destroy(void *ptr) = 0;
 };
 
 /**
- * @struct DefaultDelete<T[]>
- * @brief Default deleter specialization for arrays.
+ * @brief Default deleter for single objects.
  *
- * Provides a function call operator to delete a pointer to an array.
+ * Deletes an object of type T using the delete operator.
+ * Intended for use with smart pointers managing single objects.
+ *
+ * @tparam T Type of the object to delete.
+ */
+template<typename T>
+struct DefaultDelete : public IDeleter
+{
+	void	destroy(void *ptr) throw() { delete static_cast<T *>(ptr); }
+    void	operator()(T *ptr) const { delete ptr; }
+};
+
+/**
+ * @brief Default deleter for arrays.
+ *
+ * Deletes an array of type T using the delete[] operator.
+ * Intended for use with smart pointers managing arrays.
  *
  * @tparam T Type of the array elements to delete.
  */
 template<typename T>
-struct DefaultDelete<T[]>
+struct DefaultDelete<T[]> : public IDeleter
 {
-	void	operator()(T *ptr) const throw() { delete[] ptr; }
+	void	destroy(void *ptr) throw() { delete static_cast<T *>(ptr); }
+    void	operator()(T *ptr) const { delete[] ptr; }
 };
 
+} // !raii
+} // !core
+} // !common
 #endif // !DELETERS_HPP
 
 /* ************************************************************************** */
