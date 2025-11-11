@@ -18,6 +18,7 @@
  * @brief Declares the Node base class for representing nodes in the logging hierarchy.
  */ 
 
+#include "common.hpp"
 #include <string>
 
 namespace log42
@@ -37,14 +38,33 @@ class Node
 		Node &operator=(const Node &rhs);
 
 		const std::string	&getName() const;
-		Node				*getParent() const;
-		void				setParent(Node *Parent);
+		/**
+		 * @brief Get the parent node (non-owning).
+		 *
+		 * NOTE: The returned pointer is non-owning. Node lifetimes are managed
+		 * centrally (for example by `Manager` using `raii::SharedPtr`). Do not
+		 * delete the returned pointer.
+		 */
+		raii::SharedPtr<Node>    getParent() const;
+		/**
+		 * @brief Set the parent node (non-owning).
+		 *
+		 * @param Parent SharedPtr to the parent node. Ownership is not transferred
+	 * (the Manager typically holds the owning SharedPtr); the child will store
+	 * a WeakPtr reference.
+		 */
+		void			setParent(const raii::SharedPtr<Node> &Parent);
 
 		virtual std::string toString() const = 0;
 
 	protected:
 		std::string _name;
-		Node		*_parent;
+		/**
+		 * Non-owning pointer to the parent node. Ownership is managed elsewhere
+		 * (e.g. Manager with raii::SharedPtr). This raw pointer must not be
+		 * deleted by the child.
+		 */
+		raii::WeakPtr<Node>	_parent;
 		
 };
 

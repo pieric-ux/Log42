@@ -46,7 +46,7 @@ static void testManualConfig()
 	std::cout << "\n===== TEST 1: Manual configuration =====" << std::endl;
 	try {
 		Manager &manager = Manager::getInstance();
-		Logger *logger = manager.getLogger("manual");
+		raii::SharedPtr<logger::Logger> logger = manager.getLogger("manual");
 		logger->setLevel(DEBUG);
 
 		raii::SharedPtr<StreamHandler> consoleHandler = MAKE_SHARED(StreamHandler, std::cout);
@@ -95,7 +95,7 @@ static void testLogLevels()
 {
 	std::cout << "\n===== TEST 3: Log levels =====" << std::endl;
 	try {
-		Logger *logger = Manager::getInstance().getLogger("leveltest");
+		raii::SharedPtr<logger::Logger> logger = Manager::getInstance().getLogger("leveltest");
 		logger->setLevel(INFO);
 
 		raii::SharedPtr<StreamHandler> ch = MAKE_SHARED(StreamHandler, std::cout);
@@ -158,8 +158,8 @@ static void testChildLogger()
 {
 	std::cout << "\n===== TEST 6: Child logger propagation =====" << std::endl;
 	try {
-		Logger *parent = Manager::getInstance().getLogger("parent");
-		Logger *child = Manager::getInstance().getLogger("parent.child");
+		raii::SharedPtr<logger::Logger> parent = Manager::getInstance().getLogger("parent");
+		raii::SharedPtr<logger::Logger> child = Manager::getInstance().getLogger("parent.child");
 
 		raii::SharedPtr<StreamHandler> ch = MAKE_SHARED(StreamHandler, std::cout);
 		Formatter fmt("[%(name)] %(levelname): %(message)");
@@ -183,8 +183,8 @@ static void testPlaceHolder()
 {
 	std::cout << "\n===== TEST 7: PlaceHolder propagation =====" << std::endl;
 	try {
-		Logger *parent = Manager::getInstance().getLogger("parent");
-		Logger *child = Manager::getInstance().getLogger("parent.placeholder.child");
+		raii::SharedPtr<logger::Logger> parent = Manager::getInstance().getLogger("parent");
+		raii::SharedPtr<logger::Logger> child = Manager::getInstance().getLogger("parent.placeholder.child");
 
 		raii::SharedPtr<StreamHandler> ch = MAKE_SHARED(StreamHandler, std::cout);
 		Formatter fmt("[%(name)] %(levelname): %(message)");
@@ -208,7 +208,7 @@ static void testDisableLogs()
 {
 	std::cout << "\n===== TEST 8: Disable logs =====" << std::endl;
 	try {
-		Logger *logger = Manager::getInstance().getLogger("disabletest");
+		raii::SharedPtr<logger::Logger> logger = Manager::getInstance().getLogger("disabletest");
 		raii::SharedPtr<StreamHandler> ch = MAKE_SHARED(StreamHandler, std::cout);
 		logger->addHandler(raii::staticPointerCast<handler::Handler>(ch));
 

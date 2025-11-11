@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PlaceHolder.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pdemont <pdemont@student.42lausanne.ch>    +#+  +:+       +#+        */
-/*   By: blucken <blucken@student.42lausanne.ch>  +#+#+#+#+#+   +#+           */
-/*                                                     #+#    #+#             */
-/*   Created: 2025/10/11                              ###   ########.fr       */
+/*   By: pdemont <marvin@42lausanne.ch>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/11/10 22:09:35 by pdemont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
  * @brief Implements the PlaceHolder class for managing placeholder loggers.
  */ 
 
+#include "common.hpp"
 #include "Node.hpp"
 #include "PlaceHolder.hpp"
 
@@ -28,7 +29,7 @@ namespace placeholder
  *
  * @param alogger Pointer to the initial logger node.
  */
-PlaceHolder::PlaceHolder(Node *alogger) : Node(alogger ? alogger->getName() : ""), _loggerSet()
+PlaceHolder::PlaceHolder(const raii::SharedPtr<Node> &alogger) : Node(alogger ? alogger->getName() : ""), _loggerSet()
 {
 	if (alogger)
 		this->_loggerSet.insert(alogger);
@@ -67,7 +68,7 @@ PlaceHolder &PlaceHolder::operator=(const PlaceHolder &rhs)
  *
  * @param alogger Pointer to the logger node to append.
  */
-void	PlaceHolder::append(Node *alogger)
+void	PlaceHolder::append(const raii::SharedPtr<Node> &alogger)
 {
 	if (alogger)
 		this->_loggerSet.insert(alogger);
@@ -78,7 +79,7 @@ void	PlaceHolder::append(Node *alogger)
  *
  * @return Reference to the set of logger node pointers.
  */
-const std::set<Node *> &PlaceHolder::getLoggerSet() const
+const std::set<raii::SharedPtr<Node> > &PlaceHolder::getLoggerSet() const
 {
 	return (this->_loggerSet);
 }
@@ -91,7 +92,7 @@ const std::set<Node *> &PlaceHolder::getLoggerSet() const
  */
 std::string PlaceHolder::toString() const
 {
-    return ("<PlaceHolder " + getName());
+	return ("<PlaceHolder " + getName());
 }
 
 } // !placeholder

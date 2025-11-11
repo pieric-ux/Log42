@@ -20,8 +20,6 @@
 #include <string>
 #include <vector>
 
-using namespace common::core;
-
 namespace log42
 {
 
@@ -33,14 +31,13 @@ class Node;
 
 typedef std::vector<logRecord::LogRecord> t_records;
 typedef std::set<raii::SharedPtr<handler::Handler> > t_handlers;
-// typedef std::set<handler::Handler *> t_handlers;
 typedef std::vector<std::string> t_args;
 typedef std::map<std::string, std::string> t_defaults;
-typedef std::map<std::string, Node *> t_loggerMap;
+typedef std::map<std::string, raii::SharedPtr<Node> > t_loggerMap;
 typedef std::set<filter::Filter> t_filters;
-typedef std::set<logger::Logger *> t_loggers;
+typedef std::set<raii::SharedPtr<logger::Logger> > t_loggers;
 typedef std::map<logRecord::e_LogLevel, bool> t_cache;
-typedef std::set<Node *> t_nodes;
+typedef std::set<raii::SharedPtr<Node> > t_nodes;
 
 } // !log42
 

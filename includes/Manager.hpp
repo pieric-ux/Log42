@@ -36,25 +36,24 @@ namespace manager
 class Manager
 {
 	public:
-		static	Manager &getInstance(logger::Logger *root = NULL);
+		static    Manager &getInstance(logger::Logger *root = NULL);
 
-		logger::Logger	 		*getRoot();
-		void					resetRoot();
-		logRecord::e_LogLevel	getDisable() const;
-		void					setDisable(const logRecord::e_LogLevel value);
-		bool					getEmittedNoHandlerWarning() const;
-		void					setEmittedNoHandlerWarning(bool value);
-		t_loggerMap				&getLoggerMap();
+		raii::SharedPtr<logger::Logger>	getRoot();
+		void							resetRoot();
+		logRecord::e_LogLevel			getDisable() const;
+		void							setDisable(const logRecord::e_LogLevel value);
+		bool							getEmittedNoHandlerWarning() const;
+		void							setEmittedNoHandlerWarning(bool value);
+		t_loggerMap						&getLoggerMap();
+		raii::SharedPtr<logger::Logger>	getLogger(const std::string &name);
 
-		logger::Logger			*getLogger(const std::string &name);
-
-		void					clearCache();
+		void							clearCache();
 
 	private:
-		logger::Logger 			*_root;
-		logRecord::e_LogLevel	_disable;
-		bool					_emittedNoHandlerWarning;
-		t_loggerMap				_loggerMap;	
+		raii::SharedPtr<logger::Logger>	_root;
+		logRecord::e_LogLevel			_disable;
+		bool							_emittedNoHandlerWarning;
+		t_loggerMap						_loggerMap;    
 
 		explicit Manager(logger::Logger *root);
 		~Manager();
@@ -62,8 +61,8 @@ class Manager
 		Manager(const Manager &rhs);
 		Manager &operator=(const Manager &rhs);
 
-		void	_fixupParents(logger::Logger *alogger);
-		void	_fixupChildren(placeholder::PlaceHolder *ph, logger::Logger *alogger);
+		void	_fixupParents(const raii::SharedPtr<logger::Logger> &alogger);
+		void	_fixupChildren(const raii::SharedPtr<placeholder::PlaceHolder> &ph, const raii::SharedPtr<logger::Logger> &alogger);
 };
 
 } // !manager

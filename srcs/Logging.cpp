@@ -117,12 +117,12 @@ void	basicConfig(
  * @param name The name of the logger.
  * @return Pointer to the logger.
  */
-logger::Logger* getLogger(const std::string &name)
+raii::SharedPtr<logger::Logger> getLogger(const std::string &name)
 {
-    manager::Manager &manager = manager::Manager::getInstance();
-    if (name.empty() || name == manager.getRoot()->getName())
-        return manager.getRoot();
-    return manager.getLogger(name);
+	manager::Manager &manager = manager::Manager::getInstance();
+	if (name.empty() || name == manager.getRoot()->getName())
+		return manager.getRoot();
+	return manager.getLogger(name);
 }
 
 /**
@@ -131,13 +131,13 @@ logger::Logger* getLogger(const std::string &name)
  * If the root logger has no handlers, configures it with default settings.
  * @return Pointer to the root logger.
  */
-logger::Logger *ensureRootReady()
+raii::SharedPtr<logger::Logger> ensureRootReady()
 {
-    manager::Manager &manager = manager::Manager::getInstance();
-    logger::Logger *root = manager.getRoot();
-    if (root->getHandlers().empty())
-        basicConfig();
-    return root;
+	manager::Manager &manager = manager::Manager::getInstance();
+	raii::SharedPtr<logger::Logger> root = manager.getRoot();
+	if (root->getHandlers().empty())
+		basicConfig();
+	return root;
 }
 
 /**
@@ -151,7 +151,7 @@ logger::Logger *ensureRootReady()
  */
 void	debug(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const t_args *args)
 {
-    ensureRootReady()->debug(msg, filename, lineNo, funcName, args);
+	ensureRootReady()->debug(msg, filename, lineNo, funcName, args);
 }
 
 /**
@@ -165,7 +165,7 @@ void	debug(const std::string &msg, const std::string filename, int lineNo, const
  */
 void	info(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const t_args *args)
 {
-    ensureRootReady()->info(msg, filename, lineNo, funcName, args);
+	ensureRootReady()->info(msg, filename, lineNo, funcName, args);
 }
 
 /**
@@ -179,7 +179,7 @@ void	info(const std::string &msg, const std::string filename, int lineNo, const 
  */
 void	warning(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const t_args *args)
 {
-    ensureRootReady()->warning(msg, filename, lineNo, funcName, args);
+	ensureRootReady()->warning(msg, filename, lineNo, funcName, args);
 }
 
 /**
@@ -193,7 +193,7 @@ void	warning(const std::string &msg, const std::string filename, int lineNo, con
  */
 void	error(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const t_args *args)
 {
-    ensureRootReady()->error(msg, filename, lineNo, funcName, args);
+	ensureRootReady()->error(msg, filename, lineNo, funcName, args);
 }
 
 /**
@@ -207,7 +207,7 @@ void	error(const std::string &msg, const std::string filename, int lineNo, const
  */
 void	exception(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const t_args *args)
 {
-    ensureRootReady()->error(msg, filename, lineNo, funcName, args);
+	ensureRootReady()->error(msg, filename, lineNo, funcName, args);
 }
 
 /**
@@ -221,7 +221,7 @@ void	exception(const std::string &msg, const std::string filename, int lineNo, c
  */
 void	critical(const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const t_args *args)
 {
-    ensureRootReady()->critical(msg, filename, lineNo, funcName, args);
+	ensureRootReady()->critical(msg, filename, lineNo, funcName, args);
 }
 
 /**
@@ -236,7 +236,7 @@ void	critical(const std::string &msg, const std::string filename, int lineNo, co
  */
 void	log(const logRecord::e_LogLevel level, const std::string &msg, const std::string filename, int lineNo, const std::string funcName, const t_args *args)
 {
-    ensureRootReady()->log(level, msg, filename, lineNo, funcName, args);
+	ensureRootReady()->log(level, msg, filename, lineNo, funcName, args);
 }
 
 /**
@@ -246,8 +246,8 @@ void	log(const logRecord::e_LogLevel level, const std::string &msg, const std::s
  */
 void disable(logRecord::e_LogLevel level)
 {
-    manager::Manager::getInstance().setDisable(level);
-    manager::Manager::getInstance().clearCache();
+	manager::Manager::getInstance().setDisable(level);
+	manager::Manager::getInstance().clearCache();
 }
 
  /**
@@ -261,14 +261,14 @@ void shutdown()
 	manager::Manager &manager = manager::Manager::getInstance();
 
 	t_loggerMap &loggers = manager.getLoggerMap();
-	
+
 	t_loggerMap::iterator lIt;
 	for (lIt = loggers.begin(); lIt != loggers.end(); ++lIt)
 	{
-		logger::Logger *logger = dynamic_cast<logger::Logger *>(lIt->second);
-		if (logger)
+		raii::SharedPtr<logger::Logger> logger_sp = raii::dynamicPointerCast<logger::Logger>(lIt->second);
+		if (logger_sp)
 		{
-			t_handlers handlers = logger->getHandlers();
+			t_handlers handlers = logger_sp->getHandlers();
 
 			t_handlers::iterator hIt;
 			for (hIt = handlers.begin(); hIt != handlers.end(); ++hIt)
@@ -285,16 +285,9 @@ void shutdown()
 				}
 			}
 			handlers.clear();
-			delete logger;
-		}
-		else
-		{
-			placeholder::PlaceHolder	*ph = dynamic_cast<placeholder::PlaceHolder *>(lIt->second);
-			if (ph)
-				delete ph;
 		}
 	}
-    loggers.clear();
+	loggers.clear();
 	manager.resetRoot();
 }
 

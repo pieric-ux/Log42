@@ -18,6 +18,7 @@
  * @brief Declares the PlaceHolder class for managing placeholder loggers in the logging hierarchy.
  */ 
 
+#include "common.hpp"
 #include "Node.hpp"
 #include <set>
 
@@ -36,19 +37,19 @@ namespace placeholder
 class PlaceHolder : public Node
 {
 	public:
-		explicit PlaceHolder(Node *alogger);
+		explicit PlaceHolder(const raii::SharedPtr<Node> &alogger);
 		~PlaceHolder();
 
 		PlaceHolder(const PlaceHolder &rhs);
 		PlaceHolder &operator=(const PlaceHolder &rhs);
 
-		void append(Node *alogger);
-		const std::set<Node *> &getLoggerSet() const;
+		void append(const raii::SharedPtr<Node> &alogger);
+		const std::set<raii::SharedPtr<Node> > &getLoggerSet() const;
 
 		std::string toString() const;
 
 	private:
-		std::set<Node*> _loggerSet;
+		std::set<raii::SharedPtr<Node> > _loggerSet;
 };
 
 } // !placeholder

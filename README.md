@@ -6,15 +6,23 @@
 
 ## Table of Contents
 
-1. [Introduction](#introduction)
-2. [Installation and Integration](#installation-and-integration)
-3. [Architecture and Concepts](#architecture-and-concepts)
-4. [Log Levels](#log-levels)
-5. [Formatters and Attributes](#formatters-and-attributes)
-6. [Handlers](#handlers)
-7. [Typical Usage](#typical-usage)
-8. [Customization](#customization)
-9. [References](#references)
+- [Log42](#log42)
+	- [Table of Contents](#table-of-contents)
+	- [Introduction](#introduction)
+	- [Installation and Integration](#installation-and-integration)
+		- [Compilation](#compilation)
+		- [Using in a Project](#using-in-a-project)
+		- [Including in Code](#including-in-code)
+	- [Architecture and Concepts](#architecture-and-concepts)
+		- [Key Concepts](#key-concepts)
+	- [Log Levels](#log-levels)
+	- [Formatters and Attributes](#formatters-and-attributes)
+		- [Example of Custom Formatter](#example-of-custom-formatter)
+	- [Handlers](#handlers)
+		- [Example](#example)
+	- [Typical Usage](#typical-usage)
+	- [Customization](#customization)
+	- [References](#references)
 
 ---
 
@@ -123,8 +131,16 @@ log42::Formatter formatter("[%(asctime)] - %(name) - %(levelname) - %(message)")
 ### Example
 
 ```cpp
-log42::handler::StreamHandler *consoleHandler = new StreamHandler(std::cout);
-logger->addHandler(consoleHandler);
+// Use the MAKE_SHARED macro to create a raii::SharedPtr.
+// addHandler expects a raii::SharedPtr<log42::handler::Handler>.
+// Example:
+raii::SharedPtr<log42::handler::StreamHandler> consoleHandler = MAKE_SHARED(log42::handler::StreamHandler, std::cout);
+logger->addHandler(raii::staticPointerCast<log42::handler::Handler>(consoleHandler));
+
+// Variant: create a SharedPtr directly to the base type
+raii::SharedPtr<log42::handler::Handler> genericHandler =
+	raii::staticPointerCast<log42::handler::Handler>(MAKE_SHARED(log42::handler::StreamHandler, std::cout));
+logger->addHandler(genericHandler);
 ```
 
 ---

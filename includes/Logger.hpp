@@ -105,7 +105,7 @@ class Logger : public Node, public  filterer::Filterer
 		logRecord::e_LogLevel getEffectiveLevel() const;
 		bool isEnabledFor(const logRecord::e_LogLevel level);
 		
-		Logger		*getChild(const std::string &suffix) const;
+		raii::SharedPtr<Logger>    getChild(const std::string &suffix) const;
 		t_loggers	getChildren() const;
 
 		virtual std::string	toString() const;

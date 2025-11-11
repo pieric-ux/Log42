@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Log42.hpp                                        :+:      :+:    :+:   */
+/*   Log42.hpp                                        :+:      :+:    :+:     */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdemont <pdemont@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*   By: blucken <blucken@student.42lausanne.ch>  +#+#+#+#+#+   +#+           */
@@ -82,8 +82,8 @@ void	basicConfig(
 	bool force = false
 );
 
-logger::Logger *getLogger(const std::string &name = "");
-logger::Logger *ensureRootReady();
+raii::SharedPtr<logger::Logger> getLogger(const std::string &name = "");
+raii::SharedPtr<logger::Logger> ensureRootReady();
 
 void debug(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const t_args *args = NULL);
 void info(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const t_args *args = NULL);

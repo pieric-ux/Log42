@@ -15,6 +15,7 @@
  * @brief Implements the Node base class for the logging hierarchy.
  */ 
 
+#include "common.hpp"
 #include "Node.hpp"
 #include <string>
 
@@ -26,7 +27,7 @@ namespace log42
  *
  * @param name The name of the node.
  */
-Node::Node(const std::string &name) : _name(name), _parent(NULL) {}
+Node::Node(const std::string &name) : _name(name), _parent() {}
 
 /**
  * @brief Destructor for Node.
@@ -71,9 +72,10 @@ const std::string	&Node::getName() const
  *
  * @return Pointer to the parent Node.
  */
-Node	*Node::getParent() const
+raii::SharedPtr<Node> Node::getParent() const
 {
-	return (this->_parent);
+	raii::SharedPtr<Node> parentSp = this->_parent.lock();
+	return (parentSp);
 }
 
 /**
@@ -81,9 +83,9 @@ Node	*Node::getParent() const
  *
  * @param parent Pointer to the parent Node.
  */
-void	Node::setParent(Node *parent)
+void	Node::setParent(const raii::SharedPtr<Node> &parent)
 {
-	this->_parent = parent;
+	this->_parent = raii::WeakPtr<Node>(parent);
 }
 
 } // !log42

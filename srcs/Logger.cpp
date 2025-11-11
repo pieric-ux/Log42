@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Logger.cpp                                         :+:      :+:    :+:   */
+/*   Logger.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdemont <pdemont@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*   By: blucken <blucken@student.42lausanne.ch>  +#+#+#+#+#+   +#+           */
@@ -222,7 +222,7 @@ void	Logger::handle(logRecord::LogRecord &record)
  */
 void	Logger::addHandler(const raii::SharedPtr<handler::Handler> &handler)
 {
-	if (!handler.get())
+	if (!handler)
 		return ;
 	this->_handlers.insert(handler);
 }
@@ -234,7 +234,7 @@ void	Logger::addHandler(const raii::SharedPtr<handler::Handler> &handler)
  */
 void	Logger::removeHandler(const raii::SharedPtr<handler::Handler> &handler)
 {
-	if (!handler.get())
+	if (!handler)
 		return ;
 	this->_handlers.erase(handler);
 }
@@ -254,7 +254,7 @@ bool	Logger::hasHandler() const
 		if (!c->_propagate)
 			break ;
 		else
-			c = dynamic_cast<const Logger *>(c->_parent);
+			c = dynamic_cast<const Logger *>(c->getParent().get());
 	}
 	return false;
 }
@@ -280,7 +280,7 @@ void	Logger::callHandlers(logRecord::LogRecord &record)
 		}
 		if (!c->_propagate)
 			break ;
-		c = dynamic_cast<const Logger *>(c->_parent);
+		c = dynamic_cast<const Logger *>(c->getParent().get());
 	}
 
 	if (!found)
@@ -316,7 +316,7 @@ logRecord::e_LogLevel	Logger::getEffectiveLevel() const
 	{
 		if (logger->_level != logRecord::NOTSET)
 			return (logger->_level);
-		logger = dynamic_cast<const Logger *>(logger->_parent);
+		logger = dynamic_cast<const Logger *>(logger->getParent().get());
 	}
 	return (logRecord::NOTSET);
 }
@@ -353,10 +353,10 @@ bool	Logger::isEnabledFor(const logRecord::e_LogLevel level)
  * @param suffix The suffix for the child logger's name.
  * @return Pointer to the child logger.
  */
-Logger	*Logger::getChild(const std::string &suffix) const
+raii::SharedPtr<Logger> Logger::getChild(const std::string &suffix) const
 { 
 	std::string fullname = suffix;
-	if (this != this->_manager.getRoot())
+	if (this != this->_manager.getRoot().get())
 		fullname = this->getName() + "." + suffix;
 	return (this->_manager.getLogger(fullname));
 }
@@ -369,36 +369,35 @@ Logger	*Logger::getChild(const std::string &suffix) const
 t_loggers	Logger::getChildren() const
 {
 	t_loggers children;
-
 	t_loggerMap loggerMap = this->_manager.getLoggerMap();
 	t_loggerMap::const_iterator it;
 
 	for (it = loggerMap.begin(); it != loggerMap.end(); ++it)
 	{
-		Logger	*alogger = dynamic_cast<Logger *>(it->second);
-		if (!alogger)
+		raii::SharedPtr<logger::Logger> alogger_sp = raii::dynamicPointerCast<logger::Logger>(it->second);
+		if (!alogger_sp)
 			continue ;
-		if (alogger->getParent() != this)
+		if (alogger_sp->getParent().get() != this)
 			continue ;
 
 		int hierLevel = 0;
-		const Node *parentIter = alogger;
-		while (parentIter != this->_manager.getRoot())
+		const Node *parentIter = alogger_sp.get();
+		while (parentIter != this->_manager.getRoot().get())
 		{
-			parentIter = parentIter->getParent();
+			parentIter = parentIter->getParent().get();
 			hierLevel++;
 		}
 
 		int selfLevel = 0;
 		parentIter = this;
-		while (parentIter != this->_manager.getRoot())
+		while (parentIter != this->_manager.getRoot().get())
 		{
-			parentIter = parentIter->getParent();
+			parentIter = parentIter->getParent().get();
 			selfLevel++;
 		}
 
 		if (hierLevel == selfLevel + 1)
-			children.insert(alogger);
+			children.insert(alogger_sp);
 	}
 	return (children);
 }
@@ -455,7 +454,7 @@ void Logger::cacheClear()
  */
 void Logger::clearCache()
 {
-    _cache.clear();
+	_cache.clear();
 }
 
 } // !logger
