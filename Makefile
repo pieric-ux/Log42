@@ -2,8 +2,8 @@
 OS = $(shell uname)
 
 # Program name
-# NAME = liblog42.a
-NAME = log42
+NAME = liblog42.a
+# NAME = log42
 
 # Source and object directories
 SRCDIR = srcs
@@ -59,8 +59,8 @@ $(OBJDIR)/%.o: %.cpp
 
 # Rule to compile the final executable
 $(NAME): $(OBJS_SRCES) $(COMMONDIR)/libcommon.a
-	# ar -rcs $(NAME) $(OBJS_SRCES)
-	$(CXX) $(CXXFLAGS) $(OBJS_SRCES) $(LIBS) -o $(NAME)
+	ar -rcs $(NAME) $(OBJS_SRCES)
+	# $(CXX) $(CXXFLAGS) $(OBJS_SRCES) $(LIBS) -o $(NAME)
 
 # Rule to clean up object files
 clean:
