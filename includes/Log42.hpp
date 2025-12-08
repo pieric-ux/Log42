@@ -82,8 +82,8 @@ void	basicConfig(
 	bool force = false
 );
 
-raii::SharedPtr<logger::Logger> getLogger(const std::string &name = "");
-raii::SharedPtr<logger::Logger> ensureRootReady();
+common::core::raii::SharedPtr<logger::Logger> getLogger(const std::string &name = "");
+common::core::raii::SharedPtr<logger::Logger> ensureRootReady();
 
 void debug(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const t_args *args = NULL);
 void info(const std::string &msg, const std::string filename = "", int lineNo = 0, const std::string funcName = "", const t_args *args = NULL);

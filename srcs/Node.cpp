@@ -72,9 +72,9 @@ const std::string	&Node::getName() const
  *
  * @return Pointer to the parent Node.
  */
-raii::SharedPtr<Node> Node::getParent() const
+common::core::raii::SharedPtr<Node> Node::getParent() const
 {
-	raii::SharedPtr<Node> parentSp = this->_parent.lock();
+	common::core::raii::SharedPtr<Node> parentSp = this->_parent.lock();
 	return (parentSp);
 }
 
@@ -83,9 +83,9 @@ raii::SharedPtr<Node> Node::getParent() const
  *
  * @param parent Pointer to the parent Node.
  */
-void	Node::setParent(const raii::SharedPtr<Node> &parent)
+void	Node::setParent(const common::core::raii::SharedPtr<Node> &parent)
 {
-	this->_parent = raii::WeakPtr<Node>(parent);
+	this->_parent = common::core::raii::WeakPtr<Node>(parent);
 }
 
 } // !log42

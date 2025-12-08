@@ -220,7 +220,7 @@ void	Logger::handle(logRecord::LogRecord &record)
  *
  * @param handler Pointer to the handler to add.
  */
-void	Logger::addHandler(const raii::SharedPtr<handler::Handler> &handler)
+void	Logger::addHandler(const common::core::raii::SharedPtr<handler::Handler> &handler)
 {
 	if (!handler)
 		return ;
@@ -232,7 +232,7 @@ void	Logger::addHandler(const raii::SharedPtr<handler::Handler> &handler)
  *
  * @param handler Pointer to the handler to remove.
  */
-void	Logger::removeHandler(const raii::SharedPtr<handler::Handler> &handler)
+void	Logger::removeHandler(const common::core::raii::SharedPtr<handler::Handler> &handler)
 {
 	if (!handler)
 		return ;
@@ -353,7 +353,7 @@ bool	Logger::isEnabledFor(const logRecord::e_LogLevel level)
  * @param suffix The suffix for the child logger's name.
  * @return Pointer to the child logger.
  */
-raii::SharedPtr<Logger> Logger::getChild(const std::string &suffix) const
+common::core::raii::SharedPtr<Logger> Logger::getChild(const std::string &suffix) const
 { 
 	std::string fullname = suffix;
 	if (this != this->_manager.getRoot().get())
@@ -374,7 +374,7 @@ t_loggers	Logger::getChildren() const
 
 	for (it = loggerMap.begin(); it != loggerMap.end(); ++it)
 	{
-		raii::SharedPtr<logger::Logger> alogger_sp = raii::dynamicPointerCast<logger::Logger>(it->second);
+		common::core::raii::SharedPtr<logger::Logger> alogger_sp = common::core::raii::dynamicPointerCast<logger::Logger>(it->second);
 		if (!alogger_sp)
 			continue ;
 		if (alogger_sp->getParent().get() != this)

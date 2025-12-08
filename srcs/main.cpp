@@ -46,18 +46,18 @@ static void testManualConfig()
 	std::cout << "\n===== TEST 1: Manual configuration =====" << std::endl;
 	try {
 		Manager &manager = Manager::getInstance();
-		raii::SharedPtr<logger::Logger> logger = manager.getLogger("manual");
+		common::core::raii::SharedPtr<logger::Logger> logger = manager.getLogger("manual");
 		logger->setLevel(DEBUG);
 
-		raii::SharedPtr<StreamHandler> consoleHandler = MAKE_SHARED(StreamHandler, std::cout);
-		raii::SharedPtr<FileHandler> fileHandler = MAKE_SHARED(FileHandler, "manual.log");
+		common::core::raii::SharedPtr<StreamHandler> consoleHandler = MAKE_SHARED(StreamHandler, std::cout);
+		common::core::raii::SharedPtr<FileHandler> fileHandler = MAKE_SHARED(FileHandler, "manual.log");
 
 		Formatter fmt("[%(asctime)] - %(name) - %(levelname) - %(message) - file: %(filename) - function: %(funcName)() at line: %(lineno)", "%Y-%m-%d %H:%M:%S,%(msecs) %Z");
 		consoleHandler->setFormatter(fmt);
 		fileHandler->setFormatter(fmt);
 
-		logger->addHandler(raii::staticPointerCast<handler::Handler>(consoleHandler));
-		logger->addHandler(raii::staticPointerCast<handler::Handler>(fileHandler));
+		logger->addHandler(common::core::raii::staticPointerCast<handler::Handler>(consoleHandler));
+		logger->addHandler(common::core::raii::staticPointerCast<handler::Handler>(fileHandler));
 
 		DEBUG(logger, "Debug message");
 		INFO(logger, "Info message");
@@ -95,13 +95,13 @@ static void testLogLevels()
 {
 	std::cout << "\n===== TEST 3: Log levels =====" << std::endl;
 	try {
-		raii::SharedPtr<logger::Logger> logger = Manager::getInstance().getLogger("leveltest");
+		common::core::raii::SharedPtr<logger::Logger> logger = Manager::getInstance().getLogger("leveltest");
 		logger->setLevel(INFO);
 
-		raii::SharedPtr<StreamHandler> ch = MAKE_SHARED(StreamHandler, std::cout);
+		common::core::raii::SharedPtr<StreamHandler> ch = MAKE_SHARED(StreamHandler, std::cout);
 		Formatter fmt("%(levelname): %(message)");
 		ch->setFormatter(fmt);
-		logger->addHandler(raii::staticPointerCast<handler::Handler>(ch));
+		logger->addHandler(common::core::raii::staticPointerCast<handler::Handler>(ch));
 
 		DEBUG(logger, "This should NOT appear");
 		INFO(logger, "This should appear");
@@ -119,7 +119,7 @@ static void testForceReset()
 {
 	std::cout << "\n===== TEST 4: basicConfig with force reset =====" << std::endl;
 	try {
-		basicConfig("forced.log", std::ios::out, std::set<raii::SharedPtr<handler::Handler> >(), NULL, "", "%(message)", DEBUG, true);
+		basicConfig("forced.log", std::ios::out, std::set<common::core::raii::SharedPtr<handler::Handler> >(), NULL, "", "%(message)", DEBUG, true);
 		ROOT_INFO("This should go ONLY into forced.log");
 
 		shutdown();
@@ -135,7 +135,7 @@ static void testBasicConfigErrors()
 	std::cout << "\n===== TEST 5: basicConfig errors =====" << std::endl;
 	try {
 		t_handlers handlers;
-		handlers.insert(raii::staticPointerCast<handler::Handler>(MAKE_SHARED(StreamHandler, std::cout)));
+		handlers.insert(common::core::raii::staticPointerCast<handler::Handler>(MAKE_SHARED(StreamHandler, std::cout)));
 
 		try 
 		{
@@ -158,13 +158,13 @@ static void testChildLogger()
 {
 	std::cout << "\n===== TEST 6: Child logger propagation =====" << std::endl;
 	try {
-		raii::SharedPtr<logger::Logger> parent = Manager::getInstance().getLogger("parent");
-		raii::SharedPtr<logger::Logger> child = Manager::getInstance().getLogger("parent.child");
+		common::core::raii::SharedPtr<logger::Logger> parent = Manager::getInstance().getLogger("parent");
+		common::core::raii::SharedPtr<logger::Logger> child = Manager::getInstance().getLogger("parent.child");
 
-		raii::SharedPtr<StreamHandler> ch = MAKE_SHARED(StreamHandler, std::cout);
+		common::core::raii::SharedPtr<StreamHandler> ch = MAKE_SHARED(StreamHandler, std::cout);
 		Formatter fmt("[%(name)] %(levelname): %(message)");
 		ch->setFormatter(fmt);
-		parent->addHandler(raii::staticPointerCast<handler::Handler>(ch));
+		parent->addHandler(common::core::raii::staticPointerCast<handler::Handler>(ch));
 
 		parent->setLevel(DEBUG);
 		child->setLevel(DEBUG);
@@ -183,13 +183,13 @@ static void testPlaceHolder()
 {
 	std::cout << "\n===== TEST 7: PlaceHolder propagation =====" << std::endl;
 	try {
-		raii::SharedPtr<logger::Logger> parent = Manager::getInstance().getLogger("parent");
-		raii::SharedPtr<logger::Logger> child = Manager::getInstance().getLogger("parent.placeholder.child");
+		common::core::raii::SharedPtr<logger::Logger> parent = Manager::getInstance().getLogger("parent");
+		common::core::raii::SharedPtr<logger::Logger> child = Manager::getInstance().getLogger("parent.placeholder.child");
 
-		raii::SharedPtr<StreamHandler> ch = MAKE_SHARED(StreamHandler, std::cout);
+		common::core::raii::SharedPtr<StreamHandler> ch = MAKE_SHARED(StreamHandler, std::cout);
 		Formatter fmt("[%(name)] %(levelname): %(message)");
 		ch->setFormatter(fmt);
-		parent->addHandler(raii::staticPointerCast<handler::Handler>(ch));
+		parent->addHandler(common::core::raii::staticPointerCast<handler::Handler>(ch));
 
 		parent->setLevel(DEBUG);
 		child->setLevel(DEBUG);
@@ -208,9 +208,9 @@ static void testDisableLogs()
 {
 	std::cout << "\n===== TEST 8: Disable logs =====" << std::endl;
 	try {
-		raii::SharedPtr<logger::Logger> logger = Manager::getInstance().getLogger("disabletest");
-		raii::SharedPtr<StreamHandler> ch = MAKE_SHARED(StreamHandler, std::cout);
-		logger->addHandler(raii::staticPointerCast<handler::Handler>(ch));
+		common::core::raii::SharedPtr<logger::Logger> logger = Manager::getInstance().getLogger("disabletest");
+		common::core::raii::SharedPtr<StreamHandler> ch = MAKE_SHARED(StreamHandler, std::cout);
+		logger->addHandler(common::core::raii::staticPointerCast<handler::Handler>(ch));
 
 		disable(ERROR);
 

@@ -29,7 +29,7 @@ namespace placeholder
  *
  * @param alogger Pointer to the initial logger node.
  */
-PlaceHolder::PlaceHolder(const raii::SharedPtr<Node> &alogger) : Node(alogger ? alogger->getName() : ""), _loggerSet()
+PlaceHolder::PlaceHolder(const common::core::raii::SharedPtr<Node> &alogger) : Node(alogger ? alogger->getName() : ""), _loggerSet()
 {
 	if (alogger)
 		this->_loggerSet.insert(alogger);
@@ -68,7 +68,7 @@ PlaceHolder &PlaceHolder::operator=(const PlaceHolder &rhs)
  *
  * @param alogger Pointer to the logger node to append.
  */
-void	PlaceHolder::append(const raii::SharedPtr<Node> &alogger)
+void	PlaceHolder::append(const common::core::raii::SharedPtr<Node> &alogger)
 {
 	if (alogger)
 		this->_loggerSet.insert(alogger);
@@ -79,7 +79,7 @@ void	PlaceHolder::append(const raii::SharedPtr<Node> &alogger)
  *
  * @return Reference to the set of logger node pointers.
  */
-const std::set<raii::SharedPtr<Node> > &PlaceHolder::getLoggerSet() const
+const std::set<common::core::raii::SharedPtr<Node> > &PlaceHolder::getLoggerSet() const
 {
 	return (this->_loggerSet);
 }

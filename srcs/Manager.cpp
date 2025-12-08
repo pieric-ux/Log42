@@ -52,8 +52,8 @@ Manager::Manager(logger::Logger *root)
 {
 	if (root)
 	{
-		this->_root = raii::SharedPtr<logger::Logger>(root);
-		this->_loggerMap[this->_root->getName()] = raii::staticPointerCast<Node>(this->_root);
+		this->_root = common::core::raii::SharedPtr<logger::Logger>(root);
+		this->_loggerMap[this->_root->getName()] = common::core::raii::staticPointerCast<Node>(this->_root);
 	}
 }
 
@@ -69,12 +69,12 @@ Manager::~Manager()
  *
  * @return Pointer to the root logger.
  */
-raii::SharedPtr<logger::Logger> Manager::getRoot()
+common::core::raii::SharedPtr<logger::Logger> Manager::getRoot()
 {
 	if (!this->_root)
 	{
-		this->_root = raii::SharedPtr<logger::Logger>(new logger::RootLogger());
-		this->_loggerMap[this->_root->getName()] = raii::staticPointerCast<Node>(this->_root);
+		this->_root = common::core::raii::SharedPtr<logger::Logger>(new logger::RootLogger());
+		this->_loggerMap[this->_root->getName()] = common::core::raii::staticPointerCast<Node>(this->_root);
 	}
 	return (this->_root);
 }
@@ -85,7 +85,7 @@ raii::SharedPtr<logger::Logger> Manager::getRoot()
 void	Manager::resetRoot()
 {
 	this->_loggerMap.clear();
-	this->_root = raii::SharedPtr<logger::Logger>();
+	this->_root = common::core::raii::SharedPtr<logger::Logger>();
 }
 
 /**
@@ -145,40 +145,40 @@ t_loggerMap	&Manager::getLoggerMap()
  * @return Pointer to the logger.
  * @throws std::invalid_argument if the logger name is empty.
  */
-raii::SharedPtr<logger::Logger> Manager::getLogger(const std::string &name)
+common::core::raii::SharedPtr<logger::Logger> Manager::getLogger(const std::string &name)
 {
 	if (!this->_root)
 		this->getRoot();
 	if (name.empty())
 		throw std::invalid_argument("Logger name must be a non-empty string");
-	raii::SharedPtr<logger::Logger> alogger;
+	common::core::raii::SharedPtr<logger::Logger> alogger;
 	t_loggerMap::iterator it;
 	it = this->_loggerMap.find(name);
 
 	if (it != this->_loggerMap.end())
 	{
-		raii::SharedPtr<placeholder::PlaceHolder> ph = raii::dynamicPointerCast<placeholder::PlaceHolder>(it->second);
+		common::core::raii::SharedPtr<placeholder::PlaceHolder> ph = common::core::raii::dynamicPointerCast<placeholder::PlaceHolder>(it->second);
 		if (ph)
 		{
-			raii::SharedPtr<logger::Logger> alogger_sp(new logger::Logger(name));
-			this->_loggerMap[name] = raii::staticPointerCast<Node>(alogger_sp);
+			common::core::raii::SharedPtr<logger::Logger> alogger_sp(new logger::Logger(name));
+			this->_loggerMap[name] = common::core::raii::staticPointerCast<Node>(alogger_sp);
 			_fixupChildren(ph, alogger_sp);
 			_fixupParents(alogger_sp);
 			alogger = alogger_sp;
 		}
 		else
 		{
-			raii::SharedPtr<logger::Logger> alogger_sp = raii::dynamicPointerCast<logger::Logger>(it->second);
+			common::core::raii::SharedPtr<logger::Logger> alogger_sp = common::core::raii::dynamicPointerCast<logger::Logger>(it->second);
 			if (alogger_sp)
 				alogger = alogger_sp;
 			else
-				alogger = raii::SharedPtr<logger::Logger>();
+				alogger = common::core::raii::SharedPtr<logger::Logger>();
 		}
 	}
 	else
 	{
-		raii::SharedPtr<logger::Logger> alogger_sp(new logger::Logger(name));
-		this->_loggerMap[name] = raii::staticPointerCast<Node>(alogger_sp);
+		common::core::raii::SharedPtr<logger::Logger> alogger_sp(new logger::Logger(name));
+		this->_loggerMap[name] = common::core::raii::staticPointerCast<Node>(alogger_sp);
 		_fixupParents(alogger_sp);
 		alogger = alogger_sp;
 	}
@@ -194,7 +194,7 @@ void	Manager::clearCache()
 	t_loggerMap::iterator it;
 	for (it = this->_loggerMap.begin(); it != this->_loggerMap.end(); ++it)
 	{
-		raii::SharedPtr<logger::Logger> alogger_sp = raii::dynamicPointerCast<logger::Logger>(it->second);
+		common::core::raii::SharedPtr<logger::Logger> alogger_sp = common::core::raii::dynamicPointerCast<logger::Logger>(it->second);
 		if (alogger_sp)
 			alogger_sp->clearCache();
 	}
@@ -207,11 +207,11 @@ void	Manager::clearCache()
  *
  * @param alogger Pointer to the logger.
  */
-void Manager::_fixupParents(const raii::SharedPtr<logger::Logger> &alogger)
+void Manager::_fixupParents(const common::core::raii::SharedPtr<logger::Logger> &alogger)
 {
 	const std::string &name = alogger->getName();
 	std::size_t pos = name.rfind('.');
-	raii::SharedPtr<Node> foundParentSp;
+	common::core::raii::SharedPtr<Node> foundParentSp;
 
 	while (pos != std::string::npos && !foundParentSp) 
 	{
@@ -220,15 +220,15 @@ void Manager::_fixupParents(const raii::SharedPtr<logger::Logger> &alogger)
 		it = this->_loggerMap.find(substr);
 
 		if (it == this->_loggerMap.end()) 
-			this->_loggerMap[substr] = raii::SharedPtr<Node>(new placeholder::PlaceHolder(this->_loggerMap[name]));
+			this->_loggerMap[substr] = common::core::raii::SharedPtr<Node>(new placeholder::PlaceHolder(this->_loggerMap[name]));
 		else 
 		{
-			raii::SharedPtr<logger::Logger> parentLoggerSp = raii::dynamicPointerCast<logger::Logger>(it->second);
+			common::core::raii::SharedPtr<logger::Logger> parentLoggerSp = common::core::raii::dynamicPointerCast<logger::Logger>(it->second);
 			if (parentLoggerSp)
 				foundParentSp = it->second;
 			else
 			{
-				raii::SharedPtr<placeholder::PlaceHolder> ph = raii::dynamicPointerCast<placeholder::PlaceHolder>(it->second);
+				common::core::raii::SharedPtr<placeholder::PlaceHolder> ph = common::core::raii::dynamicPointerCast<placeholder::PlaceHolder>(it->second);
 				if (ph)
 					ph->append(this->_loggerMap[name]);
 			}
@@ -237,7 +237,7 @@ void Manager::_fixupParents(const raii::SharedPtr<logger::Logger> &alogger)
 	}
 
 	if (!foundParentSp)
-		foundParentSp = raii::staticPointerCast<Node>(this->_root);
+		foundParentSp = common::core::raii::staticPointerCast<Node>(this->_root);
 	alogger->setParent(foundParentSp);
 }
 
@@ -247,7 +247,7 @@ void Manager::_fixupParents(const raii::SharedPtr<logger::Logger> &alogger)
  * @param ph Pointer to the placeholder.
  * @param alogger Pointer to the logger.
  */
-void Manager::_fixupChildren(const raii::SharedPtr<placeholder::PlaceHolder> &ph, const raii::SharedPtr<logger::Logger> &alogger)
+void Manager::_fixupChildren(const common::core::raii::SharedPtr<placeholder::PlaceHolder> &ph, const common::core::raii::SharedPtr<logger::Logger> &alogger)
 {
 	const std::string &name = alogger->getName();
 	std::size_t namelen = name.length();
@@ -256,12 +256,12 @@ void Manager::_fixupChildren(const raii::SharedPtr<placeholder::PlaceHolder> &ph
 	t_nodes::const_iterator it;
 	for (it = children.begin(); it != children.end(); ++it)
 	{
-		raii::SharedPtr<Node> csp = *it;
+		common::core::raii::SharedPtr<Node> csp = *it;
 		Node *cparent = csp->getParent().get();
 		if (cparent && cparent->getName().compare(0, namelen, name) != 0)
 		{
-			raii::SharedPtr<Node> cparentSp = this->_loggerMap[cparent->getName()];
-			raii::SharedPtr<Node> aloggerSp = this->_loggerMap[alogger->getName()];
+			common::core::raii::SharedPtr<Node> cparentSp = this->_loggerMap[cparent->getName()];
+			common::core::raii::SharedPtr<Node> aloggerSp = this->_loggerMap[alogger->getName()];
 			alogger->setParent(cparentSp);
 			csp->setParent(aloggerSp);
 		}

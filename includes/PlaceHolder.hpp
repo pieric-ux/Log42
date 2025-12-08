@@ -37,19 +37,19 @@ namespace placeholder
 class PlaceHolder : public Node
 {
 	public:
-		explicit PlaceHolder(const raii::SharedPtr<Node> &alogger);
+		explicit PlaceHolder(const common::core::raii::SharedPtr<Node> &alogger);
 		~PlaceHolder();
 
 		PlaceHolder(const PlaceHolder &rhs);
 		PlaceHolder &operator=(const PlaceHolder &rhs);
 
-		void append(const raii::SharedPtr<Node> &alogger);
-		const std::set<raii::SharedPtr<Node> > &getLoggerSet() const;
+		void append(const common::core::raii::SharedPtr<Node> &alogger);
+		const std::set<common::core::raii::SharedPtr<Node> > &getLoggerSet() const;
 
 		std::string toString() const;
 
 	private:
-		std::set<raii::SharedPtr<Node> > _loggerSet;
+		std::set<common::core::raii::SharedPtr<Node> > _loggerSet;
 };
 
 } // !placeholder

@@ -62,7 +62,7 @@ void	basicConfig(
 		t_handlers::iterator it;
 		for (it = rootHandlers.begin(); it != rootHandlers.end(); ++it)
 		{
-			raii::SharedPtr<handler::FileHandler> fileHandler = raii::dynamicPointerCast<handler::FileHandler>(*it);
+			common::core::raii::SharedPtr<handler::FileHandler> fileHandler = common::core::raii::dynamicPointerCast<handler::FileHandler>(*it);
 			if (fileHandler)
 				fileHandler->close();
 			root.removeHandler(*it);
@@ -83,13 +83,13 @@ void	basicConfig(
 				throw std::invalid_argument("'stream' and 'filename' sould not be specified together");
 
 			if (!filename.empty())
-				handlers.insert(raii::staticPointerCast<handler::Handler>(MAKE_SHARED(handler::FileHandler, filename, fileMode)));
+				handlers.insert(common::core::raii::staticPointerCast<handler::Handler>(MAKE_SHARED(handler::FileHandler, filename, fileMode)));
 			else
 			{
 				if (stream)
-					handlers.insert(raii::staticPointerCast<handler::Handler>(MAKE_SHARED(handler::StreamHandler, *stream)));
+					handlers.insert(common::core::raii::staticPointerCast<handler::Handler>(MAKE_SHARED(handler::StreamHandler, *stream)));
 				else
-					handlers.insert(raii::staticPointerCast<handler::Handler>(MAKE_SHARED(handler::StreamHandler)));
+					handlers.insert(common::core::raii::staticPointerCast<handler::Handler>(MAKE_SHARED(handler::StreamHandler)));
 			}
 		}
 	}
@@ -99,7 +99,7 @@ void	basicConfig(
 	t_handlers::iterator it;
 	for (it = handlers.begin(); it != handlers.end(); ++it)
 	{
-		raii::SharedPtr<handler::Handler> h = *it;
+		common::core::raii::SharedPtr<handler::Handler> h = *it;
 		h->setFormatter(formatter);
 		root.addHandler(h);
 	}
@@ -117,7 +117,7 @@ void	basicConfig(
  * @param name The name of the logger.
  * @return Pointer to the logger.
  */
-raii::SharedPtr<logger::Logger> getLogger(const std::string &name)
+common::core::raii::SharedPtr<logger::Logger> getLogger(const std::string &name)
 {
 	manager::Manager &manager = manager::Manager::getInstance();
 	if (name.empty() || name == manager.getRoot()->getName())
@@ -131,10 +131,10 @@ raii::SharedPtr<logger::Logger> getLogger(const std::string &name)
  * If the root logger has no handlers, configures it with default settings.
  * @return Pointer to the root logger.
  */
-raii::SharedPtr<logger::Logger> ensureRootReady()
+common::core::raii::SharedPtr<logger::Logger> ensureRootReady()
 {
 	manager::Manager &manager = manager::Manager::getInstance();
-	raii::SharedPtr<logger::Logger> root = manager.getRoot();
+	common::core::raii::SharedPtr<logger::Logger> root = manager.getRoot();
 	if (root->getHandlers().empty())
 		basicConfig();
 	return root;
@@ -265,7 +265,7 @@ void shutdown()
 	t_loggerMap::iterator lIt;
 	for (lIt = loggers.begin(); lIt != loggers.end(); ++lIt)
 	{
-		raii::SharedPtr<logger::Logger> logger_sp = raii::dynamicPointerCast<logger::Logger>(lIt->second);
+		common::core::raii::SharedPtr<logger::Logger> logger_sp = common::core::raii::dynamicPointerCast<logger::Logger>(lIt->second);
 		if (logger_sp)
 		{
 			t_handlers handlers = logger_sp->getHandlers();
@@ -273,7 +273,7 @@ void shutdown()
 			t_handlers::iterator hIt;
 			for (hIt = handlers.begin(); hIt != handlers.end(); ++hIt)
 			{
-				raii::SharedPtr<handler::Handler> handler = *hIt;
+				common::core::raii::SharedPtr<handler::Handler> handler = *hIt;
 				if (handler)
 				{
 					try

@@ -30,14 +30,14 @@ namespace logger { class Logger; }
 class Node;
 
 typedef std::vector<logRecord::LogRecord> t_records;
-typedef std::set<raii::SharedPtr<handler::Handler> > t_handlers;
+typedef std::set<common::core::raii::SharedPtr<handler::Handler> > t_handlers;
 typedef std::vector<std::string> t_args;
 typedef std::map<std::string, std::string> t_defaults;
-typedef std::map<std::string, raii::SharedPtr<Node> > t_loggerMap;
+typedef std::map<std::string, common::core::raii::SharedPtr<Node> > t_loggerMap;
 typedef std::set<filter::Filter> t_filters;
-typedef std::set<raii::SharedPtr<logger::Logger> > t_loggers;
+typedef std::set<common::core::raii::SharedPtr<logger::Logger> > t_loggers;
 typedef std::map<logRecord::e_LogLevel, bool> t_cache;
-typedef std::set<raii::SharedPtr<Node> > t_nodes;
+typedef std::set<common::core::raii::SharedPtr<Node> > t_nodes;
 
 } // !log42
 

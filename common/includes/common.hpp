@@ -34,8 +34,6 @@
 
 #include "loader/Loader.hpp"
 
-using namespace common::core;
-
 #endif // !COMMON_HPP
 
 /* ************************************************************************** */

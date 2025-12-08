@@ -45,7 +45,7 @@ class Node
 		 * centrally (for example by `Manager` using `raii::SharedPtr`). Do not
 		 * delete the returned pointer.
 		 */
-		raii::SharedPtr<Node>    getParent() const;
+		common::core::raii::SharedPtr<Node>    getParent() const;
 		/**
 		 * @brief Set the parent node (non-owning).
 		 *
@@ -53,7 +53,7 @@ class Node
 	 * (the Manager typically holds the owning SharedPtr); the child will store
 	 * a WeakPtr reference.
 		 */
-		void			setParent(const raii::SharedPtr<Node> &Parent);
+		void			setParent(const common::core::raii::SharedPtr<Node> &Parent);
 
 		virtual std::string toString() const = 0;
 
@@ -64,7 +64,7 @@ class Node
 		 * (e.g. Manager with raii::SharedPtr). This raw pointer must not be
 		 * deleted by the child.
 		 */
-		raii::WeakPtr<Node>	_parent;
+	common::core::raii::WeakPtr<Node>	_parent;
 		
 };
 
