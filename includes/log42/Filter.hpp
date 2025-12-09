@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   BufferingFormatter.cpp                             :+:      :+:    :+:   */
+/*   Filter.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdemont <pdemont@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*   By: blucken <blucken@student.42lausanne.ch>  +#+#+#+#+#+   +#+           */
@@ -10,100 +10,50 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef FILTER_HPP
+#define FILTER_HPP
+
 /**
- * @file BufferingFormatter.cpp
- * @brief Implements the BufferingFormatter class for formatting batches of log records.
+ * @file Filter.hpp
+ * @brief Declares the Filter class for filtering log records based on custom 
+ * criteria.
  */ 
 
-#include "log42/BufferingFormatter.hpp"
-#include <sstream>
+#include "log42/LogRecord.hpp"
+#include <string>
 
 namespace log42
 {
-namespace formatter
+namespace filter
 {
 
 /**
- * @brief Constructs a BufferingFormatter with a given line formatter.
- *
- * @param linefmt Reference to a Formatter used for individual log records.
+ * @class Filter
+ * @brief Provides an interface for filtering log records by name or custom logic.
  */
-BufferingFormatter::BufferingFormatter(const Formatter &linefmt) : _linefmt(linefmt) {}
-
-/**
- * @brief Destructor for BufferingFormatter.
- */
-BufferingFormatter::~BufferingFormatter() {}
-
-/**
- * @brief Copy constructor for BufferingFormatter.
- *
- * @param rhs The BufferingFormatter to copy.
- */
-BufferingFormatter::BufferingFormatter(const BufferingFormatter &rhs) : _linefmt(rhs._linefmt) {}
-
-/**
- * @brief Assignment operator for BufferingFormatter.
- *
- * @param rhs The BufferingFormatter to assign from.
- * @return Reference to this BufferingFormatter.
- */
-BufferingFormatter	&BufferingFormatter::operator=(const BufferingFormatter &rhs)
+class Filter
 {
-	if (this != &rhs)
-		this->_linefmt = rhs._linefmt;
-	return (*this);
-}
+	public:
+		explicit Filter(const std::string &name = "");
+		~Filter();
 
-/**
- * @brief Formats the header for a batch of log records.
- *
- * @param records The vector of log records.
- * @return The formatted header string (default: empty).
- */
-std::string	BufferingFormatter::formatHeader(const t_records &records) const
-{
-	(void)records;
-	return "";
-}
+		Filter(const Filter &rhs);
+		Filter &operator=(const Filter &rhs);
 
-/**
- * @brief Formats the footer for a batch of log records.
- *
- * @param records The vector of log records.
- * @return The formatted footer string (default: empty).
- */
-std::string	BufferingFormatter::formatFooter(const t_records &records) const
-{
-	(void)records;
-	return "";
-}
+		bool	operator<(const Filter &rhs) const;
+		bool	operator==(const Filter &rhs) const;
 
-/**
- * @brief Formats a batch of log records using the line formatter, header, and footer.
- *
- * @param records The vector of log records to format.
- * @return The formatted string for the batch.
- */
-std::string	BufferingFormatter::format(t_records &records) const
-{
-	std::ostringstream	oss;
-	oss << "";
-	if (!records.empty())
-	{
-		oss << this->formatHeader(records);
-		
-		t_records::iterator it;
-		for (it = records.begin(); it != records.end(); ++it)
-			oss << this->_linefmt.format(*it) << "\n";
-		oss << this->formatFooter(records);
+		bool	filter(const logRecord::LogRecord &record) const;
 
-	}
-	return (oss.str());
-}
+	private:
+		std::string	_name;
+		size_t		_len;
+};
 
-} //!formatter
+} // !filter
 } // !log42
+
+#endif // !FILTER_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

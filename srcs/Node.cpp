@@ -15,8 +15,8 @@
  * @brief Implements the Node base class for the logging hierarchy.
  */ 
 
-#include "common.hpp"
-#include "Node.hpp"
+#include "common/common.hpp"
+#include "log42/Node.hpp"
 #include <string>
 
 namespace log42

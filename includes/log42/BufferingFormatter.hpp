@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   BufferingFormatter.cpp                             :+:      :+:    :+:   */
+/*   BufferingFormatter.hpp                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdemont <pdemont@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*   By: blucken <blucken@student.42lausanne.ch>  +#+#+#+#+#+   +#+           */
@@ -10,13 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef BUFFERINGFORMATTER_HPP
+#define BUFFERINGFORMATTER_HPP
+
 /**
- * @file BufferingFormatter.cpp
- * @brief Implements the BufferingFormatter class for formatting batches of log records.
+ * @file BufferingFormatter.hpp
+ * @brief Declares the BufferingFormatter class for formatting multiple log records
+ * with optional header and footer.
  */ 
 
-#include "log42/BufferingFormatter.hpp"
-#include <sstream>
+#include "log42/Formatter.hpp"
+#include "log42/types.hpp"
 
 namespace log42
 {
@@ -24,86 +28,32 @@ namespace formatter
 {
 
 /**
- * @brief Constructs a BufferingFormatter with a given line formatter.
- *
- * @param linefmt Reference to a Formatter used for individual log records.
+ * @class BufferingFormatter
+ * @brief Formats a collection of log records, supporting custom header, footer, 
+ * and line formatting.
  */
-BufferingFormatter::BufferingFormatter(const Formatter &linefmt) : _linefmt(linefmt) {}
-
-/**
- * @brief Destructor for BufferingFormatter.
- */
-BufferingFormatter::~BufferingFormatter() {}
-
-/**
- * @brief Copy constructor for BufferingFormatter.
- *
- * @param rhs The BufferingFormatter to copy.
- */
-BufferingFormatter::BufferingFormatter(const BufferingFormatter &rhs) : _linefmt(rhs._linefmt) {}
-
-/**
- * @brief Assignment operator for BufferingFormatter.
- *
- * @param rhs The BufferingFormatter to assign from.
- * @return Reference to this BufferingFormatter.
- */
-BufferingFormatter	&BufferingFormatter::operator=(const BufferingFormatter &rhs)
+class BufferingFormatter
 {
-	if (this != &rhs)
-		this->_linefmt = rhs._linefmt;
-	return (*this);
-}
+	public:
+		explicit BufferingFormatter(const Formatter	&linefmt = Formatter());
+		~BufferingFormatter();
 
-/**
- * @brief Formats the header for a batch of log records.
- *
- * @param records The vector of log records.
- * @return The formatted header string (default: empty).
- */
-std::string	BufferingFormatter::formatHeader(const t_records &records) const
-{
-	(void)records;
-	return "";
-}
+		BufferingFormatter(const BufferingFormatter &rhs);
+		BufferingFormatter &operator=(const BufferingFormatter &rhs);
 
-/**
- * @brief Formats the footer for a batch of log records.
- *
- * @param records The vector of log records.
- * @return The formatted footer string (default: empty).
- */
-std::string	BufferingFormatter::formatFooter(const t_records &records) const
-{
-	(void)records;
-	return "";
-}
+		std::string	formatHeader(const t_records &records) const;
+		std::string	formatFooter(const t_records &records) const;
 
-/**
- * @brief Formats a batch of log records using the line formatter, header, and footer.
- *
- * @param records The vector of log records to format.
- * @return The formatted string for the batch.
- */
-std::string	BufferingFormatter::format(t_records &records) const
-{
-	std::ostringstream	oss;
-	oss << "";
-	if (!records.empty())
-	{
-		oss << this->formatHeader(records);
-		
-		t_records::iterator it;
-		for (it = records.begin(); it != records.end(); ++it)
-			oss << this->_linefmt.format(*it) << "\n";
-		oss << this->formatFooter(records);
+		std::string format(t_records &records) const;
 
-	}
-	return (oss.str());
-}
+	private:
+		Formatter _linefmt;
+};
 
-} //!formatter
+} // !formatter
 } // !log42
+
+#endif // !BUFFERINGFORMATTER
 
 /* ************************************************************************** */
 /*                                                                            */

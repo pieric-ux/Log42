@@ -1,109 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   BufferingFormatter.cpp                             :+:      :+:    :+:   */
+/*   types.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdemont <pdemont@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*   By: blucken <blucken@student.42lausanne.ch>  +#+#+#+#+#+   +#+           */
 /*                                                     #+#    #+#             */
-/*   Created: 2025/10/11                              ###   ########.fr       */
+/*   Created: 2025/10/17                              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/**
- * @file BufferingFormatter.cpp
- * @brief Implements the BufferingFormatter class for formatting batches of log records.
- */ 
+#ifndef TYPES_HPP
+#define TYPES_HPP
 
-#include "log42/BufferingFormatter.hpp"
-#include <sstream>
+#include "common/common.hpp"
+#include "log42/logLevel.hpp"
+#include <map>
+#include <set>
+#include <string>
+#include <vector>
 
 namespace log42
 {
-namespace formatter
-{
 
-/**
- * @brief Constructs a BufferingFormatter with a given line formatter.
- *
- * @param linefmt Reference to a Formatter used for individual log records.
- */
-BufferingFormatter::BufferingFormatter(const Formatter &linefmt) : _linefmt(linefmt) {}
+namespace logRecord { class LogRecord; }
+namespace handler { class Handler; }
+namespace filter { class Filter; }
+namespace logger { class Logger; }
+class Node;
 
-/**
- * @brief Destructor for BufferingFormatter.
- */
-BufferingFormatter::~BufferingFormatter() {}
+typedef std::vector<logRecord::LogRecord> t_records;
+typedef std::set<common::core::raii::SharedPtr<handler::Handler> > t_handlers;
+typedef std::vector<std::string> t_args;
+typedef std::map<std::string, std::string> t_defaults;
+typedef std::map<std::string, common::core::raii::SharedPtr<Node> > t_loggerMap;
+typedef std::set<filter::Filter> t_filters;
+typedef std::set<common::core::raii::SharedPtr<logger::Logger> > t_loggers;
+typedef std::map<logRecord::e_LogLevel, bool> t_cache;
+typedef std::set<common::core::raii::SharedPtr<Node> > t_nodes;
 
-/**
- * @brief Copy constructor for BufferingFormatter.
- *
- * @param rhs The BufferingFormatter to copy.
- */
-BufferingFormatter::BufferingFormatter(const BufferingFormatter &rhs) : _linefmt(rhs._linefmt) {}
-
-/**
- * @brief Assignment operator for BufferingFormatter.
- *
- * @param rhs The BufferingFormatter to assign from.
- * @return Reference to this BufferingFormatter.
- */
-BufferingFormatter	&BufferingFormatter::operator=(const BufferingFormatter &rhs)
-{
-	if (this != &rhs)
-		this->_linefmt = rhs._linefmt;
-	return (*this);
-}
-
-/**
- * @brief Formats the header for a batch of log records.
- *
- * @param records The vector of log records.
- * @return The formatted header string (default: empty).
- */
-std::string	BufferingFormatter::formatHeader(const t_records &records) const
-{
-	(void)records;
-	return "";
-}
-
-/**
- * @brief Formats the footer for a batch of log records.
- *
- * @param records The vector of log records.
- * @return The formatted footer string (default: empty).
- */
-std::string	BufferingFormatter::formatFooter(const t_records &records) const
-{
-	(void)records;
-	return "";
-}
-
-/**
- * @brief Formats a batch of log records using the line formatter, header, and footer.
- *
- * @param records The vector of log records to format.
- * @return The formatted string for the batch.
- */
-std::string	BufferingFormatter::format(t_records &records) const
-{
-	std::ostringstream	oss;
-	oss << "";
-	if (!records.empty())
-	{
-		oss << this->formatHeader(records);
-		
-		t_records::iterator it;
-		for (it = records.begin(); it != records.end(); ++it)
-			oss << this->_linefmt.format(*it) << "\n";
-		oss << this->formatFooter(records);
-
-	}
-	return (oss.str());
-}
-
-} //!formatter
 } // !log42
+
+#endif // !TYPES_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

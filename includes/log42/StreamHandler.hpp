@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   BufferingFormatter.cpp                             :+:      :+:    :+:   */
+/*   StreamHandler.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdemont <pdemont@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*   By: blucken <blucken@student.42lausanne.ch>  +#+#+#+#+#+   +#+           */
@@ -10,100 +10,53 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef STREAMHANDLER_HPP
+#define STREAMHANDLER_HPP
+
 /**
- * @file BufferingFormatter.cpp
- * @brief Implements the BufferingFormatter class for formatting batches of log records.
+ * @file StreamHandler.hpp
+ * @brief Declares the StreamHandler class for logging to output streams.
  */ 
 
-#include "log42/BufferingFormatter.hpp"
-#include <sstream>
+#include "log42/Handler.hpp"
+#include "log42/types.hpp"
+#include <iostream>
 
 namespace log42
 {
-namespace formatter
+namespace handler
 {
 
 /**
- * @brief Constructs a BufferingFormatter with a given line formatter.
+ * @class StreamHandler
+ * @brief Handler that writes logging records to a given output stream.
  *
- * @param linefmt Reference to a Formatter used for individual log records.
+ * StreamHandler is responsible for emitting log records to a specified std::ostream,
+ * such as std::cerr or std::cout.
  */
-BufferingFormatter::BufferingFormatter(const Formatter &linefmt) : _linefmt(linefmt) {}
-
-/**
- * @brief Destructor for BufferingFormatter.
- */
-BufferingFormatter::~BufferingFormatter() {}
-
-/**
- * @brief Copy constructor for BufferingFormatter.
- *
- * @param rhs The BufferingFormatter to copy.
- */
-BufferingFormatter::BufferingFormatter(const BufferingFormatter &rhs) : _linefmt(rhs._linefmt) {}
-
-/**
- * @brief Assignment operator for BufferingFormatter.
- *
- * @param rhs The BufferingFormatter to assign from.
- * @return Reference to this BufferingFormatter.
- */
-BufferingFormatter	&BufferingFormatter::operator=(const BufferingFormatter &rhs)
+class StreamHandler : public Handler
 {
-	if (this != &rhs)
-		this->_linefmt = rhs._linefmt;
-	return (*this);
-}
+	public:
+		explicit StreamHandler(std::ostream &stream = std::cerr);
+		virtual ~StreamHandler();
 
-/**
- * @brief Formats the header for a batch of log records.
- *
- * @param records The vector of log records.
- * @return The formatted header string (default: empty).
- */
-std::string	BufferingFormatter::formatHeader(const t_records &records) const
-{
-	(void)records;
-	return "";
-}
+		StreamHandler &operator=(const StreamHandler &rhs);
+		StreamHandler(const StreamHandler &rhs);
 
-/**
- * @brief Formats the footer for a batch of log records.
- *
- * @param records The vector of log records.
- * @return The formatted footer string (default: empty).
- */
-std::string	BufferingFormatter::formatFooter(const t_records &records) const
-{
-	(void)records;
-	return "";
-}
+		void			flush();
+		void			emit(logRecord::LogRecord &record);
+		std::ostream	&setStream(std::ostream &ost);
+		std::string		toString() const;
 
-/**
- * @brief Formats a batch of log records using the line formatter, header, and footer.
- *
- * @param records The vector of log records to format.
- * @return The formatted string for the batch.
- */
-std::string	BufferingFormatter::format(t_records &records) const
-{
-	std::ostringstream	oss;
-	oss << "";
-	if (!records.empty())
-	{
-		oss << this->formatHeader(records);
-		
-		t_records::iterator it;
-		for (it = records.begin(); it != records.end(); ++it)
-			oss << this->_linefmt.format(*it) << "\n";
-		oss << this->formatFooter(records);
+	protected:
+		std::ostream *_stream;
 
-	}
-	return (oss.str());
-}
+};
 
-} //!formatter
+} // !handler
 } // !log42
+
+#endif // !STREAMHANDLER_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   BufferingFormatter.cpp                             :+:      :+:    :+:   */
+/*   LogRecord.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdemont <pdemont@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*   By: blucken <blucken@student.42lausanne.ch>  +#+#+#+#+#+   +#+           */
@@ -10,100 +10,87 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef LOGRECORD_HPP
+#define LOGRECORD_HPP
+
 /**
- * @file BufferingFormatter.cpp
- * @brief Implements the BufferingFormatter class for formatting batches of log records.
+ * @file LogRecord.hpp
+ * @brief Defines the LogRecord class and related logging utilities.
  */ 
 
-#include "log42/BufferingFormatter.hpp"
-#include <sstream>
+#include "log42/logLevel.hpp"
+#include "log42/types.hpp"
+#include <ctime>
+#include <string>
 
 namespace log42
 {
-namespace formatter
+namespace logRecord
 {
 
 /**
- * @brief Constructs a BufferingFormatter with a given line formatter.
- *
- * @param linefmt Reference to a Formatter used for individual log records.
+ * @class LogRecord
+ * @brief Represents a single log entry with metadata.
  */
-BufferingFormatter::BufferingFormatter(const Formatter &linefmt) : _linefmt(linefmt) {}
-
-/**
- * @brief Destructor for BufferingFormatter.
- */
-BufferingFormatter::~BufferingFormatter() {}
-
-/**
- * @brief Copy constructor for BufferingFormatter.
- *
- * @param rhs The BufferingFormatter to copy.
- */
-BufferingFormatter::BufferingFormatter(const BufferingFormatter &rhs) : _linefmt(rhs._linefmt) {}
-
-/**
- * @brief Assignment operator for BufferingFormatter.
- *
- * @param rhs The BufferingFormatter to assign from.
- * @return Reference to this BufferingFormatter.
- */
-BufferingFormatter	&BufferingFormatter::operator=(const BufferingFormatter &rhs)
+class LogRecord
 {
-	if (this != &rhs)
-		this->_linefmt = rhs._linefmt;
-	return (*this);
-}
+	public:
+		LogRecord(const std::string &name,
+					 const e_LogLevel level,
+					 const std::string &pathname, 
+					 const int lineno, 
+					 const std::string &msg, 
+					 const t_args *args, 
+					 const std::string &func = "");
+		~LogRecord();
 
-/**
- * @brief Formats the header for a batch of log records.
- *
- * @param records The vector of log records.
- * @return The formatted header string (default: empty).
- */
-std::string	BufferingFormatter::formatHeader(const t_records &records) const
-{
-	(void)records;
-	return "";
-}
+		LogRecord(const LogRecord &rhs);
+		LogRecord &operator=(const LogRecord &rhs);
 
-/**
- * @brief Formats the footer for a batch of log records.
- *
- * @param records The vector of log records.
- * @return The formatted footer string (default: empty).
- */
-std::string	BufferingFormatter::formatFooter(const t_records &records) const
-{
-	(void)records;
-	return "";
-}
+		static	clock_t	&getStartTime();
 
-/**
- * @brief Formats a batch of log records using the line formatter, header, and footer.
- *
- * @param records The vector of log records to format.
- * @return The formatted string for the batch.
- */
-std::string	BufferingFormatter::format(t_records &records) const
-{
-	std::ostringstream	oss;
-	oss << "";
-	if (!records.empty())
-	{
-		oss << this->formatHeader(records);
-		
-		t_records::iterator it;
-		for (it = records.begin(); it != records.end(); ++it)
-			oss << this->_linefmt.format(*it) << "\n";
-		oss << this->formatFooter(records);
+		std::string	toString() const;
 
-	}
-	return (oss.str());
-}
+		const std::string	&getName() const;
+		std::string			getMessage() const;
+		const e_LogLevel	&getLevelNo() const;
+		const std::string	&getLevelName() const;
+		const std::string	&getPathname() const;
+		const std::string	&getFilename() const;
+		const std::string	&getModule() const;
+		const int			&getLineNo() const;
+		const std::string	&getFuncName() const;
+		const std::time_t	&getCreated() const;
+		const long			&getMsecs() const;
+		const double		&getRelativeCreated() const;
+		const std::string	&getAsctime() const;
 
-} //!formatter
+		void		setAsctime(const std::string &asctime);
+
+	private:
+		static clock_t	_startTime;
+
+		std::string		_name;
+		std::string		_msg;
+		t_args			_args;
+		e_LogLevel		_levelNo;
+		std::string		_levelName;
+		std::string		_pathname;
+		std::string		_filename;
+		std::string		_module;
+		int				_lineNo;
+		std::string		_funcName;
+		std::time_t		_created; 
+		long			_msecs;
+		double			_relativeCreated;
+		std::string		_asctime;
+
+};
+
+} // !logRecord
 } // !log42
+
+#endif // !LOGRECORD_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

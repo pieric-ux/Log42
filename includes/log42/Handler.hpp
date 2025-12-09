@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   BufferingFormatter.cpp                             :+:      :+:    :+:   */
+/*   Handler.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdemont <pdemont@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*   By: blucken <blucken@student.42lausanne.ch>  +#+#+#+#+#+   +#+           */
@@ -10,100 +10,63 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef HANDLER_HPP
+#define HANDLER_HPP
+
 /**
- * @file BufferingFormatter.cpp
- * @brief Implements the BufferingFormatter class for formatting batches of log records.
+ * @file Handler.hpp
+ * @brief Declares the Handler base class for processing and emitting log records.
  */ 
 
-#include "log42/BufferingFormatter.hpp"
-#include <sstream>
+#include "log42/Filterer.hpp"
+#include "log42/Formatter.hpp"
+#include "log42/LogRecord.hpp"
+#include "log42/types.hpp"
 
 namespace log42
 {
-namespace formatter
+namespace handler
 {
 
 /**
- * @brief Constructs a BufferingFormatter with a given line formatter.
- *
- * @param linefmt Reference to a Formatter used for individual log records.
+ * @class Handler
+ * @brief Abstract base class for log handlers that process and emit log records.
+ *        Supports filtering, formatting, and error handling.
  */
-BufferingFormatter::BufferingFormatter(const Formatter &linefmt) : _linefmt(linefmt) {}
-
-/**
- * @brief Destructor for BufferingFormatter.
- */
-BufferingFormatter::~BufferingFormatter() {}
-
-/**
- * @brief Copy constructor for BufferingFormatter.
- *
- * @param rhs The BufferingFormatter to copy.
- */
-BufferingFormatter::BufferingFormatter(const BufferingFormatter &rhs) : _linefmt(rhs._linefmt) {}
-
-/**
- * @brief Assignment operator for BufferingFormatter.
- *
- * @param rhs The BufferingFormatter to assign from.
- * @return Reference to this BufferingFormatter.
- */
-BufferingFormatter	&BufferingFormatter::operator=(const BufferingFormatter &rhs)
+class Handler : public filterer::Filterer
 {
-	if (this != &rhs)
-		this->_linefmt = rhs._linefmt;
-	return (*this);
-}
+	public:
+		explicit Handler(const logRecord::e_LogLevel level = logRecord::NOTSET);
+		virtual ~Handler();
 
-/**
- * @brief Formats the header for a batch of log records.
- *
- * @param records The vector of log records.
- * @return The formatted header string (default: empty).
- */
-std::string	BufferingFormatter::formatHeader(const t_records &records) const
-{
-	(void)records;
-	return "";
-}
+		Handler(const Handler &rhs);
+		Handler &operator=(const Handler &rhs);
 
-/**
- * @brief Formats the footer for a batch of log records.
- *
- * @param records The vector of log records.
- * @return The formatted footer string (default: empty).
- */
-std::string	BufferingFormatter::formatFooter(const t_records &records) const
-{
-	(void)records;
-	return "";
-}
+		const std::string			&getName() const;
+		void						setName(const std::string &name);
+		logRecord::e_LogLevel		getLevel() const;
+		void						setLevel(const logRecord::e_LogLevel level);
+		std::string					format(logRecord::LogRecord &record) const;
+		virtual void				emit(logRecord::LogRecord &record) = 0;
+		bool						handle(logRecord::LogRecord &record);
+		const formatter::Formatter	&getFormatter() const;
+		void						setFormatter(const formatter::Formatter &fmt);
+		virtual void				flush() = 0;
+		virtual void				close();
+		void						handlerError(const logRecord::LogRecord &record) const;	
+		virtual std::string			toString() const;
 
-/**
- * @brief Formats a batch of log records using the line formatter, header, and footer.
- *
- * @param records The vector of log records to format.
- * @return The formatted string for the batch.
- */
-std::string	BufferingFormatter::format(t_records &records) const
-{
-	std::ostringstream	oss;
-	oss << "";
-	if (!records.empty())
-	{
-		oss << this->formatHeader(records);
-		
-		t_records::iterator it;
-		for (it = records.begin(); it != records.end(); ++it)
-			oss << this->_linefmt.format(*it) << "\n";
-		oss << this->formatFooter(records);
+	protected:
+		std::string				_name;
+		logRecord::e_LogLevel	_level;
+		formatter::Formatter	_formatter;
+		bool					_closed;
+};
 
-	}
-	return (oss.str());
-}
-
-} //!formatter
+} // !handler
 } // !log42
+
+#endif // !HANDLER_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

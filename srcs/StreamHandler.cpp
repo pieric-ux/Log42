@@ -15,7 +15,7 @@
  * @brief Implementation of the StreamHandler class for logging to output streams.
  */ 
 
-#include "StreamHandler.hpp"
+#include "log42/StreamHandler.hpp"
 #include <iostream>
 
 namespace log42

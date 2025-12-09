@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   BufferingFormatter.cpp                             :+:      :+:    :+:   */
+/*   PercentStyle.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdemont <pdemont@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*   By: blucken <blucken@student.42lausanne.ch>  +#+#+#+#+#+   +#+           */
@@ -10,100 +10,64 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef PERCENTSTYLE_HPP
+#define PERCENTSTYLE_HPP
+
 /**
- * @file BufferingFormatter.cpp
- * @brief Implements the BufferingFormatter class for formatting batches of log records.
+ * @file PercentStyle.hpp
+ * @brief Declares the PercentStyle class for formatting log records using 
+ * percent-style formatting.
  */ 
 
-#include "log42/BufferingFormatter.hpp"
-#include <sstream>
+#include "log42/LogRecord.hpp"
+#include "log42/types.hpp"
+#include <map>
+#include <string>
 
 namespace log42
 {
-namespace formatter
+namespace style
 {
 
 /**
- * @brief Constructs a BufferingFormatter with a given line formatter.
+ * @class PercentStyle
+ * @brief Provides percent-style formatting for log records.
  *
- * @param linefmt Reference to a Formatter used for individual log records.
+ * This class allows formatting of log messages using a format string
+ * with percent-style substitutions, similar to printf-style formatting.
  */
-BufferingFormatter::BufferingFormatter(const Formatter &linefmt) : _linefmt(linefmt) {}
-
-/**
- * @brief Destructor for BufferingFormatter.
- */
-BufferingFormatter::~BufferingFormatter() {}
-
-/**
- * @brief Copy constructor for BufferingFormatter.
- *
- * @param rhs The BufferingFormatter to copy.
- */
-BufferingFormatter::BufferingFormatter(const BufferingFormatter &rhs) : _linefmt(rhs._linefmt) {}
-
-/**
- * @brief Assignment operator for BufferingFormatter.
- *
- * @param rhs The BufferingFormatter to assign from.
- * @return Reference to this BufferingFormatter.
- */
-BufferingFormatter	&BufferingFormatter::operator=(const BufferingFormatter &rhs)
+class PercentStyle
 {
-	if (this != &rhs)
-		this->_linefmt = rhs._linefmt;
-	return (*this);
-}
+	public:
+		static const std::string	defaultFormat;
+		static const std::string	asctimeFormat;
+		static const std::string	asctimeSearch;
 
-/**
- * @brief Formats the header for a batch of log records.
- *
- * @param records The vector of log records.
- * @return The formatted header string (default: empty).
- */
-std::string	BufferingFormatter::formatHeader(const t_records &records) const
-{
-	(void)records;
-	return "";
-}
+		explicit PercentStyle(const std::string &fmt = defaultFormat,
+			const t_defaults defaults = std::map<std::string, std::string>());
+		virtual ~PercentStyle();
 
-/**
- * @brief Formats the footer for a batch of log records.
- *
- * @param records The vector of log records.
- * @return The formatted footer string (default: empty).
- */
-std::string	BufferingFormatter::formatFooter(const t_records &records) const
-{
-	(void)records;
-	return "";
-}
+		PercentStyle(const PercentStyle &rhs);
+		PercentStyle &operator=(const PercentStyle &rhs);
 
-/**
- * @brief Formats a batch of log records using the line formatter, header, and footer.
- *
- * @param records The vector of log records to format.
- * @return The formatted string for the batch.
- */
-std::string	BufferingFormatter::format(t_records &records) const
-{
-	std::ostringstream	oss;
-	oss << "";
-	if (!records.empty())
-	{
-		oss << this->formatHeader(records);
-		
-		t_records::iterator it;
-		for (it = records.begin(); it != records.end(); ++it)
-			oss << this->_linefmt.format(*it) << "\n";
-		oss << this->formatFooter(records);
+		std::string getFmt() const;
 
-	}
-	return (oss.str());
-}
+		bool				useTime() const;
+		virtual void		validate() const;
+		virtual std::string	format(const logRecord::LogRecord &record) const;
+	
+	protected:
+		virtual std::string	_format(const logRecord::LogRecord &record) const;
 
-} //!formatter
+	private:
+		std::string	_fmt;
+		t_defaults	_defaults;
+};
+
+} // !style
 } // !log42
+
+#endif // !PERCENTSTYLE_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

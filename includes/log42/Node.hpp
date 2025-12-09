@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   BufferingFormatter.cpp                             :+:      :+:    :+:   */
+/*   Node.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdemont <pdemont@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*   By: blucken <blucken@student.42lausanne.ch>  +#+#+#+#+#+   +#+           */
@@ -10,100 +10,67 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef NODE_HPP
+#define NODE_HPP
+
 /**
- * @file BufferingFormatter.cpp
- * @brief Implements the BufferingFormatter class for formatting batches of log records.
+ * @file Node.hpp
+ * @brief Declares the Node base class for representing nodes in the logging hierarchy.
  */ 
 
-#include "log42/BufferingFormatter.hpp"
-#include <sstream>
+#include "common/common.hpp"
+#include <string>
 
 namespace log42
 {
-namespace formatter
+
+/**
+ * @class Node
+ * @brief Abstract base class representing a node in the logging hierarchy.
+ */
+class Node
 {
+	public:
+		explicit Node(const std::string &name);
+		virtual ~Node();
 
-/**
- * @brief Constructs a BufferingFormatter with a given line formatter.
- *
- * @param linefmt Reference to a Formatter used for individual log records.
- */
-BufferingFormatter::BufferingFormatter(const Formatter &linefmt) : _linefmt(linefmt) {}
+		Node(const Node &rhs);
+		Node &operator=(const Node &rhs);
 
-/**
- * @brief Destructor for BufferingFormatter.
- */
-BufferingFormatter::~BufferingFormatter() {}
+		const std::string	&getName() const;
+		/**
+		 * @brief Get the parent node (non-owning).
+		 *
+		 * NOTE: The returned pointer is non-owning. Node lifetimes are managed
+		 * centrally (for example by `Manager` using `raii::SharedPtr`). Do not
+		 * delete the returned pointer.
+		 */
+		common::core::raii::SharedPtr<Node>    getParent() const;
+		/**
+		 * @brief Set the parent node (non-owning).
+		 *
+		 * @param Parent SharedPtr to the parent node. Ownership is not transferred
+	 * (the Manager typically holds the owning SharedPtr); the child will store
+	 * a WeakPtr reference.
+		 */
+		void			setParent(const common::core::raii::SharedPtr<Node> &Parent);
 
-/**
- * @brief Copy constructor for BufferingFormatter.
- *
- * @param rhs The BufferingFormatter to copy.
- */
-BufferingFormatter::BufferingFormatter(const BufferingFormatter &rhs) : _linefmt(rhs._linefmt) {}
+		virtual std::string toString() const = 0;
 
-/**
- * @brief Assignment operator for BufferingFormatter.
- *
- * @param rhs The BufferingFormatter to assign from.
- * @return Reference to this BufferingFormatter.
- */
-BufferingFormatter	&BufferingFormatter::operator=(const BufferingFormatter &rhs)
-{
-	if (this != &rhs)
-		this->_linefmt = rhs._linefmt;
-	return (*this);
-}
-
-/**
- * @brief Formats the header for a batch of log records.
- *
- * @param records The vector of log records.
- * @return The formatted header string (default: empty).
- */
-std::string	BufferingFormatter::formatHeader(const t_records &records) const
-{
-	(void)records;
-	return "";
-}
-
-/**
- * @brief Formats the footer for a batch of log records.
- *
- * @param records The vector of log records.
- * @return The formatted footer string (default: empty).
- */
-std::string	BufferingFormatter::formatFooter(const t_records &records) const
-{
-	(void)records;
-	return "";
-}
-
-/**
- * @brief Formats a batch of log records using the line formatter, header, and footer.
- *
- * @param records The vector of log records to format.
- * @return The formatted string for the batch.
- */
-std::string	BufferingFormatter::format(t_records &records) const
-{
-	std::ostringstream	oss;
-	oss << "";
-	if (!records.empty())
-	{
-		oss << this->formatHeader(records);
+	protected:
+		std::string _name;
+		/**
+		 * Non-owning pointer to the parent node. Ownership is managed elsewhere
+		 * (e.g. Manager with raii::SharedPtr). This raw pointer must not be
+		 * deleted by the child.
+		 */
+	common::core::raii::WeakPtr<Node>	_parent;
 		
-		t_records::iterator it;
-		for (it = records.begin(); it != records.end(); ++it)
-			oss << this->_linefmt.format(*it) << "\n";
-		oss << this->formatFooter(records);
+};
 
-	}
-	return (oss.str());
-}
+} //!log42
 
-} //!formatter
-} // !log42
+#endif // !NODE_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

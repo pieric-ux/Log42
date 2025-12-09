@@ -15,7 +15,7 @@
  * @brief Implements the FileHandler class for logging to files.
  */
 
-#include "FileHandler.hpp"
+#include "log42/FileHandler.hpp"
 #include <fstream>
 #include <string>
 

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   BufferingFormatter.cpp                             :+:      :+:    :+:   */
+/*   Manager.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdemont <pdemont@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*   By: blucken <blucken@student.42lausanne.ch>  +#+#+#+#+#+   +#+           */
@@ -10,100 +10,65 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef MANAGER_HPP
+#define MANAGER_HPP
+
 /**
- * @file BufferingFormatter.cpp
- * @brief Implements the BufferingFormatter class for formatting batches of log records.
+ * @file Manager.hpp
+ * @brief Declares the Manager class for managing loggers and logging configuration.
  */ 
 
-#include "log42/BufferingFormatter.hpp"
-#include <sstream>
+#include "log42/Logger.hpp"
+#include "log42/LogRecord.hpp"
+#include "log42/PlaceHolder.hpp"
+#include "log42/types.hpp"
 
 namespace log42
 {
-namespace formatter
+namespace manager
 {
 
 /**
- * @brief Constructs a BufferingFormatter with a given line formatter.
- *
- * @param linefmt Reference to a Formatter used for individual log records.
+ * @class Manager
+ * @brief Singleton class responsible for managing loggers, their hierarchy, 
+ * and logging configuration.
  */
-BufferingFormatter::BufferingFormatter(const Formatter &linefmt) : _linefmt(linefmt) {}
-
-/**
- * @brief Destructor for BufferingFormatter.
- */
-BufferingFormatter::~BufferingFormatter() {}
-
-/**
- * @brief Copy constructor for BufferingFormatter.
- *
- * @param rhs The BufferingFormatter to copy.
- */
-BufferingFormatter::BufferingFormatter(const BufferingFormatter &rhs) : _linefmt(rhs._linefmt) {}
-
-/**
- * @brief Assignment operator for BufferingFormatter.
- *
- * @param rhs The BufferingFormatter to assign from.
- * @return Reference to this BufferingFormatter.
- */
-BufferingFormatter	&BufferingFormatter::operator=(const BufferingFormatter &rhs)
+class Manager
 {
-	if (this != &rhs)
-		this->_linefmt = rhs._linefmt;
-	return (*this);
-}
+	public:
+		static    Manager &getInstance(logger::Logger *root = NULL);
 
-/**
- * @brief Formats the header for a batch of log records.
- *
- * @param records The vector of log records.
- * @return The formatted header string (default: empty).
- */
-std::string	BufferingFormatter::formatHeader(const t_records &records) const
-{
-	(void)records;
-	return "";
-}
+		common::core::raii::SharedPtr<logger::Logger>	getRoot();
+		void											resetRoot();
+		logRecord::e_LogLevel							getDisable() const;
+		void											setDisable(const logRecord::e_LogLevel value);
+		bool											getEmittedNoHandlerWarning() const;
+		void											setEmittedNoHandlerWarning(bool value);
+		t_loggerMap										&getLoggerMap();
+		common::core::raii::SharedPtr<logger::Logger>	getLogger(const std::string &name);
 
-/**
- * @brief Formats the footer for a batch of log records.
- *
- * @param records The vector of log records.
- * @return The formatted footer string (default: empty).
- */
-std::string	BufferingFormatter::formatFooter(const t_records &records) const
-{
-	(void)records;
-	return "";
-}
+		void											clearCache();
 
-/**
- * @brief Formats a batch of log records using the line formatter, header, and footer.
- *
- * @param records The vector of log records to format.
- * @return The formatted string for the batch.
- */
-std::string	BufferingFormatter::format(t_records &records) const
-{
-	std::ostringstream	oss;
-	oss << "";
-	if (!records.empty())
-	{
-		oss << this->formatHeader(records);
-		
-		t_records::iterator it;
-		for (it = records.begin(); it != records.end(); ++it)
-			oss << this->_linefmt.format(*it) << "\n";
-		oss << this->formatFooter(records);
+	private:
+		common::core::raii::SharedPtr<logger::Logger>	_root;
+		logRecord::e_LogLevel							_disable;
+		bool											_emittedNoHandlerWarning;
+		t_loggerMap										_loggerMap;    
 
-	}
-	return (oss.str());
-}
+		explicit Manager(logger::Logger *root);
+		~Manager();
 
-} //!formatter
+		Manager(const Manager &rhs);
+		Manager &operator=(const Manager &rhs);
+
+		void	_fixupParents(const common::core::raii::SharedPtr<logger::Logger> &alogger);
+		void	_fixupChildren(const common::core::raii::SharedPtr<placeholder::PlaceHolder> &ph, const common::core::raii::SharedPtr<logger::Logger> &alogger);
+};
+
+} // !manager
 } // !log42
+
+#endif // !MANAGER_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

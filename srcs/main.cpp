@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Log42.hpp"
+#include "log42/Log42.hpp"
 #include <iostream>
 
 using namespace log42;

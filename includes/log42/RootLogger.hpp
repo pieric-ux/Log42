@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   BufferingFormatter.cpp                             :+:      :+:    :+:   */
+/*   RootLogger.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pdemont <pdemont@student.42lausanne.ch>    +#+  +:+       +#+        */
 /*   By: blucken <blucken@student.42lausanne.ch>  +#+#+#+#+#+   +#+           */
@@ -10,100 +10,48 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef ROOTLOGGER_HPP
+#define ROOTLOGGER_HPP
+
 /**
- * @file BufferingFormatter.cpp
- * @brief Implements the BufferingFormatter class for formatting batches of log records.
+ * @file RootLogger.hpp
+ * @brief Declares the RootLogger class, representing the root logger in the 
+ * logging hierarchy.
  */ 
 
-#include "log42/BufferingFormatter.hpp"
-#include <sstream>
+#include "log42/Logger.hpp"
+#include "log42/LogRecord.hpp"
 
 namespace log42
 {
-namespace formatter
+namespace logger
 {
 
 /**
- * @brief Constructs a BufferingFormatter with a given line formatter.
+ * @class RootLogger
+ * @brief The root logger class, serving as the top-level logger in the logging 
+ * system.
  *
- * @param linefmt Reference to a Formatter used for individual log records.
+ * RootLogger is a specialized Logger that acts as the root of the logger hierarchy.
+ * It is responsible for handling log records at the highest level.
  */
-BufferingFormatter::BufferingFormatter(const Formatter &linefmt) : _linefmt(linefmt) {}
-
-/**
- * @brief Destructor for BufferingFormatter.
- */
-BufferingFormatter::~BufferingFormatter() {}
-
-/**
- * @brief Copy constructor for BufferingFormatter.
- *
- * @param rhs The BufferingFormatter to copy.
- */
-BufferingFormatter::BufferingFormatter(const BufferingFormatter &rhs) : _linefmt(rhs._linefmt) {}
-
-/**
- * @brief Assignment operator for BufferingFormatter.
- *
- * @param rhs The BufferingFormatter to assign from.
- * @return Reference to this BufferingFormatter.
- */
-BufferingFormatter	&BufferingFormatter::operator=(const BufferingFormatter &rhs)
+class RootLogger : public Logger
 {
-	if (this != &rhs)
-		this->_linefmt = rhs._linefmt;
-	return (*this);
-}
+	public:
+		RootLogger(const logRecord::e_LogLevel level = logRecord::NOTSET);
+		~RootLogger();
 
-/**
- * @brief Formats the header for a batch of log records.
- *
- * @param records The vector of log records.
- * @return The formatted header string (default: empty).
- */
-std::string	BufferingFormatter::formatHeader(const t_records &records) const
-{
-	(void)records;
-	return "";
-}
+		std::string		toString() const;
 
-/**
- * @brief Formats the footer for a batch of log records.
- *
- * @param records The vector of log records.
- * @return The formatted footer string (default: empty).
- */
-std::string	BufferingFormatter::formatFooter(const t_records &records) const
-{
-	(void)records;
-	return "";
-}
+	private:
+		RootLogger(const RootLogger &rhs);
+		RootLogger &operator=(RootLogger &rhs);
+};
 
-/**
- * @brief Formats a batch of log records using the line formatter, header, and footer.
- *
- * @param records The vector of log records to format.
- * @return The formatted string for the batch.
- */
-std::string	BufferingFormatter::format(t_records &records) const
-{
-	std::ostringstream	oss;
-	oss << "";
-	if (!records.empty())
-	{
-		oss << this->formatHeader(records);
-		
-		t_records::iterator it;
-		for (it = records.begin(); it != records.end(); ++it)
-			oss << this->_linefmt.format(*it) << "\n";
-		oss << this->formatFooter(records);
-
-	}
-	return (oss.str());
-}
-
-} //!formatter
+} // !logger
 } // !log42
+
+#endif // !ROOTLOGGER_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

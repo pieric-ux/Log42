@@ -15,8 +15,8 @@
  * @brief Implements the LogRecord class and related logging utilities.
  */ 
 
-#include "common.hpp"
-#include "LogRecord.hpp"
+#include "common/common.hpp"
+#include "log42/LogRecord.hpp"
 #include <ctime>
 #include <string>
 #include <sstream>

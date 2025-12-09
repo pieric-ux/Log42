@@ -15,9 +15,9 @@
  * @brief Implements the Formatter class for formatting log records.
  */ 
 
-#include "Formatter.hpp"
-#include "PercentStyle.hpp"
-#include "types.hpp"
+#include "log42/Formatter.hpp"
+#include "log42/PercentStyle.hpp"
+#include "log42/types.hpp"
 #include <cstring>
 
 namespace log42
