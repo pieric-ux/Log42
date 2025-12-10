@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LOGGING_HPP
-#define LOGGING_HPP
+#ifndef LOG42_LOGGING_HPP
+#define LOG42_LOGGING_HPP
 
 /**
  * @file Log42.hpp
@@ -19,16 +19,16 @@
  * logging system.
  */ 
 
-#include "log42/BufferingFormatter.hpp"
-#include "log42/FileHandler.hpp"
-#include "log42/Filter.hpp"
-#include "log42/Filterer.hpp"
-#include "log42/Formatter.hpp"
-#include "log42/Handler.hpp"
-#include "log42/Logger.hpp"
-#include "log42/Manager.hpp"
-#include "log42/StreamHandler.hpp"
-#include "log42/types.hpp"
+#include <log42/BufferingFormatter.hpp>
+#include <log42/FileHandler.hpp>
+#include <log42/Filter.hpp>
+#include <log42/Filterer.hpp>
+#include <log42/Formatter.hpp>
+#include <log42/Handler.hpp>
+#include <log42/Logger.hpp>
+#include <log42/Manager.hpp>
+#include <log42/StreamHandler.hpp>
+#include <log42/types.hpp>
 #include <fstream>
 #include <set>
 #include <string>
@@ -100,7 +100,7 @@ void shutdown();
 
 } // !log42
 
-#endif // !LOG42
+#endif // !LOG42_LOGGING_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

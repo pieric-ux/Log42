@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FILTERER_HPP
-#define FILTERER_HPP
+#ifndef LOG42_FILTERER_HPP
+#define LOG42_FILTERER_HPP
 
 /**
  * @file Filterer.hpp
@@ -19,9 +19,9 @@
  * to log records.
  */ 
 
-#include "log42/Filter.hpp"
-#include "log42/LogRecord.hpp"
-#include "log42/types.hpp"
+#include <log42/Filter.hpp>
+#include <log42/LogRecord.hpp>
+#include <log42/types.hpp>
 
 namespace log42
 {
@@ -53,7 +53,7 @@ class Filterer
 
 } // !filterer
 } // !log42
-#endif // !FILTERER_HPP
+#endif // !LOG42_FILTERER_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

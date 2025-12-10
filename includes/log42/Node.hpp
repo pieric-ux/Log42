@@ -10,15 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef NODE_HPP
-#define NODE_HPP
+#ifndef LOG42_NODE_HPP
+#define LOG42_NODE_HPP
 
 /**
  * @file Node.hpp
  * @brief Declares the Node base class for representing nodes in the logging hierarchy.
  */ 
 
-#include "common/common.hpp"
+#include <common/common.hpp>
 #include <string>
 
 namespace log42
@@ -70,7 +70,7 @@ class Node
 
 } //!log42
 
-#endif // !NODE_HPP
+#endif // !LOG42_NODE_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

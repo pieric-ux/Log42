@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FILEHANDLER_HPP
-#define FILEHANDLER_HPP
+#ifndef LOG42_FILEHANDLER_HPP
+#define LOG42_FILEHANDLER_HPP
 
 /**
  * @file FileHandler.hpp
@@ -19,7 +19,7 @@
  * delayed opening.
  */ 
 
-#include "log42/StreamHandler.hpp"
+#include <log42/StreamHandler.hpp>
 #include <fstream>
 
 namespace log42
@@ -59,7 +59,7 @@ class FileHandler : public StreamHandler
 } // !handler
 } // !log42
 
-#endif // !FILEHANDLER_HPP
+#endif // !LOG42_FILEHANDLER_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

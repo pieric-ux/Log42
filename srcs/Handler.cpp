@@ -15,9 +15,9 @@
  * @brief Implements the Handler class for processing and emitting log records.
  */ 
 
-#include "log42/Filterer.hpp"
-#include "log42/Handler.hpp"
-#include "log42/LogRecord.hpp"
+#include <log42/Filterer.hpp>
+#include <log42/Handler.hpp>
+#include <log42/LogRecord.hpp>
 #include <iostream>
 
 namespace log42

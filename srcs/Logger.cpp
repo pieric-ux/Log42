@@ -15,12 +15,12 @@
  * @brief Implements the Logger class for hierarchical logging.
  */ 
 
-#include "log42/Filterer.hpp"
-#include "log42/Logger.hpp"
-#include "log42/LogRecord.hpp"
-#include "log42/Manager.hpp"
-#include "log42/Node.hpp"
-#include "log42/types.hpp"
+#include <log42/Filterer.hpp>
+#include <log42/Logger.hpp>
+#include <log42/LogRecord.hpp>
+#include <log42/Manager.hpp>
+#include <log42/Node.hpp>
+#include <log42/types.hpp>
 #include <iostream>
 #include <map>
 

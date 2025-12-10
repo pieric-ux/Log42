@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FILTER_HPP
-#define FILTER_HPP
+#ifndef LOG42_FILTER_HPP
+#define LOG42_FILTER_HPP
 
 /**
  * @file Filter.hpp
@@ -19,7 +19,7 @@
  * criteria.
  */ 
 
-#include "log42/LogRecord.hpp"
+#include <log42/LogRecord.hpp>
 #include <string>
 
 namespace log42
@@ -53,7 +53,7 @@ class Filter
 } // !filter
 } // !log42
 
-#endif // !FILTER_HPP
+#endif // !LOG42_FILTER_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PERCENTSTYLE_HPP
-#define PERCENTSTYLE_HPP
+#ifndef LOG42_PERCENTSTYLE_HPP
+#define LOG42_PERCENTSTYLE_HPP
 
 /**
  * @file PercentStyle.hpp
@@ -19,8 +19,8 @@
  * percent-style formatting.
  */ 
 
-#include "log42/LogRecord.hpp"
-#include "log42/types.hpp"
+#include <log42/LogRecord.hpp>
+#include <log42/types.hpp>
 #include <map>
 #include <string>
 
@@ -67,7 +67,7 @@ class PercentStyle
 } // !style
 } // !log42
 
-#endif // !PERCENTSTYLE_HPP
+#endif // !LOG42_PERCENTSTYLE_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

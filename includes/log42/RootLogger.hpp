@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ROOTLOGGER_HPP
-#define ROOTLOGGER_HPP
+#ifndef LOG42_ROOTLOGGER_HPP
+#define LOG42_ROOTLOGGER_HPP
 
 /**
  * @file RootLogger.hpp
@@ -19,8 +19,8 @@
  * logging hierarchy.
  */ 
 
-#include "log42/Logger.hpp"
-#include "log42/LogRecord.hpp"
+#include <log42/Logger.hpp>
+#include <log42/LogRecord.hpp>
 
 namespace log42
 {
@@ -51,7 +51,7 @@ class RootLogger : public Logger
 } // !logger
 } // !log42
 
-#endif // !ROOTLOGGER_HPP
+#endif // !LOG42_ROOTLOGGER_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

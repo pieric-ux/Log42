@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TYPES_HPP
-#define TYPES_HPP
+#ifndef LOG42_TYPES_HPP
+#define LOG42_TYPES_HPP
 
-#include "common/common.hpp"
-#include "log42/logLevel.hpp"
+#include <common/common.hpp>
+#include <log42/logLevel.hpp>
 #include <map>
 #include <set>
 #include <string>
@@ -41,7 +41,7 @@ typedef std::set<common::core::raii::SharedPtr<Node> > t_nodes;
 
 } // !log42
 
-#endif // !TYPES_HPP
+#endif // !LOG42_TYPES_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

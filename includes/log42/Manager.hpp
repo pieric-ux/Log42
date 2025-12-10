@@ -10,18 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MANAGER_HPP
-#define MANAGER_HPP
+#ifndef LOG42_MANAGER_HPP
+#define LOG42_MANAGER_HPP
 
 /**
  * @file Manager.hpp
  * @brief Declares the Manager class for managing loggers and logging configuration.
  */ 
 
-#include "log42/Logger.hpp"
-#include "log42/LogRecord.hpp"
-#include "log42/PlaceHolder.hpp"
-#include "log42/types.hpp"
+#include <log42/Logger.hpp>
+#include <log42/LogRecord.hpp>
+#include <log42/PlaceHolder.hpp>
+#include <log42/types.hpp>
 
 namespace log42
 {
@@ -68,7 +68,7 @@ class Manager
 } // !manager
 } // !log42
 
-#endif // !MANAGER_HPP
+#endif // !LOG42_MANAGER_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

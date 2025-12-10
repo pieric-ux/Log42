@@ -16,9 +16,9 @@
  * @brief Implementation of the RootLogger class for the logging system.
  */
 
-#include "log42/Logger.hpp"
-#include "log42/LogRecord.hpp"
-#include "log42/RootLogger.hpp"
+#include <log42/Logger.hpp>
+#include <log42/LogRecord.hpp>
+#include <log42/RootLogger.hpp>
 
 namespace log42
 {

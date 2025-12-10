@@ -15,7 +15,7 @@
  * @brief Implements the BufferingFormatter class for formatting batches of log records.
  */ 
 
-#include "log42/BufferingFormatter.hpp"
+#include <log42/BufferingFormatter.hpp>
 #include <sstream>
 
 namespace log42

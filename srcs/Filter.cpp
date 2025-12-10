@@ -15,7 +15,7 @@
  * @brief Implements the Filter class for filtering log records by logger name.
  */ 
 
-#include "log42/Filter.hpp"
+#include <log42/Filter.hpp>
 
 namespace log42
 {

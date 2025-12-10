@@ -15,10 +15,10 @@
  * @brief Implements the Manager class for managing loggers and their hierarchy.
  */ 
 
-#include "log42/Logger.hpp"
-#include "log42/Log42.hpp"
-#include "log42/RootLogger.hpp"
-#include "log42/Manager.hpp"
+#include <log42/Logger.hpp>
+#include <log42/Log42.hpp>
+#include <log42/RootLogger.hpp>
+#include <log42/Manager.hpp>
 #include <stdexcept>
 
 namespace log42

@@ -15,9 +15,9 @@
  * @brief Implements the PlaceHolder class for managing placeholder loggers.
  */ 
 
-#include "common/common.hpp"
-#include "log42/Node.hpp"
-#include "log42/PlaceHolder.hpp"
+#include <common/common.hpp>
+#include <log42/Node.hpp>
+#include <log42/PlaceHolder.hpp>
 
 namespace log42
 {

@@ -10,18 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HANDLER_HPP
-#define HANDLER_HPP
+#ifndef LOG42_HANDLER_HPP
+#define LOG42_HANDLER_HPP
 
 /**
  * @file Handler.hpp
  * @brief Declares the Handler base class for processing and emitting log records.
  */ 
 
-#include "log42/Filterer.hpp"
-#include "log42/Formatter.hpp"
-#include "log42/LogRecord.hpp"
-#include "log42/types.hpp"
+#include <log42/Filterer.hpp>
+#include <log42/Formatter.hpp>
+#include <log42/LogRecord.hpp>
+#include <log42/types.hpp>
 
 namespace log42
 {
@@ -66,7 +66,7 @@ class Handler : public filterer::Filterer
 } // !handler
 } // !log42
 
-#endif // !HANDLER_HPP
+#endif // !LOG42_HANDLER_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

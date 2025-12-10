@@ -10,16 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PLACEHOLDER_HPP
-#define PLACEHOLDER_HPP
+#ifndef LOG42_PLACEHOLDER_HPP
+#define LOG42_PLACEHOLDER_HPP
 
 /**
  * @file PlaceHolder.hpp
  * @brief Declares the PlaceHolder class for managing placeholder loggers in the logging hierarchy.
  */ 
 
-#include "common/common.hpp"
-#include "log42/Node.hpp"
+#include <common/common.hpp>
+#include <log42/Node.hpp>
 #include <set>
 
 namespace log42
@@ -55,7 +55,7 @@ class PlaceHolder : public Node
 } // !placeholder
 } // !log42
 
-#endif // !PLACEHOLDER_HPP
+#endif // !LOG42_PLACEHOLDER_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

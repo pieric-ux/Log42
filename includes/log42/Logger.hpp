@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LOGGER_HPP
-#define LOGGER_HPP
+#ifndef LOG42_LOGGER_HPP
+#define LOG42_LOGGER_HPP
 
 /**
  * @file Logger.hpp
@@ -19,11 +19,11 @@
  * handler, and propagation control.
  */ 
 
-#include "log42/Filterer.hpp"
-#include "log42/Handler.hpp"
-#include "log42/LogRecord.hpp"
-#include "log42/Node.hpp"
-#include "log42/types.hpp"
+#include <log42/Filterer.hpp>
+#include <log42/Handler.hpp>
+#include <log42/LogRecord.hpp>
+#include <log42/Node.hpp>
+#include <log42/types.hpp>
 
 namespace log42
 {
@@ -128,7 +128,7 @@ class Logger : public Node, public  filterer::Filterer
 } // !logger
 } // !log42
 
-#endif // !LOGGER_HPP
+#endif // !LOG42_LOGGER_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

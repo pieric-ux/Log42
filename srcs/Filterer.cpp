@@ -15,8 +15,8 @@
  * @brief Implements the Filterer class for managing and applying log filters.
  */ 
 
-#include "log42/Filterer.hpp"
-#include "log42/types.hpp"
+#include <log42/Filterer.hpp>
+#include <log42/types.hpp>
 
 namespace log42
 {

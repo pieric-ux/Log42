@@ -10,16 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STREAMHANDLER_HPP
-#define STREAMHANDLER_HPP
+#ifndef LOG42_STREAMHANDLER_HPP
+#define LOG42_STREAMHANDLER_HPP
 
 /**
  * @file StreamHandler.hpp
  * @brief Declares the StreamHandler class for logging to output streams.
  */ 
 
-#include "log42/Handler.hpp"
-#include "log42/types.hpp"
+#include <log42/Handler.hpp>
+#include <log42/types.hpp>
 #include <iostream>
 
 namespace log42
@@ -56,7 +56,7 @@ class StreamHandler : public Handler
 } // !handler
 } // !log42
 
-#endif // !STREAMHANDLER_HPP
+#endif // !LOG42_STREAMHANDLER_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

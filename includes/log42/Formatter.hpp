@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FORMATTER_HPP
-#define FORMATTER_HPP
+#ifndef LOG42_FORMATTER_HPP
+#define LOG42_FORMATTER_HPP
 
 /**
  * @file Formatter.hpp
@@ -19,8 +19,8 @@
  * customizable formats and time handling.
  */ 
 
-#include "log42/PercentStyle.hpp"
-#include "log42/types.hpp"
+#include <log42/PercentStyle.hpp>
+#include <log42/types.hpp>
 #include <ctime>
 
 namespace log42
@@ -64,7 +64,7 @@ class Formatter
 } // !formatter
 } // !log42
 
-#endif // !FORMATTER_HPP
+#endif // !LOG42_FORMATTER_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

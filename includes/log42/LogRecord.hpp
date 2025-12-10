@@ -10,16 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LOGRECORD_HPP
-#define LOGRECORD_HPP
+#ifndef LOG42_LOGRECORD_HPP
+#define LOG42_LOGRECORD_HPP
 
 /**
  * @file LogRecord.hpp
  * @brief Defines the LogRecord class and related logging utilities.
  */ 
 
-#include "log42/logLevel.hpp"
-#include "log42/types.hpp"
+#include <log42/logLevel.hpp>
+#include <log42/types.hpp>
 #include <ctime>
 #include <string>
 

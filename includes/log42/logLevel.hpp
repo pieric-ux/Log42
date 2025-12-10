@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LOGLEVEL_HPP
-#define LOGLEVEL_HPP
+#ifndef LOG42_LOGLEVEL_HPP
+#define LOG42_LOGLEVEL_HPP
 
 /**
  * @file logLevel.hpp
@@ -49,7 +49,7 @@ std::string levelToString(e_LogLevel level);
 } // !logRecord
 } // !log42
 
-#endif // !LOGLEVEL_HPP
+#endif // !LOG42_LOGLEVEL_HPP
 
 /* ************************************************************************** */
 /*                                                                            */

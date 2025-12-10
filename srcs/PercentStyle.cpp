@@ -15,8 +15,8 @@
  * @brief Implements the PercentStyle class for percent-style log formatting.
  */ 
 
-#include "common/common.hpp"
-#include "log42/PercentStyle.hpp"
+#include <common/common.hpp>
+#include <log42/PercentStyle.hpp>
 #include <iomanip>
 
 using namespace common::core;

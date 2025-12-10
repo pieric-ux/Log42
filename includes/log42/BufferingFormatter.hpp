@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUFFERINGFORMATTER_HPP
-#define BUFFERINGFORMATTER_HPP
+#ifndef LOG42_BUFFERINGFORMATTER_HPP
+#define LOG42_BUFFERINGFORMATTER_HPP
 
 /**
  * @file BufferingFormatter.hpp
@@ -19,8 +19,8 @@
  * with optional header and footer.
  */ 
 
-#include "log42/Formatter.hpp"
-#include "log42/types.hpp"
+#include <log42/Formatter.hpp>
+#include <log42/types.hpp>
 
 namespace log42
 {
@@ -53,7 +53,7 @@ class BufferingFormatter
 } // !formatter
 } // !log42
 
-#endif // !BUFFERINGFORMATTER
+#endif // !LOG42_BUFFERINGFORMATTER
 
 /* ************************************************************************** */
 /*                                                                            */

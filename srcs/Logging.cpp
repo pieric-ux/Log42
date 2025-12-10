@@ -16,11 +16,11 @@
  * emission.
  */ 
 
-#include "common/common.hpp"
-#include "log42/FileHandler.hpp"
-#include "log42/Log42.hpp"
-#include "log42/Manager.hpp"
-#include "log42/StreamHandler.hpp"
+#include <common/common.hpp>
+#include <log42/FileHandler.hpp>
+#include <log42/Log42.hpp>
+#include <log42/Manager.hpp>
+#include <log42/StreamHandler.hpp>
 #include <ostream>
 #include <set>
 #include <stdexcept>
