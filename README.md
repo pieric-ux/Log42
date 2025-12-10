@@ -57,7 +57,7 @@ g++ main.cpp -I/path/to/Log42/include -L/path/to/Log42/lib -llog42 -o my_app
 ### Including in Code
 
 ```cpp
-#include "Log42.hpp"
+#include <log42/Log42.hpp>
 ```
 
 ---
@@ -118,7 +118,7 @@ Available placeholders in log message formats:
 ### Example of Custom Formatter
 
 ```cpp
-log42::Formatter formatter("[%(asctime)] - %(name) - %(levelname) - %(message)");
+log42::formatter::Formatter fmt("[%(asctime)] - %(name) - %(levelname) - %(message)");
 ```
 
 ---
@@ -134,12 +134,12 @@ log42::Formatter formatter("[%(asctime)] - %(name) - %(levelname) - %(message)")
 // Use the MAKE_SHARED macro to create a raii::SharedPtr.
 // addHandler expects a raii::SharedPtr<log42::handler::Handler>.
 // Example:
-raii::SharedPtr<log42::handler::StreamHandler> consoleHandler = MAKE_SHARED(log42::handler::StreamHandler, std::cout);
-logger->addHandler(raii::staticPointerCast<log42::handler::Handler>(consoleHandler));
+common::core::raii::SharedPtr<log42::handler::FileHandler> consoleHandler = MAKE_SHARED(log42::handler::StreamHandler, std::cout);
+logger->addHandler(common::core::raii::staticPointerCast<log42::handler::Handler>(consoleHandler));
 
 // Variant: create a SharedPtr directly to the base type
-raii::SharedPtr<log42::handler::Handler> genericHandler =
-	raii::staticPointerCast<log42::handler::Handler>(MAKE_SHARED(log42::handler::StreamHandler, std::cout));
+common::core::raii::SharedPtr<log42::handler::Handler> genericHandler =
+	common::core::raii::staticPointerCast<log42::handler::Handler>(MAKE_SHARED(log42::handler::StreamHandler, std::cout));
 logger->addHandler(genericHandler);
 ```
 
@@ -148,7 +148,7 @@ logger->addHandler(genericHandler);
 ## Typical Usage
 
 ```cpp
-#include "Log42.hpp"
+#include <log42/Log42.hpp>
 
 int main() {
     try {
