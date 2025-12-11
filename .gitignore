@@ -35,8 +35,6 @@
 *.la
 *.a
 *.lib
-!libcommon.a
-!liblog42.a
 
 # Executables
 *.exe
