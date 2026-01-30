@@ -1,0 +1,296 @@
+@startuml log42
+
+title Class Diagramm for Log42
+
+namespace log42.formatter {
+
+	class "BufferingFormatter" as BufferingFormatter {
+		- _linefmt : Formatter
+		--
+		+ BufferingFormatter(linefmt : Formatter)
+		+ formatHeader(records : vector<LogRecord>) : string
+		+ formatFooter(records : vector<LogRecord>) : string
+		+ format(records : vector<LogRecord>) : string
+	}
+
+	class "Formatter" as Formatter {
+		+ defaultPercentFormat : string
+		+ defaultTimeFormat : string
+		- _style : PercentStyle
+		- _fmt : string
+		- _datefmt : string
+		--
+		+ Formatter(fmt : string, datefmt : string, validate : bool, defaults : map<string, string>)
+		+ useTime() : bool
+		+ formatTime(record : LogRecord, datefmt : string) : string
+		+ formatMessage(record : LogRecord) : string
+		+ format(record : LogRecord) : string
+		- {static} _converter(time_t) : time
+	}
+}
+
+namespace log42.handler {
+
+	class "FileHandler" as FileHandler {
+		- _baseFilename : string
+		- _mode : string
+		- _delay : bool
+		- _fstream : ofstream
+		--
+		+ FileHandler(filename : string, mode : string, delay : bool)
+		+ close() : void
+		+ emit(record : LogRecord) : void
+		+ toString() : string
+		- _open() : void
+	}
+
+	abstract class "Handler" as Handler {
+		- _name : string
+		- _level : e_LogLevel
+		- _formatter : Formatter
+		- _closed : bool
+		--
+		+ Handler(level : e_LogLevel)
+		+ getName() : string
+		+ setName(name : string) : void
+		+ getLevel() : e_LogLevel
+		+ setLevel(level : e_LogLevel) : void
+		+ format(record : LogRecord) : string
+		+ {abstract} emit(record : LogRecord) : void
+		+ handle(record : LogRecord) : bool
+		+ getFormatter() : Formatter
+		+ setFormatter(fmt : Formatter) : void
+		+ {abstract} flush() : void
+		+ close() : void
+		+ handlerError(record : LogRecord) : void
+		+ toString() : string
+	}
+
+	class "StreamHandler" as StreamHandler {
+		- _stream : ostream
+		--
+		+ StreamHandler(stream : ostream)
+		+ flush() : void
+		+ emit(record : LogRecord) : void
+		+ setStream(ost : ostream) : ostream
+		+ toString() : string
+	}
+}
+
+namespace log42.filter {
+	class "Filter" as Filter {
+		- _name : string
+		- _len : int
+		--
+		+ Filter(name : string)
+		+ filter(record : LogRecord) : bool
+	}
+}
+
+namespace log42.filterer {
+	class "Filterer" as Filterer {
+		- _filters : set<Filter>
+		--
+		+ Filterer()
+		+ addFilter(filter : Filter) : void
+		+ removeFilter(filter : Filter) : void
+		+ clearFilters() : void
+		+ filter(record : LogRecord) : bool
+	}
+}
+
+namespace log42.manager {
+	class "Manager" as Manager {
+		- _root : Logger
+		- _disable : e_LogLevel
+		- _emittedNoHandlerWarning : bool
+		- _loggerMap : map<string, Node>
+		--
+		+ getInstance(root : Logger) : Manager
+		+ getRoot() : Logger
+		+ resetRoot() : void
+		+ getDisable() : e_LogLevel
+		+ setDisable(value : e_LogLevel) : void
+		+ getEmittedNoHandlerWarning() : bool
+		+ setEmittedNoHandlerWarning(value : bool) : void
+		+ getLoggerMap() : map<string, Node>
+		+ getLogger(name : string) : Logger
+		+ clearCache() : void
+		- Manager(root : Logger)
+		- _fixupParents(alogger : Logger) : void
+		- _fixupChildren(ph : Placeholder, alogger : Logger) : void
+	}
+}
+
+namespace log42.logger {
+	class "Logger" as Logger {
+		- _level : e_LogLevel
+		- _propagate : bool
+		- _handlers : set<Handler>
+		- _disabled : bool
+		- _cache : map<e_LogLevel, bool>
+		- _manager : Manager
+		--
+		+ Logger(name : string, level : e_LogLevel)
+		+ setLevel(level : e_LogLevel) : void
+		+ setPropagate(propagate : bool) : void
+		+ debug(msg : string, filename : string, lineNo : int, funcName : string, args : vector<string>) : void
+		+ info(msg : string, filename : string, lineNo : int, funcName : string, args : vector<string>) : void
+		+ warning(msg : string, filename : string, lineNo : int, funcName : string, args : vector<string>) : void
+		+ error(msg : string, filename : string, lineNo : int, funcName : string, args : vector<string>) : void
+		+ exception(msg : string, filename : string, lineNo : int, funcName : string, args : vector<string>) : void
+		+ critical(msg : string, filename : string, lineNo : int, funcName : string, args : vector<string>) : void
+		+ log(level : e_LogLevel, msg : string, filename : string, lineNo : int, funcName : string, args : vector<string>) : void
+		+ handle(record : LogRecord) : void
+		+ addHandler(handler : Handler) : void
+		+ removeHandler(handler : Handler) : void
+		+ hasHandler() : bool
+		+ callHandlers(record : LogRecord) : void
+		+ getHandler() : set<Handler>
+		+ getEffectiveLevel() : e_LogLevel
+		+ isEnabledFor(level : e_LogLevel) : bool
+		+ getChild(suffix : string)
+		+ getChildren() : set<Logger>
+		+ toString() : string
+		+ clearCache() : void
+		+ cacheClear() : void
+		- _log(level : e_LogLevel, msg : string, filename : string, lineNo : int, funcName : string, args : vector<string>) : void
+	}
+
+	class "RootLogger" as RootLogger {
+		+ RootLogger(level : e_LogLevel)
+		+ toString() : string
+	}
+}
+
+namespace log42.logRecord {
+
+	enum "e_LogLevel" as e_LogLevel {
+		NOTSET
+		DEBUG
+		INFO
+		WARNING
+		ERROR
+		CRITICAL
+	}
+
+	class "LogRecord" as LogRecord {
+		- {static} _startTime : clock
+		- _name : string
+		- _msg : string
+		- _args : vector<string>
+		- _levelNo : e_LogLevel
+		- _levelName : string
+		- _pathname : string
+		- _filename : string
+		- _module : string
+		- _lineNo : int
+		- _funcName : string
+		- _created : time
+		- _msecs : int
+		- _relativeCreated : real
+		- _asctime : string
+		--
+		+ LogRecord(name : string, level : e_LogLevel, pathname : string, lineno : int, msg : string, args : vector<string>, func : string)
+		+ getStartTime() : clock
+		+ toString() : string
+		+ getName() : string
+		+ getMessage() : string
+		+ getLevelNo() : e_LogLevel
+		+ getLevelName() : string
+		+ getPathname() : string
+		+ getFilename() : string
+		+ getModule() : string
+		+ getLineNo() : int
+		+ getFuncName() : string
+		+ getCreated() : time
+		+ getMsecs() : int
+		+ getRelativeCreated() : real
+		+ getAsctime() : string
+		+ setAsctime(asctime : string) : void
+	}
+}
+
+namespace log42.style {
+	class "PercentStyle" as PercentStyle {
+		+ {static} defaultFormat : string
+		+ {static} asctimeFormat : string
+		+ {static} asctimeSearch : string
+		- _fmt : string
+		- _defaults : map<string, string>
+		--
+		+ PercentStyle(fmt : string, defaults : map<string, string>)
+		+ getFmt() : string
+		+ usetTime() : bool
+		+ validate() : void
+		+ format(record : LogRecord) : string
+		# _format(record : LogRecord) : string
+	}
+}
+
+namespace log42.placeholder {
+	class "PlaceHolder" as PlaceHolder {
+		- _loggerSet : set<Node>
+		--
+		+ PlaceHolder(alogger : Node)
+		+ append(alogger : Node) : void
+		+ getLoggerSet() : set<Node>
+		+ toString() : string
+	}
+}
+
+namespace log42 {
+	class "Node" as Node {
+		# _name : string
+		# _parent : Node
+		--
+		+ Node(name : string)
+		+ getName() : string
+		+ getParent : Node
+		+ setParent(parent : Node)
+		_ toString() : string
+	}
+}
+
+Formatter *-- PercentStyle : _style
+Formatter --> LogRecord : record
+
+BufferingFormatter *-- Formatter : _linefmt
+BufferingFormatter --> LogRecord : record
+
+FileHandler --|> StreamHandler
+FileHandler --> LogRecord : record
+
+Handler --|> Filterer
+Handler *-- Formatter : _formatter
+Handler --> LogRecord : record
+
+StreamHandler --|> Handler
+StreamHandler --> LogRecord : record
+
+Filter --> LogRecord : record
+
+Filterer *-- "0..*" Filter : _filters
+Filterer --> LogRecord : record
+
+Manager o-- "1" Logger : _root
+Manager --> PlaceHolder : ph
+Manager --> Node : _loggerMap/getLoggerMap
+
+Logger --|> Node
+Logger --|> Filterer
+Logger o-- "0..*" Handler : _handlers
+Logger o-- "0..*" Logger : getChildren
+Logger --> LogRecord : record
+Logger ..> Manager : _manager
+
+LogRecord ..> e_LogLevel : levelNo
+
+RootLogger --|> Logger
+
+PlaceHolder --|> Node
+PlaceHolder o-- "0..*" Node : _loggerSet
+
+Node --> Node : getParent
+
+@enduml

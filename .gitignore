@@ -64,3 +64,8 @@ manual.log
 # Leaks
 log42.memgraph
 valgrind.log
+
+# Docs
+doc/html/
+astABNF.pdf
+*.dot
