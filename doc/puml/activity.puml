@@ -1,0 +1,50 @@
+@startuml
+
+!theme blueprint
+skinparam defaultTextAlignment center
+skinparam activityTextAlignment center
+skinparam noteTextAlignment center
+
+title Activity Diagram for Log42
+
+| Logger |
+start
+floating note right: Log42 call in user\ncode, e.g:\nlogger.info(...)
+if (Logger enabled for\nlevel off call ?) then (no)
+	stop
+else (yes)
+endif
+: Create\nLogRecord;
+
+if (Does a filter attached\nto logger reject\nthe record ?) then (yes)
+	stop
+else (no)
+endif
+
+| Handler |
+repeat
+if (At least one handler\nin hierarchy ?) then (no)
+	: Use std::cerr;
+else (yes)
+endif
+if (Handler enabled for level of record ?) then (no)
+	stop
+else (yes)
+endif
+
+if (Does a filter attached to handler reject the record ?) then (yes)
+	stop
+else (no)
+	: Emit (includes formatting);
+endif
+
+| Logger |
+if (Is propagate true for current logger ?) then (no)
+	stop
+else (yes)
+endif
+backward: Set current logger to parent;
+repeat while (Is there a parent logger ?) is (yes) not (no)
+stop
+
+@enduml
