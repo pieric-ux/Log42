@@ -31,6 +31,21 @@ namespace handler
  * @class FileHandler
  * @brief Handles logging output to a file stream, supporting delayed file opening
  * and configurable modes.
+ *
+ * @startuml
+ * class "FileHandler" as FileHandler {
+		- _baseFilename : string
+		- _mode : string
+		- _delay : bool
+		- _fstream : ofstream
+		--
+		+ FileHandler(filename : string, mode : string, delay : bool)
+		+ close() : void
+		+ emit(record : LogRecord) : void
+		+ toString() : string
+		- _open() : void
+	}
+ * @enduml
  */
 class FileHandler : public StreamHandler
 {

@@ -35,6 +35,17 @@ namespace logRecord
  * WARNING  - An indication that something unexpected happened, or indicative of some problem.
  * ERROR    - Due to a more serious problem, the software has not been able to perform some function.
  * CRITICAL - A very serious error, indicating that the program itself may be unable to continue running.
+ *
+ * @startuml
+ * enum "e_LogLevel" as e_LogLevel {
+		NOTSET
+		DEBUG
+		INFO
+		WARNING
+		ERROR
+		CRITICAL
+	}
+ * @enduml
  */
 enum e_LogLevel { NOTSET, DEBUG, INFO, WARNING, ERROR, CRITICAL };
 

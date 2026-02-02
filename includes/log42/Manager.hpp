@@ -32,6 +32,29 @@ namespace manager
  * @class Manager
  * @brief Singleton class responsible for managing loggers, their hierarchy, 
  * and logging configuration.
+ *
+ * @startuml
+ * class "Manager" as Manager {
+		- _root : Logger
+		- _disable : e_LogLevel
+		- _emittedNoHandlerWarning : bool
+		- _loggerMap : map<string, Node>
+		--
+		+ getInstance(root : Logger) : Manager
+		+ getRoot() : Logger
+		+ resetRoot() : void
+		+ getDisable() : e_LogLevel
+		+ setDisable(value : e_LogLevel) : void
+		+ getEmittedNoHandlerWarning() : bool
+		+ setEmittedNoHandlerWarning(value : bool) : void
+		+ getLoggerMap() : map<string, Node>
+		+ getLogger(name : string) : Logger
+		+ clearCache() : void
+		- Manager(root : Logger)
+		- _fixupParents(alogger : Logger) : void
+		- _fixupChildren(ph : Placeholder, alogger : Logger) : void
+	}
+ * @enduml
  */
 class Manager
 {

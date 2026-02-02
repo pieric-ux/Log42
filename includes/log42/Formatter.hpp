@@ -32,6 +32,23 @@ namespace formatter
  * @class Formatter
  * @brief Formats log records using percent-style formatting and optional time
  * formatting.
+ *
+ * @startuml
+ * class "Formatter" as Formatter {
+		+ defaultPercentFormat : string
+		+ defaultTimeFormat : string
+		- _style : PercentStyle
+		- _fmt : string
+		- _datefmt : string
+		--
+		+ Formatter(fmt : string, datefmt : string, validate : bool, defaults : map<string, string>)
+		+ useTime() : bool
+		+ formatTime(record : LogRecord, datefmt : string) : string
+		+ formatMessage(record : LogRecord) : string
+		+ format(record : LogRecord) : string
+		- {static} _converter(time_t) : time
+	}
+ * @enduml
  */
 class Formatter
 {

@@ -35,6 +35,23 @@ namespace style
  *
  * This class allows formatting of log messages using a format string
  * with percent-style substitutions, similar to printf-style formatting.
+ *
+ * @startuml
+ * class "PercentStyle" as PercentStyle [[classlog42_1_1style_1_1_percent_style.html]] {
+		+ {static} defaultFormat : string
+		+ {static} asctimeFormat : string
+		+ {static} asctimeSearch : string
+		- _fmt : string
+		- _defaults : map<string, string>
+		--
+		+ PercentStyle(fmt : string, defaults : map<string, string>)
+		+ getFmt() : string
+		+ usetTime() : bool
+		+ validate() : void
+		+ format(record : LogRecord) : string
+		# _format(record : LogRecord) : string
+	}
+ * @enduml
  */
 class PercentStyle
 {

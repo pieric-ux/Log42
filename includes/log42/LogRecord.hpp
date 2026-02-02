@@ -31,6 +31,45 @@ namespace logRecord
 /**
  * @class LogRecord
  * @brief Represents a single log entry with metadata.
+ *
+ * @startuml
+ * class "LogRecord" as LogRecord {
+		- {static} _startTime : clock
+		- _name : string
+		- _msg : string
+		- _args : vector<string>
+		- _levelNo : e_LogLevel
+		- _levelName : string
+		- _pathname : string
+		- _filename : string
+		- _module : string
+		- _lineNo : int
+		- _funcName : string
+		- _created : time
+		- _msecs : int
+		- _relativeCreated : real
+		- _asctime : string
+		--
+		+ LogRecord(name : string, level : e_LogLevel, pathname : string, lineno : int, msg : string, args : vector<string>, func : string)
+		+ getStartTime() : clock
+		+ toString() : string
+		+ getName() : string
+		+ getMessage() : string
+		+ getLevelNo() : e_LogLevel
+		+ getLevelName() : string
+		+ getPathname() : string
+		+ getFilename() : string
+		+ getModule() : string
+		+ getLineNo() : int
+		+ getFuncName() : string
+		+ getCreated() : time
+		+ getMsecs() : int
+		+ getRelativeCreated() : real
+		+ getAsctime() : string
+		+ setAsctime(asctime : string) : void
+	}
+}
+ * @enduml
  */
 class LogRecord
 {

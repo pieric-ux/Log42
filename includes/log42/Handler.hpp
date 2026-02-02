@@ -32,6 +32,21 @@ namespace handler
  * @class Handler
  * @brief Abstract base class for log handlers that process and emit log records.
  *        Supports filtering, formatting, and error handling.
+ *
+ * @startuml
+ * class "FileHandler" as FileHandler {
+		- _baseFilename : string
+		- _mode : string
+		- _delay : bool
+		- _fstream : ofstream
+		--
+		+ FileHandler(filename : string, mode : string, delay : bool)
+		+ close() : void
+		+ emit(record : LogRecord) : void
+		+ toString() : string
+		- _open() : void
+	}
+ * @enduml
  */
 class Handler : public filterer::Filterer
 {

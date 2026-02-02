@@ -33,6 +33,17 @@ namespace placeholder
  *
  * PlaceHolder objects are used to temporarily hold references to loggers
  * that have not yet been fully constructed or attached in the logging hierarchy.
+ *
+ * @startuml
+ * class "PlaceHolder" as PlaceHolder {
+		- _loggerSet : set<Node>
+		--
+		+ PlaceHolder(alogger : Node)
+		+ append(alogger : Node) : void
+		+ getLoggerSet() : set<Node>
+		+ toString() : string
+	}
+ * @enduml
  */
 class PlaceHolder : public Node
 {

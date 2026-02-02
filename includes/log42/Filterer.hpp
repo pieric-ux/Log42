@@ -31,6 +31,18 @@ namespace filterer
 /**
  * @class Filterer
  * @brief Manages a set of filters and applies them to log records.
+ *
+ * @startuml
+ * class "Filterer" as Filterer {
+		- _filters : set<Filter>
+		--
+		+ Filterer()
+		+ addFilter(filter : Filter) : void
+		+ removeFilter(filter : Filter) : void
+		+ clearFilters() : void
+		+ filter(record : LogRecord) : bool
+	}
+ * @enduml
  */
 class Filterer
 {

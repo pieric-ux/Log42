@@ -34,6 +34,13 @@ namespace logger
  *
  * RootLogger is a specialized Logger that acts as the root of the logger hierarchy.
  * It is responsible for handling log records at the highest level.
+ * 
+ * @startuml
+ * class "RootLogger" as RootLogger {
+		+ RootLogger(level : e_LogLevel)
+		+ toString() : string
+	}
+ * @enduml
  */
 class RootLogger : public Logger
 {

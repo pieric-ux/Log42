@@ -33,6 +33,18 @@ namespace handler
  *
  * StreamHandler is responsible for emitting log records to a specified std::ostream,
  * such as std::cerr or std::cout.
+ *
+ * @startuml
+ * class "StreamHandler" as StreamHandler {
+		- _stream : ostream
+		--
+		+ StreamHandler(stream : ostream)
+		+ flush() : void
+		+ emit(record : LogRecord) : void
+		+ setStream(ost : ostream) : ostream
+		+ toString() : string
+	}
+ * @enduml
  */
 class StreamHandler : public Handler
 {

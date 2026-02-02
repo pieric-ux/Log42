@@ -30,6 +30,16 @@ namespace filter
 /**
  * @class Filter
  * @brief Provides an interface for filtering log records by name or custom logic.
+ *
+ * @startuml
+ * class "Filter" as Filter {
+		- _name : string
+		- _len : int
+		--
+		+ Filter(name : string)
+		+ filter(record : LogRecord) : bool
+	}
+ * @enduml
  */
 class Filter
 {

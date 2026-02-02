@@ -73,6 +73,42 @@ namespace logger
 /**
  * @class Logger
  * @brief Provides hierarchical logging with level, handler, filter, and propagation support.
+ *
+ * @startuml
+ * class "Logger" as Logger {
+		- _level : e_LogLevel
+		- _propagate : bool
+		- _handlers : set<Handler>
+		- _disabled : bool
+		- _cache : map<e_LogLevel, bool>
+		- _manager : Manager
+		--
+		+ Logger(name : string, level : e_LogLevel)
+		+ setLevel(level : e_LogLevel) : void
+		+ setPropagate(propagate : bool) : void
+		+ debug(msg : string, filename : string, lineNo : int, funcName : string, args : vector<string>) : void
+		+ info(msg : string, filename : string, lineNo : int, funcName : string, args : vector<string>) : void
+		+ warning(msg : string, filename : string, lineNo : int, funcName : string, args : vector<string>) : void
+		+ error(msg : string, filename : string, lineNo : int, funcName : string, args : vector<string>) : void
+		+ exception(msg : string, filename : string, lineNo : int, funcName : string, args : vector<string>) : void
+		+ critical(msg : string, filename : string, lineNo : int, funcName : string, args : vector<string>) : void
+		+ log(level : e_LogLevel, msg : string, filename : string, lineNo : int, funcName : string, args : vector<string>) : void
+		+ handle(record : LogRecord) : void
+		+ addHandler(handler : Handler) : void
+		+ removeHandler(handler : Handler) : void
+		+ hasHandler() : bool
+		+ callHandlers(record : LogRecord) : void
+		+ getHandler() : set<Handler>
+		+ getEffectiveLevel() : e_LogLevel
+		+ isEnabledFor(level : e_LogLevel) : bool
+		+ getChild(suffix : string)
+		+ getChildren() : set<Logger>
+		+ toString() : string
+		+ clearCache() : void
+		+ cacheClear() : void
+		- _log(level : e_LogLevel, msg : string, filename : string, lineNo : int, funcName : string, args : vector<string>) : void
+	}
+ * @enduml
  */
 class Logger : public Node, public  filterer::Filterer
 {

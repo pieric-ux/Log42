@@ -27,6 +27,19 @@ namespace log42
 /**
  * @class Node
  * @brief Abstract base class representing a node in the logging hierarchy.
+ *
+ * @startuml
+ * class "Node" as Node {
+		# _name : string
+		# _parent : Node
+		--
+		+ Node(name : string)
+		+ getName() : string
+		+ getParent : Node
+		+ setParent(parent : Node)
+		_ toString() : string
+	}
+ * @enduml
  */
 class Node
 {

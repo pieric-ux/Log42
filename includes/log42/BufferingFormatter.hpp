@@ -31,6 +31,17 @@ namespace formatter
  * @class BufferingFormatter
  * @brief Formats a collection of log records, supporting custom header, footer, 
  * and line formatting.
+ *
+ * @startuml
+ * class "BufferingFormatter" as BufferingFormatter {
+		- _linefmt : Formatter
+		--
+		+ BufferingFormatter(linefmt : Formatter)
+		+ formatHeader(records : vector<LogRecord>) : string
+		+ formatFooter(records : vector<LogRecord>) : string
+		+ format(records : vector<LogRecord>) : string
+	}
+ * @enduml
  */
 class BufferingFormatter
 {
