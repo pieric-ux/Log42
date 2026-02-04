@@ -268,45 +268,45 @@ namespace log42 {
 	}
 }
 
-Formatter *-- PercentStyle : _style
-Formatter --> LogRecord : record
+Formatter *-- PercentStyle : ownsStyle
+Formatter --> LogRecord : formats
 
-BufferingFormatter *-- Formatter : _linefmt
-BufferingFormatter --> LogRecord : record
+BufferingFormatter *-- Formatter : usesLineFormatter
+BufferingFormatter --> LogRecord : formats
 
 FileHandler --|> StreamHandler
-FileHandler --> LogRecord : record
+FileHandler --> LogRecord : writes
 
 Handler --|> Filterer
-Handler *-- Formatter : _formatter
-Handler --> LogRecord : record
+Handler *-- Formatter : hasFormatter
+Handler --> LogRecord : handles
 
 StreamHandler --|> Handler
-StreamHandler --> LogRecord : record
+StreamHandler --> LogRecord : writes
 
-Filter --> LogRecord : record
+Filter --> LogRecord : filters
 
-Filterer *-- "0..*" Filter : _filters
-Filterer --> LogRecord : record
+Filterer *-- "0..*" Filter : hasFilters
+Filterer --> LogRecord : filters
 
-Manager o-- "1" Logger : _root
-Manager --> PlaceHolder : ph
-Manager --> Node : _loggerMap/getLoggerMap
+Manager o-- "1" Logger : root
+Manager --> PlaceHolder : manages
+Manager --> Node : manages
 
 Logger --|> Node
 Logger --|> Filterer
-Logger o-- "0..*" Handler : _handlers
-Logger o-- "0..*" Logger : getChildren
-Logger --> LogRecord : record
-Logger ..> Manager : _manager
+Logger o-- "0..*" Handler : handlers
+Logger o-- "0..*" Logger : children
+Logger --> LogRecord : creates
+Logger ..> Manager : uses
 
-LogRecord ..> e_LogLevel : levelNo
+LogRecord ..> e_LogLevel : hasLevel
 
 RootLogger --|> Logger
 
 PlaceHolder --|> Node
-PlaceHolder o-- "0..*" Node : _loggerSet
+PlaceHolder o-- "0..*" Node : holds
 
-Node --> Node : getParent
+Node --> Node : parent
 
 @enduml
