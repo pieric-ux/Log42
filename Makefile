@@ -10,7 +10,8 @@ SRCDIR = srcs
 OBJDIR = objs
 
 # Libraries directories
-COMMONDIR = common
+COMMON_PATH ?= libs/common
+COMMONDIR = $(COMMON_PATH)
 
 # Compiler and flags
 CXX = c++
@@ -37,7 +38,7 @@ all: $(NAME)
 
 # Build each library
 $(COMMONDIR)/libcommon.a:
-	$(MAKE) -C $(COMMONDIR)
+	@if [ ! -f $@ ]; then $(MAKE) -C $(COMMONDIR);fi
 
 debug: CXXFLAGS = $(DEBUG_FLAGS)
 
