@@ -69,12 +69,12 @@ $(NAME): $(OBJS_SRCES) $(COMMONDIR)/libcommon.a
 
 # Rule to clean up object files
 clean:
-	@$(MAKE) clean -C $(COMMONDIR)
+	@$(MAKE) clean -C $(abspath $(COMMONDIR))
 	@rm -rf $(OBJDIR)
 
 # Rule to clean up object files and executable
 fclean: clean
-	@$(MAKE) fclean -C $(COMMONDIR)
+	@$(MAKE) fclean -C $(abspath $(COMMONDIR))
 	@rm -f $(NAME)
 
 # Rule to recompile everything
