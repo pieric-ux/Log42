@@ -33,43 +33,44 @@
 #include <set>
 #include <string>
 
-namespace log42
-{
 /**
  * @def ROOT_DEBUG(msg, ...)
  * @brief Logs a debug message using the root logger, including file, line, and function info.
  */
-#define ROOT_DEBUG(msg, ...)	ensureRootReady()->debug((msg), __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define ROOT_DEBUG(msg, ...)	log42::ensureRootReady()->debug((msg), __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
 /**
  * @def ROOT_INFO(msg, ...)
  * @brief Logs an info message using the root logger, including file, line, and function info.
  */
-#define ROOT_INFO(msg, ...)		ensureRootReady()->info((msg), __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define ROOT_INFO(msg, ...)		log42::ensureRootReady()->info((msg), __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
 /**
  * @def ROOT_WARNING(msg, ...)
  * @brief Logs a warning message using the root logger, including file, line, and function info.
  */
-#define ROOT_WARNING(msg, ...)	ensureRootReady()->warning((msg), __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define ROOT_WARNING(msg, ...)	log42::ensureRootReady()->warning((msg), __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
 /**
  * @def ROOT_ERROR(msg, ...)
  * @brief Logs an error message using the root logger, including file, line, and function info.
  */
-#define ROOT_ERROR(msg, ...)	ensureRootReady()->error((msg), __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define ROOT_ERROR(msg, ...)	log42::ensureRootReady()->error((msg), __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
 /**
  * @def ROOT_CRITICAL(msg, ...)
  * @brief Logs a critical message using the root logger, including file, line, and function info.
  */
-#define ROOT_CRITICAL(msg, ...)	ensureRootReady()->critical((msg), __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define ROOT_CRITICAL(msg, ...)	log42::ensureRootReady()->critical((msg), __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
 /**
  * @def ROOT_EXCEPTION(msg, ...)
  * @brief Logs an exception message using the root logger, including file, line, and function info.
  */
-#define ROOT_EXCEPTION(msg, ...)ensureRootReady()->exception((msg), __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define ROOT_EXCEPTION(msg, ...)log42::ensureRootReady()->exception((msg), __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
 /**
  * @def ROOT_LOG(msg, ...)
  * @brief Logs a message at a custom level using the root logger, including file, line, and function info.
  */
-#define ROOT_LOG(msg, ...)		ensureRootReady()->log((msg), __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+#define ROOT_LOG(msg, ...)		log42::ensureRootReady()->log((msg), __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__)
+
+namespace log42
+{
 
 void	basicConfig(
 	const std::string &filename = "", 
